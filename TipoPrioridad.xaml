@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.TipoPrioridad">
+    <ContentPage.Content>
+        <Grid>
+            <Image Source="app.png" Aspect="Fill" />
+
+            <StackLayout HorizontalOptions="End" VerticalOptions="Start">
+                <Image Source="pregunta.png" Aspect="AspectFit" WidthRequest="30" HeightRequest="30" Margin="0,20,30,0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnImageTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+
+            <!-- Contenedor principal del contenido -->
+            <StackLayout Spacing="10"
+                         Padding="30,10,30,0"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center">
+
+                <!-- Marco que envuelve el contenido del tipo de prioridad -->
+                <Border StrokeThickness="1" 
+                        Stroke="Black"
+                        WidthRequest="300"
+                        StrokeShape="Rectangle">
+
+                    <!-- StackLayout para organizar los elementos dentro del marco -->
+                    <StackLayout Spacing="1"
+                                 Padding="1"
+                                 BackgroundColor="Transparent">
+
+                        <!-- Título del tipo de prioridad -->
+                        <Label Text="Tipo de Prioridad"
+                               TextColor="OrangeRed"
+                               FontSize="30"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,40"
+                               FontFamily="CO"/>
+
+                        <!-- Marco y botón para la prioridad normal -->
+                        <Border StrokeThickness="1"
+                               Stroke="Red"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"
+                               StrokeShape="Rectangle"
+                               WidthRequest="150"
+                               HeightRequest="150"
+                               Margin="0,0,0,15">
+                            <StackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+                                <Image Source="normal.png"
+                                       Aspect="AspectFit"
+                                       WidthRequest="100"
+                                       HeightRequest="100" />
+                                <Button x:Name="btnNormal"
+                                        Text="Normal"
+                                        TextColor="Black"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Maroon"
+                                        BorderWidth="2"
+                                        Clicked="ButtonNormal_Clicked" />
+                            </StackLayout>
+                        </Border>
+
+                        <!-- Marco y botón para la prioridad express -->
+                        <Border StrokeThickness="1"
+                               Stroke="Red"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"
+                               StrokeShape="Rectangle"
+                               WidthRequest="150"
+                               HeightRequest="150"
+                               Margin="0,0,0,15">
+                            <StackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+                                <Image Source="express.png"
+                                       Aspect="AspectFit"
+                                       WidthRequest="100"
+                                       HeightRequest="100" />
+                                <Button Text="Express"
+                                        x:Name="btnExpress"
+                                        TextColor="Black"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Maroon"
+                                        BorderWidth="2"
+                                        Clicked="ButtonExpress_Clicked" />
+                            </StackLayout>
+                        </Border>
+
+                    </StackLayout>
+                </Border>
+
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

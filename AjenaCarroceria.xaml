@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.AjenaCarroceria">
+
+    <ContentPage.Content>
+        <!-- Contenido principal -->
+        <Grid>
+            <!-- Imagen -->
+            <Image Source="app.png" Aspect="Fill" />
+
+            <!-- StackLayout principal -->
+            <StackLayout Spacing="10"
+                         Padding="30,10,30,0"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center">
+
+                <!-- Marco -->
+                <Border StrokeThickness="1"
+                       Stroke="Black"
+                       WidthRequest="300"
+                       StrokeShape="Rectangle">
+
+                    <!-- StackLayout interno -->
+                    <StackLayout Spacing="1"
+                                 Padding="1"
+                                 BackgroundColor="Transparent">
+
+                        <!-- Etiqueta -->
+                        <Label Text="Se daño alguna parte ajena a la carroceria? como: Faros, espejos, ventanas, etc."
+                               TextColor="OrangeRed"
+                               FontSize="30"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,40"
+                               HorizontalTextAlignment="Center"
+                               FontFamily="AL" />
+
+                        <!-- Marco anidado -->
+                        <Border StrokeThickness="1"
+                               Stroke="Red"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"
+                               StrokeShape="Rectangle"
+                               WidthRequest="200"
+                               HeightRequest="200"
+                               Margin="0,0,0,15">
+
+                            <!-- StackLayout interno -->
+                            <StackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+
+                                <!-- Imagen -->
+                                <Image Source="carroceria.png"
+                                       Aspect="AspectFit"
+                                       WidthRequest="100"
+                                       HeightRequest="100"/>
+
+                                <!-- StackLayout interno con botones -->
+                                <StackLayout Orientation="Horizontal"
+                                             HorizontalOptions="Fill"
+                                             Margin="0,20,0,0">
+
+                                    <!-- Botón "Si" -->
+                                    <Button x:Name="siBtn" Text="Si"
+                                            TextColor="Black"
+                                            BackgroundColor="Transparent"
+                                            BorderColor="Maroon"
+                                            BorderWidth="2"
+                                            HorizontalOptions="StartAndExpand"
+                                            Clicked="ButtonSi" />
+
+                                    <!-- Botón "No" -->
+                                    <Button x:Name="noBtn"
+                                            Text="No"
+                                            TextColor="Black"
+                                            BackgroundColor="Transparent"
+                                            BorderColor="Maroon"
+                                            BorderWidth="2"
+                                            HorizontalOptions="EndAndExpand"
+                                            Clicked="ButtonNo" />
+                                </StackLayout>
+
+                            </StackLayout>
+
+                        </Border>
+
+                    </StackLayout>
+                </Border>
+
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

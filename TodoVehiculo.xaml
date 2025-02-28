@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.TodoVehiculo">
+    <ContentPage.Content>
+        <Grid>
+            <Image Source="app.png" Aspect="Fill" />
+
+            <!-- Contenedor principal del contenido -->
+            <StackLayout Spacing="10"
+                         Padding="30,10,30,0"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center">
+
+                <!-- Marco que envuelve el contenido de adjuntar fotografías -->
+                <Border StrokeThickness="0" 
+                        Stroke="Transparent"
+                        BackgroundColor="Transparent"
+                        WidthRequest="300"
+                        StrokeShape="Rectangle">
+
+                    <!-- ScrollView para desplazarse en caso de contenido largo -->
+                    <ScrollView>
+                        <VerticalStackLayout Spacing="10">
+
+                            <!-- Etiqueta de instrucciones -->
+                            <Label Text="Adjunte Fotografias del vehiculo (Maximo 3 Fotografias)"
+                                   TextColor="Black"
+                                   FontSize="27"
+                                   HorizontalTextAlignment="Center"
+                                   Margin="0,50,0,0"
+                                   FontFamily="AL"/>
+
+                            <!-- Botón para seleccionar fotografías -->
+                            <Button Text="Seleccionar Fotografias"
+                                    TextColor="Gold"
+                                    WidthRequest="300"
+                                    FontAttributes="Bold"
+                                    BackgroundColor="DarkRed"
+                                    Margin="0,40,0,50"
+                                    Clicked="selectedImage_Clicked" />
+
+                            <!-- Imágenes seleccionadas -->
+                            <Image x:Name="selectedImage1"
+                                   WidthRequest="200"
+                                   HeightRequest="200"
+                                   Aspect="AspectFit"
+                                   HorizontalOptions="Center" />
+
+                            <Image x:Name="selectedImage2"
+                                   WidthRequest="200"
+                                   HeightRequest="200"
+                                   Aspect="AspectFit"
+                                   HorizontalOptions="Center" />
+
+                            <Image x:Name="selectedImage3"
+                                   WidthRequest="200"
+                                   HeightRequest="200"
+                                   Aspect="AspectFit"
+                                   HorizontalOptions="Center" />
+
+                            <!-- Botón de continuar -->
+                            <Button x:Name="continuarBtn"
+                                    Text="Continuar"
+                                    TextColor="Gold"
+                                    WidthRequest="300"
+                                    FontAttributes="Bold"
+                                    BackgroundColor="DarkRed"
+                                    Margin="50,30,50,110"
+                                    IsEnabled="False"
+                                    Clicked="ButtonContinuar" />
+
+                        </VerticalStackLayout>
+                    </ScrollView>
+                </Border>
+
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

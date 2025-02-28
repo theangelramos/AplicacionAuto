@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.InfoDetalles"
+             NavigationPage.HasNavigationBar="False">
+    <!-- Contenedor principal -->
+    <Grid>
+        <!-- Imagen de fondo -->
+        <Image Source="app.png" Aspect="Fill" />
+
+        <!-- StackLayout principal -->
+        <VerticalStackLayout Spacing="10"
+                         Padding="30,10,30,0"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center">
+
+            <!-- Marco -->
+            <Frame BorderColor="Black">
+                <!-- StackLayout para los detalles -->
+                <VerticalStackLayout Spacing="1" Padding="1" BackgroundColor="Transparent">
+                    <Label Text="Detalles de la cita" TextColor="OrangeRed" FontSize="23" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,0,0,5" FontFamily="CO" />
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label x:Name="marcaL" Text="Marca:" TextColor="Black" Grid.Row="0" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="marcaLabel" TextColor="Black" Grid.Row="0" Grid.Column="1" Margin="10,0,0,0" />
+
+                        <Label x:Name="submarcaL" Text="Modelo:" TextColor="Black" Grid.Row="1" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="submarcaLabel" TextColor="Black" Grid.Row="1" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="modeloL" Text="Año:" TextColor="Black" Grid.Row="2" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="modeloLabel" TextColor="Black" Grid.Row="2" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="versionL" Text="Versión:" TextColor="Black" Grid.Row="3" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="versionLabel" TextColor="Black" Grid.Row="3" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="tipoL" Text="Tipo:" TextColor="Black" Grid.Row="4" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="tipoLabel" TextColor="Black" Grid.Row="4" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="colorL" Text="Color:" TextColor="Black" Grid.Row="5" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="colorLabel" TextColor="Black" Grid.Row="5" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="acabadoL" Text="Acabado:" TextColor="Black" Grid.Row="6" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="acabadoLabel" TextColor="Black" Grid.Row="6" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="prioridadL" Text="Tipo de prioridad:" TextColor="Black" Grid.Row="7" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="prioridadLabel" TextColor="Black" Grid.Row="7" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="servicioL" Text="Tipo de servicio:" TextColor="Black" Grid.Row="8" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="servicioLabel" TextColor="Black" Grid.Row="8" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="tipoGolpeL" Text="Tipo de gople:" TextColor="Black" Grid.Row="9" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="tipoGolpeLabel" TextColor="Black" Grid.Row="9" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="paqueteL" Text="Paquete:" TextColor="Black" Grid.Row="10" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="paqueteLabel" TextColor="Black" Grid.Row="10" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="tallerL" Text="Taller:" TextColor="Black" Grid.Row="11" Grid.Column="0" FontAttributes="Bold" />
+                        <Label x:Name="tallerLabel" TextColor="Black" Grid.Row="11" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="fechaL" Text="Fecha:" TextColor="Black" Grid.Row="12" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="fechaLabel" TextColor="Black" Grid.Row="12" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="horaL" Text="Hora:" TextColor="Black" Grid.Row="13" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="horaLabel" TextColor="Black" Grid.Row="13" Grid.Column="1" Margin="10,0,0,0"/>
+
+                        <Label x:Name="presupustoL" Text="Presupuesto estimado:" TextColor="Black" Grid.Row="14" Grid.Column="0" FontAttributes="Bold"/>
+                        <Label x:Name="presupuestoLabel" TextColor="Black" Grid.Row="14" Grid.Column="1" Margin="10,0,0,0"/>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Grid para los botones Cancelar y Confirmar -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Botón Cancelar -->
+                <Button Text="Cancelar"
+                        TextColor="Gold"
+                        WidthRequest="150"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Start"
+                        BackgroundColor="DarkRed"
+                        BorderColor="Red"
+                        BorderWidth="2"
+                        Margin="0,18,0,0"
+                        Clicked="ButtonCancelar" />
+
+                <!-- Botón Confirmar -->
+                <Button x:Name="confirmarBtn"
+                        Text="Confirmar"
+                        TextColor="Gold"
+                        WidthRequest="150"
+                        FontAttributes="Bold"
+                        BackgroundColor="DarkRed"
+                        BorderColor="Red"
+                        BorderWidth="2"
+                        Margin="0,18,0,0"
+                        HorizontalOptions="End"
+                        Grid.Column="1"
+                        Clicked="ButtonConfirmar" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

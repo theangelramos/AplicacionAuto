@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.DatosUsuario"
+             Title="Datos Usuario">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Entry">
+                <Setter Property="PlaceholderColor" Value="Black" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <!-- Imagen de fondo -->
+        <Image Source="app.png" 
+               Aspect="Fill" 
+               HorizontalOptions="Fill" 
+               VerticalOptions="Fill"/>
+
+        <!-- Imagen de ayuda -->
+        <Image Source="pregunta.png" 
+               Aspect="AspectFit" 
+               WidthRequest="30" 
+               HeightRequest="30"
+               HorizontalOptions="End" 
+               VerticalOptions="Start"
+               Margin="0,20,30,0">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnImageTapped"/>
+            </Image.GestureRecognizers>
+        </Image>
+
+        <!-- StackLayout principal -->
+        <VerticalStackLayout 
+            Spacing="10"
+            Padding="30,10,30,0"
+            VerticalOptions="Center"
+            HorizontalOptions="Center">
+
+            <!-- Marco -->
+            <Border 
+                Stroke="Black" 
+                StrokeThickness="1"
+                WidthRequest="300">
+
+                <!-- Contenido interno -->
+                <VerticalStackLayout 
+                    Spacing="1" 
+                    Padding="1" 
+                    BackgroundColor="Transparent">
+
+                    <!-- Etiqueta -->
+                    <Label Text="Datos del Cliente"
+                           TextColor="OrangeRed"
+                           FontSize="30"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,40"
+                           FontFamily="CO"/>
+
+                    <!-- Campo de correo electrónico -->
+                    <HorizontalStackLayout 
+                        HorizontalOptions="FillAndExpand">
+                        <Border 
+                            Stroke="OrangeRed"
+                            HeightRequest="20"
+                            WidthRequest="20"
+                            StrokeShape="RoundRectangle 28">
+                            <Image Source="correo.png"
+                                   HeightRequest="20"
+                                   WidthRequest="20"/>
+                        </Border>
+                        <Border 
+                            HeightRequest="60"
+                            Margin="-5,0,0,0"
+                            Stroke="Orange"
+                            BackgroundColor="Transparent"
+                            HorizontalOptions="FillAndExpand"
+                            StrokeShape="RoundRectangle 15">
+                            <Entry x:Name="txtCorreoElectronico"
+                                   Placeholder="Correo electrónico"
+                                   Keyboard="Email"
+                                   Margin="20,0,0,0"
+                                   TextColor="Black"/>
+                        </Border>
+                    </HorizontalStackLayout>
+
+                    <!-- Campo de nombre completo -->
+                    <HorizontalStackLayout 
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,20,0,0">
+                        <Border 
+                            Stroke="OrangeRed"
+                            HeightRequest="20"
+                            WidthRequest="20"
+                            StrokeShape="RoundRectangle 28">
+                            <Image Source="nombre.png"
+                                   HeightRequest="20"
+                                   WidthRequest="20"/>
+                        </Border>
+                        <Border 
+                            HeightRequest="60"
+                            Margin="-5,0,0,0"
+                            Stroke="Orange"
+                            HorizontalOptions="FillAndExpand"
+                            StrokeShape="RoundRectangle 15">
+                            <Entry x:Name="txtNombreCompleto"
+                                   Placeholder="Nombre completo"
+                                   Keyboard="Text"
+                                   Margin="20,0,0,0"
+                                   TextColor="Black"/>
+                        </Border>
+                    </HorizontalStackLayout>
+
+                    <!-- Campo de teléfono -->
+                    <HorizontalStackLayout 
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,20,0,0">
+                        <Border 
+                            Stroke="OrangeRed"
+                            HeightRequest="20"
+                            WidthRequest="20"
+                            StrokeShape="RoundRectangle 28">
+                            <Image Source="telefono.png"
+                                   HeightRequest="20"
+                                   WidthRequest="20"/>
+                        </Border>
+                        <Border 
+                            HeightRequest="60"
+                            Margin="-5,0,0,0"
+                            Stroke="Orange"
+                            HorizontalOptions="FillAndExpand"
+                            StrokeShape="RoundRectangle 15">
+                            <Entry x:Name="txtTelefono"
+                                   Placeholder="Teléfono"
+                                   Keyboard="Telephone"
+                                   Margin="20,0,0,0"
+                                   TextColor="Black"/>
+                        </Border>
+                    </HorizontalStackLayout>
+
+                    <!-- Campo de estado -->
+                    <HorizontalStackLayout 
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,20,0,0">
+                        <Border 
+                            Stroke="OrangeRed"
+                            HeightRequest="20"
+                            WidthRequest="20"
+                            StrokeShape="RoundRectangle 28">
+                            <Image Source="estados.png"
+                                   HeightRequest="20"
+                                   WidthRequest="20"/>
+                        </Border>
+                        <Border 
+                            HeightRequest="60"
+                            Margin="-5,0,0,0"
+                            Stroke="Orange"
+                            HorizontalOptions="FillAndExpand"
+                            StrokeShape="RoundRectangle 15">
+                            <Entry x:Name="txtEstado"
+                                   Placeholder="Estado"
+                                   Keyboard="Text"
+                                   Margin="20,0,0,0"
+                                   TextColor="Black"/>
+                        </Border>
+                    </HorizontalStackLayout>
+
+                    <!-- Campo de municipio -->
+                    <HorizontalStackLayout 
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,20,0,0">
+                        <Border 
+                            Stroke="OrangeRed"
+                            HeightRequest="20"
+                            WidthRequest="20"
+                            StrokeShape="RoundRectangle 28">
+                            <Image Source="municipio.png"
+                                   HeightRequest="20"
+                                   WidthRequest="20"/>
+                        </Border>
+                        <Border 
+                            HeightRequest="60"
+                            Margin="-5,0,0,0"
+                            Stroke="Orange"
+                            HorizontalOptions="FillAndExpand"
+                            StrokeShape="RoundRectangle 15">
+                            <Entry x:Name="txtMunicipio"
+                                   Placeholder="Municipio"
+                                   Keyboard="Text"
+                                   Margin="20,0,0,0"
+                                   TextColor="Black"/>
+                        </Border>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Botón Siguiente -->
+            <Button x:Name="siguienteBtn"
+                    Text="Siguiente"
+                    TextColor="Gold"
+                    WidthRequest="300"
+                    FontAttributes="Bold"
+                    CornerRadius="20"
+                    HorizontalOptions="Center"
+                    BackgroundColor="DarkRed"
+                    BorderColor="Red"
+                    BorderWidth="2"
+                    Margin="0,18,0,0"
+                    Clicked="Button_Clicked"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.PulirPiezas">
+    <!-- Layout principal -->
+    <Grid>
+        <!-- Imagen de fondo -->
+        <Image Source="app.png" Aspect="Fill" />
+
+        <!-- Contenido centrado -->
+        <VerticalStackLayout Spacing="10"
+                            Padding="30,10,30,0"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center">
+
+            <!-- Contenedor principal -->
+            <Frame BorderColor="Black"
+                   BackgroundColor="White"
+                   Padding="10"
+                   WidthRequest="370">
+                <ScrollView>
+                    <VerticalStackLayout Spacing="10">
+                        <!-- Etiqueta de instrucción -->
+                        <Label Text="Seleccione las partes del carro para pulir y encerar:" 
+                              HorizontalOptions="Center" 
+                              FontSize="25" 
+                              TextColor="Black" 
+                              HorizontalTextAlignment="Center" 
+                              FontFamily="AL" 
+                              Margin="0,10,0,10"/>
+
+                        <!-- Etiqueta para las partes de la carrocería -->
+                        <Label Text="Partes del Vehiculo:" 
+                              FontAttributes="Bold" 
+                              FontSize="20" 
+                              TextColor="OrangeRed" 
+                              HorizontalOptions="Center"/>
+
+                        <!-- ListView para las partes del vehículo -->
+                        <VerticalStackLayout x:Name="piezasContainer" Spacing="5" Margin="10">
+                            <!-- Este contenedor se llenará con código -->
+                        </VerticalStackLayout>
+
+                        <!-- Botón para guardar -->
+                        <Button Text="Guardar" 
+                               Clicked="ButtonGuardar_Clicked" 
+                               TextColor="Gold" 
+                               WidthRequest="280" 
+                               FontAttributes="Bold" 
+                               HorizontalOptions="Center" 
+                               BackgroundColor="DarkRed" 
+                               BorderColor="Red" 
+                               BorderWidth="2"
+                               CornerRadius="20"
+                               Margin="0,10,0,10"/>
+
+                        <!-- Etiqueta para las partes seleccionadas -->
+                        <Label Text="Partes seleccionadas para pulir y encerar:" 
+                              HorizontalOptions="Center" 
+                              TextColor="Black" />
+
+                        <!-- ListView para mostrar las partes seleccionadas -->
+                        <ListView x:Name="lstPartesSeleccionadasListView" />
+
+                        <!-- Botón "Siguiente" -->
+                        <Button x:Name="btnSiguiente" 
+                               Text="Siguiente" 
+                               Clicked="ButtonSiguiente_Clicked" 
+                               IsVisible="False" 
+                               Margin="0,10,0,10" 
+                               TextColor="Gold" 
+                               WidthRequest="280" 
+                               FontAttributes="Bold" 
+                               CornerRadius="20" 
+                               HorizontalOptions="Center" 
+                               BackgroundColor="DarkRed" 
+                               BorderColor="Red" 
+                               BorderWidth="2" />
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Frame>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

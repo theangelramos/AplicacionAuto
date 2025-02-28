@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+          xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
+          x:Class="AplicacionAuto.Mapa"
+          Title="Mapa">
+    <Grid>
+        <Image Source="app.png" Aspect="Fill" />
+
+        <StackLayout HorizontalOptions="End" VerticalOptions="Start">
+            <ImageButton Source="pregunta.png" 
+                     Aspect="AspectFit" 
+                     WidthRequest="30" 
+                     HeightRequest="30" 
+                     Margin="0,10,50,40"
+                     Clicked="OnImageTapped" />
+        </StackLayout>
+
+        <VerticalStackLayout BackgroundColor="Transparent" 
+                         Margin="0,20,0,0" 
+                         Spacing="10">
+            <Label />
+            <Label Text="Selecciona uno de los talleres" 
+               FontFamily="AL" 
+               IsVisible="False" 
+               x:Name="labelseleccionar" 
+               HorizontalTextAlignment="Center" 
+               TextColor="OrangeRed" 
+               FontSize="20" />
+            <Label Text="Localiza talleres cercanos en el mapa y elige el más accesible para ti." 
+               HorizontalTextAlignment="Center" 
+               TextColor="OrangeRed" 
+               FontSize="20" />
+            <maps:Map x:Name="map" 
+                  Margin="0,10,0,0" />
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>

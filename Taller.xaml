@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.Taller"
+             Title="Taller">
+    <Grid>
+        <Image Source="app.png" Aspect="Fill" />
+        <StackLayout HorizontalOptions="End" VerticalOptions="Start">
+            <ImageButton Source="pregunta.png"
+                         Aspect="AspectFit"
+                         WidthRequest="30"
+                         HeightRequest="30"
+                         Margin="0,20,30,0"
+                         Clicked="OnImageTapped" />
+        </StackLayout>
+        <!-- Contenedor principal del contenido -->
+        <VerticalStackLayout Spacing="10"
+                             Padding="30,10,30,0"
+                             VerticalOptions="Center"
+                             HorizontalOptions="Center">
+            <!-- Marco que envuelve el contenido del taller -->
+            <Border Stroke="Black">
+                <!-- StackLayout para organizar los elementos dentro del marco -->
+                <VerticalStackLayout Spacing="1"
+                                     Padding="1"
+                                     BackgroundColor="Transparent">
+                    <!-- Título del taller -->
+                    <Label Text="Datos del taller"
+                           TextColor="OrangeRed"
+                           FontSize="24"
+                           HorizontalOptions="Center"
+                           FontFamily="CO" />
+                    <Label x:Name="titleLabel"
+                           FontSize="24"
+                           TextColor="Black"
+                           HorizontalOptions="CenterAndExpand"
+                           Margin="10" />
+                    <Label x:Name="addressLabel"
+                           TextColor="Black"
+                           HorizontalOptions="CenterAndExpand"
+                           Margin="10" />
+                    <!-- Etiqueta y selector de fecha -->
+                    <Label Text="Fecha"
+                           TextColor="Black"
+                           FontSize="24"
+                           HorizontalOptions="Center" />
+                    <Border Stroke="Crimson"
+                            Padding="5"
+                            StrokeShape="RoundRectangle 5">
+                        <DatePicker x:Name="fechaPicker"
+                                    DateSelected="fechaPicker_DateSelected"
+                                    TextColor="Black" />
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+            <!-- Botón "Siguiente" -->
+            <Button x:Name="siguienteBtn"
+                    Text="Siguiente"
+                    TextColor="Gold"
+                    WidthRequest="280"
+                    FontAttributes="Bold"
+                    CornerRadius="20"
+                    HorizontalOptions="Center"
+                    BackgroundColor="DarkRed"
+                    BorderColor="Red"
+                    BorderWidth="2"
+                    Margin="0,18,0,0"
+                    VerticalOptions="EndAndExpand"
+                    Clicked="Button_Siguiente" />
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

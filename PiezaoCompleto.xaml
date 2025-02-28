@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.PiezaoCompleto">
+    <ContentPage.Content>
+        <Grid>
+            <!-- Imagen de fondo -->
+            <Image Source="app.png" Aspect="Fill" />
+            <StackLayout
+                Spacing="10"
+                Padding="30,10,30,0"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+
+                <!-- Marco principal -->
+                <Border StrokeThickness="1" 
+                        Stroke="Black"
+                        WidthRequest="300"
+                        StrokeShape="Rectangle">
+
+                    <StackLayout Spacing="1" Padding="1" BackgroundColor="Transparent" >
+                        <!-- Título -->
+                        <Label Text="Pintura" FontSize="27" HorizontalOptions="Center" TextColor="OrangeRed" FontAttributes="Bold" FontFamily="CO" />
+
+                        <!-- Pregunta -->
+                        <Label Text="¿Deseas pintar piezas del vehículo o todo el vehículo por completo?" TextColor="Black" FontSize="22" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,20,0,40" HorizontalTextAlignment="Center" FontFamily="AL" />
+
+                        <!-- Opción: Piezas -->
+                        <Border StrokeThickness="1"
+                                Stroke="Red"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                StrokeShape="Rectangle"
+                                WidthRequest="150"
+                                HeightRequest="150"
+                                Margin="0,0,0,15">
+                            <StackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+                                <!-- Imagen de piezas -->
+                                <Image Source="pieza.png" Aspect="AspectFit" WidthRequest="100" HeightRequest="100" />
+                                <!-- Botón para seleccionar piezas -->
+                                <Button x:Name="piezasBtn" 
+                                        Text="Pieza(s)" TextColor="Black"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Maroon"
+                                        BorderWidth="2"
+                                        Clicked="ButtonPieza"/>
+                            </StackLayout>
+                        </Border>
+
+                        <!-- Opción: Vehículo completo -->
+                        <Border StrokeThickness="1"
+                                Stroke="Red"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                StrokeShape="Rectangle"
+                                WidthRequest="150"
+                                HeightRequest="150"
+                                Margin="0,0,0,15">
+                            <StackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+                                <!-- Imagen de vehículo completo -->
+                                <Image Source="completos.png" Aspect="AspectFit" WidthRequest="100" HeightRequest="100" />
+                                <!-- Botón para seleccionar vehículo completo -->
+                                <Button x:Name="todoVehiculoBtn" 
+                                        Text="Todo el vehículo" TextColor="Black"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Maroon"
+                                        BorderWidth="2" 
+                                        Clicked="ButtonCompleto"/>
+                            </StackLayout>
+                        </Border>
+
+                    </StackLayout>
+                </Border>
+
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.PulirTodoVehiculo">
+    <!-- Layout principal -->
+    <Grid>
+        <!-- Imagen de fondo -->
+        <Image Source="app.png" Aspect="Fill" />
+        <!-- Contenido centrado -->
+        <VerticalStackLayout Spacing="10"
+                            Padding="30,10,30,0"
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center">
+            <!-- Contenedor principal -->
+            <Border StrokeThickness="0"
+                    BackgroundColor="Transparent"
+                    WidthRequest="300">
+                <ScrollView>
+                    <VerticalStackLayout Spacing="10">
+                        <!-- Título -->
+                        <Label Text="Adjunte Fotografias del vehiculo (Maximo 3 Fotografias)"
+                               TextColor="Black"
+                               FontSize="27"
+                               HorizontalTextAlignment="Center"
+                               Margin="0,50,0,0"
+                               FontFamily="AL" />
+                        <!-- Botón para seleccionar fotografías -->
+                        <Button Text="Seleccionar Fotografias"
+                                TextColor="Gold"
+                                WidthRequest="300"
+                                FontAttributes="Bold"
+                                CornerRadius="20"
+                                BackgroundColor="DarkRed"
+                                Margin="0,40,0,50"
+                                Clicked="selectedImage_Clicked" />
+                        <!-- Imagen 1 -->
+                        <Image x:Name="selectedImage1"
+                               WidthRequest="200"
+                               HeightRequest="200"
+                               Aspect="AspectFit" />
+                        <!-- Imagen 2 -->
+                        <Image x:Name="selectedImage2"
+                               WidthRequest="200"
+                               HeightRequest="200"
+                               Aspect="AspectFit" />
+                        <!-- Imagen 3 -->
+                        <Image x:Name="selectedImage3"
+                               WidthRequest="200"
+                               HeightRequest="200"
+                               Aspect="AspectFit" />
+                        <!-- Botón Continuar -->
+                        <Button x:Name="continueButton"
+                                Text="Continuar"
+                                TextColor="Gold"
+                                WidthRequest="300"
+                                FontAttributes="Bold"
+                                CornerRadius="20"
+                                BackgroundColor="DarkRed"
+                                Margin="50,30,50,110"
+                                IsEnabled="False"
+                                Clicked="ButtonPulirContinuar" />
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Border>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

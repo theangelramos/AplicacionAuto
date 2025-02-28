@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.GolpeFuerte" 
+             Padding="0">
+
+    <!-- Contenido principal -->
+    <Grid>
+
+        <!-- Imagen de Fondo -->
+        <Image Source="app.png" Aspect="Fill" />
+
+        <!-- Imagen de Ayuda en la esquina superior derecha -->
+        <StackLayout HorizontalOptions="End" VerticalOptions="Start">
+            <Image Source="pregunta.png" Aspect="AspectFit" WidthRequest="30" HeightRequest="30" Margin="0,20,40,0">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnImageTapped" />
+                </Image.GestureRecognizers>
+            </Image>
+        </StackLayout>
+
+        <!-- StackLayout principal -->
+        <StackLayout Spacing="10"
+                     Padding="30,10,30,0"
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center">
+
+            <!-- Marco -->
+            <Border StrokeThickness="0"
+                   BackgroundColor="Transparent"
+                   WidthRequest="250" 
+                   Margin="0,30,0,0">
+
+                <!-- ScrollView con Margin en la parte superior -->
+                <ScrollView Margin="0,40,0,0">
+                    <VerticalStackLayout Spacing="10">
+                        <!-- Etiqueta -->
+                        <Label Text="Adjunte Fotografias de la parte o partes afectadas del vehiculo (Maximo 3 Imagenes)"
+                               TextColor="Black"
+                               FontSize="27"
+                               HorizontalTextAlignment="Center"
+                               Margin="0,15,0,0"
+                               FontFamily="AL" />
+
+                        <!-- Botón para seleccionar fotografías -->
+                        <Button Text="Seleccionar Fotografias"
+                                TextColor="Gold"
+                                WidthRequest="300"
+                                FontAttributes="Bold"
+                                CornerRadius="20"
+                                BackgroundColor="DarkRed"
+                                Margin="0,40,0,50"
+                                Clicked="selectedImage_Clicked" />
+
+                        <!-- Imagen 1 -->
+                        <Image x:Name="selectedImage1"
+                               WidthRequest="200"
+                               HeightRequest="200"
+                               Aspect="AspectFit" />
+
+                        <!-- Imagen 2 -->
+                        <Image x:Name="selectedImage2"
+                               WidthRequest="200"
+                               HeightRequest="200"
+                               Aspect="AspectFit" />
+
+                        <!-- Imagen 3 -->
+                        <Image x:Name="selectedImage3"
+                               WidthRequest="200"
+                               HeightRequest="200"
+                               Aspect="AspectFit" />
+
+                        <!-- Botón Continuar -->
+                        <Button x:Name="continueButton"
+                                Text="Continuar"
+                                TextColor="Gold"
+                                WidthRequest="300"
+                                FontAttributes="Bold"
+                                CornerRadius="20"
+                                BackgroundColor="DarkRed"
+                                Margin="50,30,50,110"
+                                IsEnabled="False"
+                                Clicked="ButtonContinuar"/>
+                    </VerticalStackLayout>
+                </ScrollView>
+            </Border>
+        </StackLayout>
+    </Grid>
+</ContentPage>

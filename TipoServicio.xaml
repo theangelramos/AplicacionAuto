@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.TipoServicio">
+    <ContentPage.Content>
+        <Grid>
+            <Image Source="app.png" Aspect="Fill" />
+
+            <StackLayout HorizontalOptions="End" VerticalOptions="Start">
+                <Image Source="pregunta.png" Aspect="AspectFit" WidthRequest="30" HeightRequest="30" Margin="0,20,30,0">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="OnImageTapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+
+            <!-- Contenedor principal del contenido -->
+            <StackLayout Spacing="10"
+                         Padding="30,10,30,0"
+                         VerticalOptions="Center"
+                         HorizontalOptions="Center">
+
+                <!-- Marco que envuelve el contenido del tipo de servicio -->
+                <Border StrokeThickness="1" 
+                        Stroke="Black"
+                        WidthRequest="300"
+                        StrokeShape="Rectangle">
+
+                    <!-- StackLayout para organizar los elementos dentro del marco -->
+                    <StackLayout Spacing="1"
+                                 Padding="1"
+                                 BackgroundColor="Transparent">
+
+                        <!-- Título del tipo de servicio -->
+                        <Label Text="Tipo de Servicio"
+                               TextColor="OrangeRed"
+                               FontSize="30"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               Margin="0,0,0,40"
+                               FontFamily="CO"/>
+
+                        <!-- Marco y botón para el servicio de hojalatería y pintura -->
+                        <Border StrokeThickness="1"
+                               Stroke="Red"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"
+                               StrokeShape="Rectangle"
+                               WidthRequest="200"
+                               HeightRequest="120"
+                               Margin="0,0,0,15">
+                            <StackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+                                <Image Source="hypi.png"
+                                       Aspect="AspectFit"
+                                       WidthRequest="50"
+                                       HeightRequest="50" />
+                                <Button x:Name="hojalateriaPinturaBtn"
+                                        Text="Hojalatería y pintura"
+                                        TextColor="Black"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Maroon"
+                                        BorderWidth="2"
+                                        Clicked="ButtonHojalateriayPintura" 
+                                         />
+                            </StackLayout>
+                        </Border>
+
+                        <!-- Marco y botón para el servicio de pintura -->
+                        <Border StrokeThickness="1"
+                               Stroke="Red"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"
+                               StrokeShape="Rectangle"
+                               WidthRequest="200"
+                               HeightRequest="120"
+                               Margin="0,0,0,15">
+                            <StackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+                                <Image Source="pinpin.png"
+                                       Aspect="AspectFit"
+                                       WidthRequest="50"
+                                       HeightRequest="50" />
+                                <Button x:Name = "pinturaBtn"
+                                        Text="Pintura"
+                                        TextColor="Black"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Maroon"
+                                        BorderWidth="2"
+                                        Clicked="ButtonPintura" />
+                            </StackLayout>
+                        </Border>
+
+                        <!-- Marco y botón para el servicio de pulido y encerado -->
+                        <Border StrokeThickness="1"
+                               Stroke="Red"
+                               HorizontalOptions="Fill"
+                               VerticalOptions="Fill"
+                               StrokeShape="Rectangle"
+                               WidthRequest="200"
+                               HeightRequest="120"
+                               Margin="0,0,0,15">
+                            <StackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center">
+                                <Image Source="pulido.png"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       WidthRequest="50"
+                                       HeightRequest="50" />
+                                <Button x:Name ="pulidoEnseradoBtn"
+                                        Text="Pulido y Encerado"
+                                        TextColor="Black"
+                                        BackgroundColor="Transparent"
+                                        BorderColor="Maroon"
+                                        BorderWidth="2"
+                                        Clicked="ButtonPulido" />
+                            </StackLayout>
+                        </Border>
+
+                    </StackLayout>
+                </Border>
+
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
