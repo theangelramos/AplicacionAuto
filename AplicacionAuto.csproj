@@ -68,8 +68,32 @@
 	  <None Remove="Resources\Fonts\CantoraOne.ttf" />
 	  <None Remove="Resources\Fonts\OpenSans.ttf" />
 	  <None Remove="Resources\Fonts\Roboto.ttf" />
+	  <None Remove="Resources\Images\app.png" />
+	  <None Remove="Resources\Images\carroceria.png" />
+	  <None Remove="Resources\Images\completos.png" />
+	  <None Remove="Resources\Images\correo.png" />
+	  <None Remove="Resources\Images\estados.png" />
+	  <None Remove="Resources\Images\express.png" />
+	  <None Remove="Resources\Images\fondol.png" />
+	  <None Remove="Resources\Images\fuerte.png" />
+	  <None Remove="Resources\Images\hypi.png" />
+	  <None Remove="Resources\Images\leve.png" />
 	  <None Remove="Resources\Images\logo.png" />
 	  <None Remove="Resources\Images\logoTicket1.png" />
+	  <None Remove="Resources\Images\medio.png" />
+	  <None Remove="Resources\Images\municipio.png" />
+	  <None Remove="Resources\Images\nombre.png" />
+	  <None Remove="Resources\Images\normal.png" />
+	  <None Remove="Resources\Images\pieza.png" />
+	  <None Remove="Resources\Images\pinpin.png" />
+	  <None Remove="Resources\Images\pregunta.png" />
+	  <None Remove="Resources\Images\pulido.png" />
+	  <None Remove="Resources\Images\pulircompleto.png" />
+	  <None Remove="Resources\Images\pulirpartes.png" />
+	  <None Remove="Resources\Images\tallera.png" />
+	  <None Remove="Resources\Images\telefono.png" />
+	  <None Remove="Resources\Images\vehiculoc.jpg" />
+	  <None Remove="Resources\Images\xamarin.png" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,54 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AplicacionAuto.PaquetePintura">
+             x:Class="AplicacionAuto.PaquetePintura"
+             BackgroundColor="White">
+
     <Grid>
-        <Image Source="app.png" Aspect="Fill" />
+        <!-- Fondo con imagen -->
+        <Image Source="app.png" 
+               Aspect="AspectFill" 
+               InputTransparent="True" />
 
-        <StackLayout HorizontalOptions="End" VerticalOptions="Start">
-            <Image Source="pregunta.png" Aspect="AspectFit" WidthRequest="30" HeightRequest="30" Margin="0,20,30,0">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnImageTapped" />
-                </Image.GestureRecognizers>
-            </Image>
-        </StackLayout>
+        <!-- Área principal con ScrollView -->
+        <Grid RowDefinitions="Auto,*">
+            <!-- Botón de ayuda en la parte superior -->
+            <HorizontalStackLayout Grid.Row="0" 
+                                  HorizontalOptions="End" 
+                                  Margin="0,20,20,0">
+                <ImageButton Source="pregunta.png" 
+                            HeightRequest="40" 
+                            WidthRequest="40" 
+                            BackgroundColor="Transparent"
+                            Clicked="OnImageTapped" />
+            </HorizontalStackLayout>
 
+            <!-- Área de contenido scrollable -->
+            <ScrollView Grid.Row="1" 
+                       Margin="0,10,0,0"
+                       VerticalOptions="FillAndExpand">
 
-        <VerticalStackLayout
-            Spacing="10"
-            Padding="30,10,30,0"
-            VerticalOptions="Center"
-            HorizontalOptions="Center">
+                <VerticalStackLayout Spacing="20" 
+                                   Padding="20" 
+                                   HorizontalOptions="Center">
 
-            <Border Stroke="Black" StrokeThickness="1" WidthRequest="300">
+                    <!-- Título -->
+                    <Label Text="Selecciona un Paquete de Pintura" 
+                           TextColor="OrangeRed" 
+                           FontSize="28" 
+                           FontAttributes="Bold" 
+                           HorizontalOptions="Center" 
+                           Margin="0,10,0,20" />
 
-                <VerticalStackLayout Spacing="1" Padding="1" BackgroundColor="Transparent">
+                    <!-- Contenedor de paquetes -->
+                    <Grid ColumnDefinitions="*,*" 
+                          RowDefinitions="*,*"
+                          ColumnSpacing="10" 
+                          RowSpacing="10"
+                          HorizontalOptions="Center">
 
-                    <Label Text="Selecciona un Paquete de Pintura" HorizontalTextAlignment="Center" TextColor="OrangeRed" FontSize="23" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,0,0,40" FontFamily="CO" />
-
-                    <!-- Fila 1 -->
-                    <HorizontalStackLayout HorizontalOptions="Center">
-                        <!-- Cuadro 1 -->
-                        <Border StrokeShape="Rectangle"
-                               Stroke="Red"
-                               StrokeThickness="1"
-                               WidthRequest="220"
-                               HeightRequest="200"
-                               Margin="0,0,0,15">
-                            <VerticalStackLayout VerticalOptions="Center"
-                                         HorizontalOptions="Center">
-                                <Label
-                                    Text="Economico"
-                                    FontSize="20" 
-                                    FontAttributes="Bold" 
-                                    HorizontalTextAlignment="Center" 
-                                    TextColor="Black"></Label>
-                                <Label
-                                    x:Name="lblEconomico"
-                                    FontSize="14"  
-                                    HorizontalTextAlignment="Center" 
-                                    TextColor="Black"></Label>
-                                <Button x:Name="economicoBtn"
+                        <!-- Paquete Económico -->
+                        <Frame Grid.Row="0" Grid.Column="0"
+                               HasShadow="True"
+                               BorderColor="Red"
+                               CornerRadius="10"
+                               BackgroundColor="White"
+                               Opacity="0.9"
+                               Padding="10"
+                               MinimumWidthRequest="150"
+                               MinimumHeightRequest="180">
+                            <VerticalStackLayout Spacing="8" 
+                                               HorizontalOptions="Center" 
+                                               VerticalOptions="Center">
+                                <Label Text="Económico"
+                                       FontSize="20" 
+                                       FontAttributes="Bold" 
+                                       HorizontalTextAlignment="Center" 
+                                       TextColor="Black"/>
+                                <Label x:Name="lblEconomico"
+                                       FontSize="14"  
+                                       HorizontalTextAlignment="Center" 
+                                       TextColor="Black"/>
+                                <Button x:Name="economicoBtn" 
                                         Text="Agregar" 
                                         TextColor="#8b0000"
                                         BackgroundColor="#ffd700"
@@ -56,125 +77,150 @@
                                         CornerRadius="15"
                                         BorderColor="Maroon"
                                         BorderWidth="1" 
-                                        FontSize="13"
-                                        Clicked="ButtonPinEconomico"
-                                        />
+                                        FontSize="14"
+                                        Margin="0,5,0,0"
+                                        WidthRequest="100"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Center"
+                                        Clicked="ButtonPinEconomico"/>
                             </VerticalStackLayout>
-                        </Border>
+                        </Frame>
 
-                        <!-- Cuadro 2 -->
-                        <Border StrokeShape="Rectangle"
-                               Stroke="Red"
-                               StrokeThickness="1"
-                               WidthRequest="220"
-                               HeightRequest="200"
-                               Margin="0,0,0,15">
-                            <VerticalStackLayout VerticalOptions="Center"
-                                         HorizontalOptions="Center">
-
-                                <Label
-                                 Text="Intermedio" 
-                                 FontSize="20" 
-                                 FontAttributes="Bold" 
-                                 HorizontalTextAlignment="Center" 
-                                 TextColor="Black"></Label>
-                                <Label
-                                 x:Name="lblIntermedio"
-                                 FontSize="14" 
-                                 HorizontalTextAlignment="Center"    
-                                 TextColor="Black"></Label>
-
+                        <!-- Paquete Intermedio -->
+                        <Frame Grid.Row="0" Grid.Column="1"
+                               HasShadow="True"
+                               BorderColor="Red"
+                               CornerRadius="10"
+                               BackgroundColor="White"
+                               Opacity="0.9"
+                               Padding="10"
+                               MinimumWidthRequest="150"
+                               MinimumHeightRequest="180">
+                            <VerticalStackLayout Spacing="8" 
+                                               HorizontalOptions="Center" 
+                                               VerticalOptions="Center">
+                                <Label Text="Intermedio" 
+                                       FontSize="20" 
+                                       FontAttributes="Bold" 
+                                       HorizontalTextAlignment="Center" 
+                                       TextColor="Black"/>
+                                <Label x:Name="lblIntermedio"
+                                       FontSize="14" 
+                                       HorizontalTextAlignment="Center"
+                                       TextColor="Black"/>
                                 <Button x:Name="intermedioBtn"
-                                         Text="Agregar" 
-                                         TextColor="#8b0000"
-                                         BackgroundColor="#ffd700"
-                                         FontAttributes="Bold"
-                                         CornerRadius="15"
-                                         BorderColor="Maroon"
-                                         BorderWidth="1" 
-                                         FontSize="13"
-                                        Clicked="ButtonPinIntermedio" 
-                                        />
+                                        Text="Agregar" 
+                                        TextColor="#8b0000"
+                                        BackgroundColor="#ffd700"
+                                        FontAttributes="Bold"
+                                        CornerRadius="15"
+                                        BorderColor="Maroon"
+                                        BorderWidth="1" 
+                                        FontSize="14"
+                                        Margin="0,5,0,0"
+                                        WidthRequest="100"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Center"
+                                        Clicked="ButtonPinIntermedio"/>
                             </VerticalStackLayout>
-                        </Border>
-                    </HorizontalStackLayout>
+                        </Frame>
 
-                    <!-- Fila 2 -->
-                    <HorizontalStackLayout HorizontalOptions="Center">
-                        <!-- Cuadro 3 -->
-                        <Border StrokeShape="Rectangle"
-                               Stroke="Red"
-                               StrokeThickness="1"
-                               WidthRequest="220"
-                               HeightRequest="200"
-                               Margin="0,0,0,15">
-                            <VerticalStackLayout VerticalOptions="Center"
-                                         HorizontalOptions="Center">
-                                <Label
-                                    Text="Pro" 
-                                    FontSize="20" 
-                                    FontAttributes="Bold" 
-                                    HorizontalTextAlignment="Center" 
-                                    TextColor="Black">
-
-                                </Label>
-                                <Label
-                                    x:Name="lblPro"
-                                    FontSize="14" 
-                                    HorizontalTextAlignment="Center" 
-                                    TextColor="Black">
-
-                                </Label>
+                        <!-- Paquete Pro -->
+                        <Frame Grid.Row="1" Grid.Column="0"
+                               HasShadow="True"
+                               BorderColor="Red"
+                               CornerRadius="10"
+                               BackgroundColor="White"
+                               Opacity="0.9"
+                               Padding="10"
+                               MinimumWidthRequest="150"
+                               MinimumHeightRequest="180">
+                            <VerticalStackLayout Spacing="8" 
+                                               HorizontalOptions="Center" 
+                                               VerticalOptions="Center">
+                                <Label Text="Pro" 
+                                       FontSize="20" 
+                                       FontAttributes="Bold" 
+                                       HorizontalTextAlignment="Center" 
+                                       TextColor="Black"/>
+                                <Label x:Name="lblPro"
+                                       FontSize="14" 
+                                       HorizontalTextAlignment="Center" 
+                                       TextColor="Black"/>
                                 <Button x:Name="proBtn"
                                         Text="Agregar" 
-                                         TextColor="#8b0000"
+                                        TextColor="#8b0000"
                                         BackgroundColor="#ffd700"
                                         FontAttributes="Bold"
                                         CornerRadius="15"
                                         BorderColor="Maroon"
                                         BorderWidth="1"
-                                        FontSize="13"
+                                        FontSize="14"
+                                        Margin="0,5,0,0"
+                                        WidthRequest="100"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Center"
                                         Clicked="ButtonPinPro"/>
                             </VerticalStackLayout>
-                        </Border>
+                        </Frame>
 
-                        <!-- Cuadro 4 -->
-                        <Border StrokeShape="Rectangle"
-                               Stroke="Red"
-                               StrokeThickness="1"
-                               WidthRequest="220"
-                               HeightRequest="200"
-                               Margin="0,0,0,15">
-                            <VerticalStackLayout VerticalOptions="Center"
-                                         HorizontalOptions="Center">
-                                <Label
-                                    Text="Plus" 
-                                    FontSize="20" 
-                                    FontAttributes="Bold" 
-                                    HorizontalTextAlignment="Center" 
-                                    TextColor="Black"></Label>
-                                <Label
-                                    x:Name="lblPlus"
-                                    FontSize="14" 
-                                    HorizontalTextAlignment="Center" 
-                                    TextColor="Black"/>
+                        <!-- Paquete Plus -->
+                        <Frame Grid.Row="1" Grid.Column="1"
+                               HasShadow="True"
+                               BorderColor="Red"
+                               CornerRadius="10"
+                               BackgroundColor="White"
+                               Opacity="0.9"
+                               Padding="10"
+                               MinimumWidthRequest="150"
+                               MinimumHeightRequest="180">
+                            <VerticalStackLayout Spacing="8" 
+                                               HorizontalOptions="Center" 
+                                               VerticalOptions="Center">
+                                <Label Text="Plus" 
+                                       FontSize="20" 
+                                       FontAttributes="Bold" 
+                                       HorizontalTextAlignment="Center" 
+                                       TextColor="Black"/>
+                                <Label x:Name="lblPlus"
+                                       FontSize="14" 
+                                       HorizontalTextAlignment="Center" 
+                                       TextColor="Black"/>
                                 <Button x:Name="plusBtn"
-                                       Text="Agregar" 
-                                          TextColor="#8b0000"
+                                        Text="Agregar" 
+                                        TextColor="#8b0000"
                                         BackgroundColor="#ffd700"
                                         FontAttributes="Bold"
                                         CornerRadius="15"
                                         BorderColor="Maroon"
                                         BorderWidth="1"
-                                        FontSize="13"
+                                        FontSize="14"
+                                        Margin="0,5,0,0"
+                                        WidthRequest="100"
+                                        HeightRequest="40"
+                                        HorizontalOptions="Center"
                                         Clicked="ButtonPinPlus"/>
                             </VerticalStackLayout>
-                        </Border>
-                    </HorizontalStackLayout>
+                        </Frame>
+                    </Grid>
 
+                    <!-- Botón de Siguiente -->
+                    <Button x:Name="siguienteBtn"
+                            Text="Siguiente" 
+                            TextColor="#8b0000"
+                            BackgroundColor="#ffd700"
+                            FontAttributes="Bold"
+                            CornerRadius="20"
+                            BorderColor="Maroon"
+                            BorderWidth="2"
+                            FontSize="18"
+                            WidthRequest="180"
+                            HeightRequest="50"
+                            HorizontalOptions="Center"
+                            Margin="0,20,0,40"
+                            Clicked="ButtonSiguiente"/>
                 </VerticalStackLayout>
-            </Border>
-
-        </VerticalStackLayout>
+            </ScrollView>
+        </Grid>
     </Grid>
 </ContentPage>

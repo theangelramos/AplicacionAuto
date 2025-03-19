@@ -12,119 +12,169 @@ namespace AplicacionAuto
 {
     public partial class PulirPiezas : ContentPage
     {
-        PeticionHTTP peticion = new PeticionHTTP(Urls.UrlServer());
-        static Boolean alerta = false;
-        private List<string> partesSeleccionadasPE; 
+        private readonly PeticionHTTP _peticion = new PeticionHTTP(Urls.UrlServer());
+        private static Boolean _alerta = false;
+        private readonly List<string> _partesSeleccionadasPE;
 
-        DatosAuto datosAuto1;
-        String prioridad1;
-        String servicio1;
-        String tipoGolpe1;
-        String opcionTodo1;
-        List<Imagen> imagenesTodoElVehiculo;
-        
+        private readonly DatosAuto _datosAuto;
+        private readonly String _prioridad;
+        private readonly String _servicio;
+        private String _tipoGolpe;
+        private String _opcionTodo;
+        private List<Imagen> _imagenesTodoElVehiculo;
+
         public PulirPiezas(DatosAuto datosAuto, String prioridad, String servicio)
         {
             InitializeComponent();
-            datosAuto1 = datosAuto;
-            prioridad1 = prioridad;
-            servicio1 = servicio;
-            
-            // En .NET MAUI, la verificación de conectividad es diferente
+
+            // Asignar valores a propiedades
+            _datosAuto = datosAuto;
+            _prioridad = prioridad;
+            _servicio = servicio;
+            _partesSeleccionadasPE = new List<string>();
+
+            CargarPiezas();
+        }
+
+        private void CargarPiezas()
+        {
+            // Verificar conexión a internet
             bool tieneConexionInternet = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
 
             if (!tieneConexionInternet)
             {
                 CerrarApp("Sin conexión", "Conéctate a una red para obtener los datos");
+                return;
             }
-            else
+
+            try
             {
-                String jsonRecibir;
-                try
+                // Realizar petición al servidor
+                _peticion.PedirComunicacion(
+                    "Pieza/Obtener",
+                    MetodoHTTP.GET,
+                    TipoContenido.JSON,
+                    Preferences.Default.Get("token", "")
+                );
+
+                string jsonRecibir = _peticion.ObtenerJson();
+                List<PiezaDTO> piezas = JsonConvertidor.Json_ListaObjeto<PiezaDTO>(jsonRecibir);
+
+                // Filtrar piezas para "Pulido y encerado"
+                var piezasFiltradas = piezas.FindAll(x =>
+                    x.TipoPiezaNombre.ToLower() == "Pulido y encerado".ToLower());
+
+                piezas = piezasFiltradas;
+
+                // Remover "Todo el vehículo" de las opciones
+                piezas.RemoveAll(p => p.Nombre == "Todo el vehículo");
+
+                // Asignar como contexto de datos
+                BindingContext = new { piezas };
+
+                // Generar controles dinámicamente para cada pieza
+                piezasContainer.Children.Clear();
+                foreach (var pieza in piezas)
                 {
-                    // Asumiendo que tu clase PeticionHTTP ya ha sido migrada a .NET MAUI
-                    peticion.PedirComunicacion("Pieza/Obtener", MetodoHTTP.GET, TipoContenido.JSON, 
-                        Preferences.Default.Get("token", ""));
-                    jsonRecibir = peticion.ObtenerJson();
-                    List<PiezaDTO> piezas = JsonConvertidor.Json_ListaObjeto<PiezaDTO>(jsonRecibir);
+                    var horizontalStackLayout = new HorizontalStackLayout
+                    {
+                        Spacing = 10,
+                        Margin = new Thickness(0, 5)
+                    };
 
-                    var piezasFiltradas = piezas.FindAll(x => x.TipoPiezaNombre.ToLower() == "Pulido y encerado".ToLower());
+                    var label = new Label
+                    {
+                        Text = pieza.Nombre,
+                        VerticalOptions = LayoutOptions.Center,
+                        WidthRequest = 200
+                    };
 
-                    piezas = piezasFiltradas;
+                    var checkBox = new CheckBox();
+                    checkBox.CheckedChanged += CheckBox_CheckedChanged;
 
-                    piezas.RemoveAll(p => p.Nombre == "Todo el vehículo");
+                    horizontalStackLayout.Children.Add(label);
+                    horizontalStackLayout.Children.Add(checkBox);
 
-                    BindingContext = new { piezas };
-                }
-                catch (Exception)
-                {
-                    CerrarApp("Error en la petición al servidor", "\n\nAsegúrate de tener una conexión estable a internet.");
+                    piezasContainer.Children.Add(horizontalStackLayout);
                 }
             }
-
-            partesSeleccionadasPE = new List<string>(); 
+            catch (Exception)
+            {
+                CerrarApp(
+                    "Error en la petición al servidor",
+                    "\n\nAsegúrate de tener una conexión estable a internet."
+                );
+            }
         }
 
         public async void CerrarApp(String titulo, String mensaje)
         {
-            if (alerta == false)
+            if (_alerta == false)
             {
                 await DisplayAlert(titulo, mensaje, "Aceptar");
-                alerta = true;
+                _alerta = true;
             }
         }
 
         private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
-            CheckBox checkBox = (CheckBox)sender;
-            string parteCarro = GetCheckBoxText(checkBox); 
+            if (sender is not CheckBox checkBox) return;
 
-            if (e.Value) 
+            string parteCarro = GetCheckBoxText(checkBox);
+            if (string.IsNullOrEmpty(parteCarro)) return;
+
+            if (e.Value)
             {
-                if (!partesSeleccionadasPE.Contains(parteCarro)) 
+                if (!_partesSeleccionadasPE.Contains(parteCarro))
                 {
-                    partesSeleccionadasPE.Add(parteCarro); 
+                    _partesSeleccionadasPE.Add(parteCarro);
                 }
             }
-            else 
+            else
             {
-                if (partesSeleccionadasPE.Contains(parteCarro)) 
+                if (_partesSeleccionadasPE.Contains(parteCarro))
                 {
-                    partesSeleccionadasPE.Remove(parteCarro); 
+                    _partesSeleccionadasPE.Remove(parteCarro);
                 }
             }
         }
 
         private string GetCheckBoxText(CheckBox checkBox)
         {
-            // En MAUI, accedemos al padre usando Parent
-            var horizontalStackLayout = checkBox.Parent as HorizontalStackLayout; 
-            if (horizontalStackLayout != null)
-            {
-                // El Label es el primer elemento del HorizontalStackLayout
-                var label = horizontalStackLayout.Children[0] as Label;
-                if (label != null)
-                {
-                    return label.Text;
-                }
-            }
-            return string.Empty;
+            // Obtener el HorizontalStackLayout padre
+            if (checkBox.Parent is not HorizontalStackLayout horizontalStackLayout)
+                return string.Empty;
+
+            // El Label es el primer elemento del HorizontalStackLayout
+            if (horizontalStackLayout.Children[0] is not Label label)
+                return string.Empty;
+
+            return label.Text;
         }
 
         private void ButtonGuardar_Clicked(object sender, EventArgs e)
         {
-            // En MAUI, actualizamos la fuente de datos del CollectionView
-            lstPartesSeleccionadasListView.ItemsSource = null; 
-            lstPartesSeleccionadasListView.ItemsSource = partesSeleccionadasPE; 
+            // Actualizar la fuente de datos del ListView
+            lstPartesSeleccionadasListView.ItemsSource = null;
+            lstPartesSeleccionadasListView.ItemsSource = _partesSeleccionadasPE;
 
-            btnSiguiente.IsVisible = true; 
+            // Mostrar botón siguiente si hay elementos seleccionados
+            btnSiguiente.IsVisible = _partesSeleccionadasPE.Count > 0;
         }
 
         private async void ButtonSiguiente_Clicked(object sender, EventArgs e)
         {
             btnSiguiente.IsEnabled = false;
-            await Navigation.PushAsync(new PaquetePulidoEncerado(datosAuto1, prioridad1, 
-                servicio1, tipoGolpe1, partesSeleccionadasPE, opcionTodo1, imagenesTodoElVehiculo));
+
+            await Navigation.PushAsync(new PaquetePulidoEncerado(
+                _datosAuto,
+                _prioridad,
+                _servicio,
+                _tipoGolpe,
+                _partesSeleccionadasPE,
+                _opcionTodo,
+                _imagenesTodoElVehiculo
+            ));
         }
 
         protected override void OnAppearing()

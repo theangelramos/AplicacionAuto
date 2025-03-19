@@ -1,81 +1,133 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AplicacionAuto.PulirPiezas">
+             x:Class="AplicacionAuto.PulirPiezas"
+             Title="Pulir y Encerar">
+
+    <!-- Recursos para la página -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Estilos para los botones principales -->
+            <Style x:Key="BotonPrincipal" TargetType="Button">
+                <Setter Property="TextColor" Value="Gold" />
+                <Setter Property="BackgroundColor" Value="DarkRed" />
+                <Setter Property="BorderColor" Value="Red" />
+                <Setter Property="BorderWidth" Value="2" />
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="WidthRequest" Value="280" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,10,0,10" />
+            </Style>
+
+            <!-- Estilo para los títulos -->
+            <Style x:Key="TituloPrincipal" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="FontSize" Value="25" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="AL" />
+                <Setter Property="Margin" Value="0,10,0,10" />
+            </Style>
+
+            <!-- Estilo para subtítulos -->
+            <Style x:Key="Subtitulo" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="TextColor" Value="OrangeRed" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <!-- Layout principal -->
     <Grid>
         <!-- Imagen de fondo -->
         <Image Source="app.png" Aspect="Fill" />
 
         <!-- Contenido centrado -->
-        <VerticalStackLayout Spacing="10"
-                            Padding="30,10,30,0"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center">
+        <VerticalStackLayout 
+            Spacing="10"
+            Padding="30,10,30,0"
+            VerticalOptions="Center"
+            HorizontalOptions="Center">
 
             <!-- Contenedor principal -->
-            <Frame BorderColor="Black"
-                   BackgroundColor="White"
-                   Padding="10"
-                   WidthRequest="370">
-                <ScrollView>
-                    <VerticalStackLayout Spacing="10">
+            <Frame 
+                BorderColor="Black"
+                BackgroundColor="White"
+                Padding="15"
+                CornerRadius="10"
+                HasShadow="True"
+                WidthRequest="370">
+
+                <ScrollView VerticalScrollBarVisibility="Always">
+                    <VerticalStackLayout Spacing="15">
+
                         <!-- Etiqueta de instrucción -->
-                        <Label Text="Seleccione las partes del carro para pulir y encerar:" 
-                              HorizontalOptions="Center" 
-                              FontSize="25" 
-                              TextColor="Black" 
-                              HorizontalTextAlignment="Center" 
-                              FontFamily="AL" 
-                              Margin="0,10,0,10"/>
+                        <Label 
+                            Text="Seleccione las partes del carro para pulir y encerar:" 
+                            Style="{StaticResource TituloPrincipal}" />
 
                         <!-- Etiqueta para las partes de la carrocería -->
-                        <Label Text="Partes del Vehiculo:" 
-                              FontAttributes="Bold" 
-                              FontSize="20" 
-                              TextColor="OrangeRed" 
-                              HorizontalOptions="Center"/>
+                        <Label 
+                            Text="Partes del Vehículo:" 
+                            Style="{StaticResource Subtitulo}" />
 
-                        <!-- ListView para las partes del vehículo -->
-                        <VerticalStackLayout x:Name="piezasContainer" Spacing="5" Margin="10">
-                            <!-- Este contenedor se llenará con código -->
+                        <!-- Contenedor para las piezas del vehículo -->
+                        <VerticalStackLayout 
+                            x:Name="piezasContainer" 
+                            Spacing="10" 
+                            Margin="10">
+                            <!-- Generamos elementos manualmente como en el código original -->
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout Spacing="10" Margin="0,5">
+                                        <Label Text="{Binding Nombre}" VerticalOptions="Center" WidthRequest="200" />
+                                        <CheckBox CheckedChanged="CheckBox_CheckedChanged" />
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
                         </VerticalStackLayout>
 
                         <!-- Botón para guardar -->
-                        <Button Text="Guardar" 
-                               Clicked="ButtonGuardar_Clicked" 
-                               TextColor="Gold" 
-                               WidthRequest="280" 
-                               FontAttributes="Bold" 
-                               HorizontalOptions="Center" 
-                               BackgroundColor="DarkRed" 
-                               BorderColor="Red" 
-                               BorderWidth="2"
-                               CornerRadius="20"
-                               Margin="0,10,0,10"/>
+                        <Button 
+                            Text="Guardar" 
+                            Clicked="ButtonGuardar_Clicked" 
+                            Style="{StaticResource BotonPrincipal}" />
+
+                        <!-- Sección para mostrar elementos seleccionados -->
+                        <BoxView 
+                            Color="LightGray" 
+                            HeightRequest="1" 
+                            HorizontalOptions="Fill" 
+                            Margin="0,10" />
 
                         <!-- Etiqueta para las partes seleccionadas -->
-                        <Label Text="Partes seleccionadas para pulir y encerar:" 
-                              HorizontalOptions="Center" 
-                              TextColor="Black" />
+                        <Label 
+                            Text="Partes seleccionadas para pulir y encerar:" 
+                            HorizontalOptions="Center" 
+                            TextColor="Black" 
+                            FontAttributes="Bold" />
 
                         <!-- ListView para mostrar las partes seleccionadas -->
-                        <ListView x:Name="lstPartesSeleccionadasListView" />
+                        <Frame 
+                            BorderColor="Gray" 
+                            BackgroundColor="WhiteSmoke" 
+                            Padding="10" 
+                            CornerRadius="5">
+                            <ListView 
+                                x:Name="lstPartesSeleccionadasListView"
+                                HeightRequest="150" />
+                        </Frame>
 
                         <!-- Botón "Siguiente" -->
-                        <Button x:Name="btnSiguiente" 
-                               Text="Siguiente" 
-                               Clicked="ButtonSiguiente_Clicked" 
-                               IsVisible="False" 
-                               Margin="0,10,0,10" 
-                               TextColor="Gold" 
-                               WidthRequest="280" 
-                               FontAttributes="Bold" 
-                               CornerRadius="20" 
-                               HorizontalOptions="Center" 
-                               BackgroundColor="DarkRed" 
-                               BorderColor="Red" 
-                               BorderWidth="2" />
+                        <Button 
+                            x:Name="btnSiguiente" 
+                            Text="Siguiente" 
+                            Clicked="ButtonSiguiente_Clicked" 
+                            IsVisible="False" 
+                            Style="{StaticResource BotonPrincipal}" />
                     </VerticalStackLayout>
                 </ScrollView>
             </Frame>

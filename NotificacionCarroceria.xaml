@@ -2,59 +2,99 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AplicacionAuto.NotificacionCarroceria">
+
     <!-- Contenedor principal -->
     <Grid>
         <!-- Imagen de fondo -->
         <Image Source="app.png" Aspect="Fill" />
-        <!-- StackLayout principal -->
-        <VerticalStackLayout Spacing="10"
-                     Padding="30,10,30,0"
-                     VerticalOptions="Center"
-                     HorizontalOptions="Center">
-            <!-- Marco -->
-            <Border Stroke="Black" StrokeThickness="1" WidthRequest="300">
-                <!-- StackLayout para el contenido -->
-                <VerticalStackLayout Spacing="1" Padding="1" BackgroundColor="Transparent">
-                    <!-- Etiqueta de notificación -->
-                    <Label Text="Debido a que se dañaron partes ajenas a la carrocería deberá acudir a un taller para determinar correctamente el costo de la reparación" 
-                           TextColor="OrangeRed" 
-                           FontSize="25" 
-                           FontAttributes="Bold" 
-                           HorizontalOptions="Center" 
-                           Margin="0,0,0,40"
-                           HorizontalTextAlignment="Center"
-                           FontFamily="AL" />
-                    <!-- Marco con imagen y botón -->
-                    <Border StrokeShape="Rectangle"
-                           HorizontalOptions="Fill"
-                           VerticalOptions="Fill"
-                           Stroke="Red"
-                           StrokeThickness="1"
-                           WidthRequest="200"
-                           HeightRequest="200"
-                           Margin="0,0,0,15">
-                        <VerticalStackLayout VerticalOptions="Center"
-                                     HorizontalOptions="Center">
-                            <!-- Imagen de carrocería -->
-                            <Image Source="tallera.png"
-                                   Aspect="AspectFit"
-                                   WidthRequest="100"
-                                   HeightRequest="100"/>
-                            <!-- Botón Continuar -->
-                            <HorizontalStackLayout HorizontalOptions="Fill"
-                                         Margin="0,20,0,0">
-                                <Button x:Name="continuarBtn" Text="Continuar"
-                                        TextColor="Black"
-                                        BackgroundColor="Transparent"
-                                        BorderColor="Maroon"
-                                        BorderWidth="2"
-                                        HorizontalOptions="CenterAndExpand"
-                                        Clicked="ButtonContinuar"/>
-                            </HorizontalStackLayout>
-                        </VerticalStackLayout>
-                    </Border>
-                </VerticalStackLayout>
-            </Border>
-        </VerticalStackLayout>
+
+        <!-- ScrollView para garantizar la visualización en pantallas pequeñas -->
+        <ScrollView VerticalOptions="Center">
+            <!-- StackLayout principal -->
+            <VerticalStackLayout 
+                Spacing="15"
+                Padding="20,30"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+
+                <!-- Marco principal con fondo semitransparente -->
+                <Border 
+                    Stroke="Black" 
+                    StrokeThickness="1" 
+                    WidthRequest="330"
+                    BackgroundColor="White"
+                    Opacity="0.95"
+                    StrokeShape="RoundRectangle 15"
+                    Padding="15,20">
+
+                    <!-- StackLayout para el contenido -->
+                    <VerticalStackLayout 
+                        Spacing="20" 
+                        Padding="10" 
+                        BackgroundColor="Transparent">
+
+                        <!-- Etiqueta de notificación -->
+                        <Label 
+                            Text="Debido a que se dañaron partes ajenas a la carrocería deberá acudir a un taller para determinar correctamente el costo de la reparación" 
+                            TextColor="OrangeRed" 
+                            FontSize="22" 
+                            FontAttributes="Bold" 
+                            HorizontalOptions="Center" 
+                            HorizontalTextAlignment="Center"
+                            FontFamily="AL" />
+
+                        <!-- Marco con imagen -->
+                        <Border 
+                            StrokeShape="RoundRectangle 15"
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center"
+                            Stroke="Red"
+                            StrokeThickness="1.5"
+                            WidthRequest="220"
+                            HeightRequest="220"
+                            Margin="0,10,0,15">
+
+                            <VerticalStackLayout 
+                                VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                Spacing="15"
+                                Padding="10">
+
+                                <!-- Imagen de carrocería -->
+                                <Image 
+                                    Source="tallera.png"
+                                    Aspect="AspectFit"
+                                    WidthRequest="140"
+                                    HeightRequest="140"
+                                    HorizontalOptions="Center"/>
+
+                                <!-- Botón Continuar -->
+                                <Button 
+                                    x:Name="continuarBtn" 
+                                    Text="CONTINUAR"
+                                    TextColor="White"
+                                    FontAttributes="Bold"
+                                    BackgroundColor="OrangeRed"
+                                    BorderColor="Maroon"
+                                    BorderWidth="1"
+                                    CornerRadius="20"
+                                    WidthRequest="180"
+                                    HeightRequest="45"
+                                    HorizontalOptions="Center"
+                                    Clicked="ButtonContinuar"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <!-- Texto adicional de instrucción (opcional) -->
+                        <Label 
+                            Text="Toque el botón para continuar al siguiente paso"
+                            TextColor="Gray"
+                            FontSize="14"
+                            HorizontalOptions="Center"
+                            HorizontalTextAlignment="Center"/>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
     </Grid>
 </ContentPage>

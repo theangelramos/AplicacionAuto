@@ -4,40 +4,41 @@
              x:Class="AplicacionAuto.AjenaCarroceria">
 
     <ContentPage.Content>
-        <!-- Contenido principal -->
-        <Grid>
-            <!-- Imagen -->
-            <Image Source="app.png" Aspect="Fill" />
+        <!-- Contenido principal con ScrollView -->
+        <ScrollView VerticalScrollBarVisibility="Always">
+            <Grid>
+                <!-- Imagen de fondo -->
+                <Image Source="app.png" Aspect="Fill" />
 
-            <!-- StackLayout principal -->
-            <StackLayout Spacing="10"
-                         Padding="30,10,30,0"
+                <!-- StackLayout principal -->
+                <StackLayout Spacing="10"
+                         Padding="30,30,30,30"
                          VerticalOptions="Center"
                          HorizontalOptions="Center">
 
-                <!-- Marco -->
-                <Border StrokeThickness="1"
+                    <!-- Marco -->
+                    <Border StrokeThickness="1"
                        Stroke="Black"
                        WidthRequest="300"
                        StrokeShape="Rectangle">
 
-                    <!-- StackLayout interno -->
-                    <StackLayout Spacing="1"
-                                 Padding="1"
+                        <!-- StackLayout interno -->
+                        <StackLayout Spacing="1"
+                                 Padding="10"
                                  BackgroundColor="Transparent">
 
-                        <!-- Etiqueta -->
-                        <Label Text="Se daño alguna parte ajena a la carroceria? como: Faros, espejos, ventanas, etc."
+                            <!-- Etiqueta -->
+                            <Label Text="Se daño alguna parte ajena a la carroceria? como: Faros, espejos, ventanas, etc."
                                TextColor="OrangeRed"
                                FontSize="30"
                                FontAttributes="Bold"
                                HorizontalOptions="Center"
-                               Margin="0,0,0,40"
+                               Margin="0,10,0,40"
                                HorizontalTextAlignment="Center"
                                FontFamily="AL" />
 
-                        <!-- Marco anidado -->
-                        <Border StrokeThickness="1"
+                            <!-- Marco anidado -->
+                            <Border StrokeThickness="1"
                                Stroke="Red"
                                HorizontalOptions="Fill"
                                VerticalOptions="Fill"
@@ -46,23 +47,23 @@
                                HeightRequest="200"
                                Margin="0,0,0,15">
 
-                            <!-- StackLayout interno -->
-                            <StackLayout VerticalOptions="Center"
+                                <!-- StackLayout interno -->
+                                <StackLayout VerticalOptions="Center"
                                          HorizontalOptions="Center">
 
-                                <!-- Imagen -->
-                                <Image Source="carroceria.png"
+                                    <!-- Imagen -->
+                                    <Image Source="carroceria.png"
                                        Aspect="AspectFit"
                                        WidthRequest="100"
                                        HeightRequest="100"/>
 
-                                <!-- StackLayout interno con botones -->
-                                <StackLayout Orientation="Horizontal"
+                                    <!-- StackLayout interno con botones -->
+                                    <StackLayout Orientation="Horizontal"
                                              HorizontalOptions="Fill"
                                              Margin="0,20,0,0">
 
-                                    <!-- Botón "Si" -->
-                                    <Button x:Name="siBtn" Text="Si"
+                                        <!-- Botón "Si" -->
+                                        <Button x:Name="siBtn" Text="Si"
                                             TextColor="Black"
                                             BackgroundColor="Transparent"
                                             BorderColor="Maroon"
@@ -70,8 +71,8 @@
                                             HorizontalOptions="StartAndExpand"
                                             Clicked="ButtonSi" />
 
-                                    <!-- Botón "No" -->
-                                    <Button x:Name="noBtn"
+                                        <!-- Botón "No" -->
+                                        <Button x:Name="noBtn"
                                             Text="No"
                                             TextColor="Black"
                                             BackgroundColor="Transparent"
@@ -79,16 +80,17 @@
                                             BorderWidth="2"
                                             HorizontalOptions="EndAndExpand"
                                             Clicked="ButtonNo" />
+                                    </StackLayout>
+
                                 </StackLayout>
 
-                            </StackLayout>
+                            </Border>
 
-                        </Border>
+                        </StackLayout>
+                    </Border>
 
-                    </StackLayout>
-                </Border>
-
-            </StackLayout>
-        </Grid>
+                </StackLayout>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

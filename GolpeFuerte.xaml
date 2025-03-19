@@ -6,84 +6,154 @@
 
     <!-- Contenido principal -->
     <Grid>
-
         <!-- Imagen de Fondo -->
         <Image Source="app.png" Aspect="Fill" />
 
-        <!-- Imagen de Ayuda en la esquina superior derecha -->
-        <StackLayout HorizontalOptions="End" VerticalOptions="Start">
-            <Image Source="pregunta.png" Aspect="AspectFit" WidthRequest="30" HeightRequest="30" Margin="0,20,40,0">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnImageTapped" />
-                </Image.GestureRecognizers>
-            </Image>
-        </StackLayout>
+        <!-- ScrollView principal que contiene todo el contenido -->
+        <ScrollView VerticalScrollBarVisibility="Default">
+            <VerticalStackLayout 
+                Spacing="15"
+                Padding="20,40,20,30"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
 
-        <!-- StackLayout principal -->
-        <StackLayout Spacing="10"
-                     Padding="30,10,30,0"
-                     VerticalOptions="Center"
-                     HorizontalOptions="Center">
+                <!-- Título con fondo semitransparente para mejor legibilidad -->
+                <Border 
+                    BackgroundColor="White" 
+                    Opacity="0.9" 
+                    StrokeShape="RoundRectangle 10"
+                    Padding="15,10">
+                    <Label 
+                        Text="Adjunte fotografías de la parte o partes afectadas del vehículo"
+                        TextColor="OrangeRed"
+                        FontSize="24"
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Center"
+                        FontFamily="AL" />
+                </Border>
 
-            <!-- Marco -->
-            <Border StrokeThickness="0"
-                   BackgroundColor="Transparent"
-                   WidthRequest="250" 
-                   Margin="0,30,0,0">
+                <!-- Etiqueta de instrucción -->
+                <Label 
+                    Text="(Máximo 3 imágenes)"
+                    TextColor="Black"
+                    FontSize="18"
+                    HorizontalOptions="Center"
+                    Margin="0,0,0,10" />
 
-                <!-- ScrollView con Margin en la parte superior -->
-                <ScrollView Margin="0,40,0,0">
-                    <VerticalStackLayout Spacing="10">
-                        <!-- Etiqueta -->
-                        <Label Text="Adjunte Fotografias de la parte o partes afectadas del vehiculo (Maximo 3 Imagenes)"
-                               TextColor="Black"
-                               FontSize="27"
-                               HorizontalTextAlignment="Center"
-                               Margin="0,15,0,0"
-                               FontFamily="AL" />
+                <!-- Botón para seleccionar fotografías -->
+                <Button 
+                    Text="SELECCIONAR FOTOGRAFÍAS"
+                    TextColor="White"
+                    WidthRequest="280"
+                    FontAttributes="Bold"
+                    CornerRadius="20"
+                    BackgroundColor="OrangeRed"
+                    HeightRequest="50"
+                    Margin="0,10,0,20"
+                    Clicked="selectedImage_Clicked" />
 
-                        <!-- Botón para seleccionar fotografías -->
-                        <Button Text="Seleccionar Fotografias"
-                                TextColor="Gold"
-                                WidthRequest="300"
-                                FontAttributes="Bold"
-                                CornerRadius="20"
-                                BackgroundColor="DarkRed"
-                                Margin="0,40,0,50"
-                                Clicked="selectedImage_Clicked" />
+                <!-- Contenedor de imágenes con diseño mejorado -->
+                <Border 
+                    BackgroundColor="White" 
+                    Opacity="0.9"
+                    StrokeShape="RoundRectangle 15"
+                    Padding="15"
+                    Margin="0,0,0,20">
 
-                        <!-- Imagen 1 -->
-                        <Image x:Name="selectedImage1"
-                               WidthRequest="200"
-                               HeightRequest="200"
-                               Aspect="AspectFit" />
+                    <VerticalStackLayout Spacing="15">
+                        <!-- Título de la sección de imágenes -->
+                        <Label 
+                            Text="Imágenes seleccionadas:"
+                            TextColor="Black"
+                            FontSize="18"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            Margin="0,0,0,5" />
 
-                        <!-- Imagen 2 -->
-                        <Image x:Name="selectedImage2"
-                               WidthRequest="200"
-                               HeightRequest="200"
-                               Aspect="AspectFit" />
+                        <!-- Imagen 1 con borde y etiqueta -->
+                        <Frame 
+                            BorderColor="Gray" 
+                            CornerRadius="10" 
+                            Padding="5">
+                            <VerticalStackLayout>
+                                <Label 
+                                    Text="Imagen 1" 
+                                    HorizontalOptions="Center"
+                                    FontAttributes="Bold" />
+                                <Image 
+                                    x:Name="selectedImage1"
+                                    HeightRequest="200"
+                                    Aspect="AspectFit"
+                                    HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Frame>
 
-                        <!-- Imagen 3 -->
-                        <Image x:Name="selectedImage3"
-                               WidthRequest="200"
-                               HeightRequest="200"
-                               Aspect="AspectFit" />
+                        <!-- Imagen 2 con borde y etiqueta -->
+                        <Frame 
+                            BorderColor="Gray" 
+                            CornerRadius="10" 
+                            Padding="5">
+                            <VerticalStackLayout>
+                                <Label 
+                                    Text="Imagen 2" 
+                                    HorizontalOptions="Center"
+                                    FontAttributes="Bold" />
+                                <Image 
+                                    x:Name="selectedImage2"
+                                    HeightRequest="200"
+                                    Aspect="AspectFit"
+                                    HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Frame>
 
-                        <!-- Botón Continuar -->
-                        <Button x:Name="continueButton"
-                                Text="Continuar"
-                                TextColor="Gold"
-                                WidthRequest="300"
-                                FontAttributes="Bold"
-                                CornerRadius="20"
-                                BackgroundColor="DarkRed"
-                                Margin="50,30,50,110"
-                                IsEnabled="False"
-                                Clicked="ButtonContinuar"/>
+                        <!-- Imagen 3 con borde y etiqueta -->
+                        <Frame 
+                            BorderColor="Gray" 
+                            CornerRadius="10" 
+                            Padding="5">
+                            <VerticalStackLayout>
+                                <Label 
+                                    Text="Imagen 3" 
+                                    HorizontalOptions="Center"
+                                    FontAttributes="Bold" />
+                                <Image 
+                                    x:Name="selectedImage3"
+                                    HeightRequest="200"
+                                    Aspect="AspectFit"
+                                    HorizontalOptions="Center" />
+                            </VerticalStackLayout>
+                        </Frame>
                     </VerticalStackLayout>
-                </ScrollView>
-            </Border>
-        </StackLayout>
+                </Border>
+
+                <!-- Botón Continuar -->
+                <Button 
+                    x:Name="continueButton"
+                    Text="CONTINUAR"
+                    TextColor="White"
+                    WidthRequest="280"
+                    FontAttributes="Bold"
+                    CornerRadius="20"
+                    BackgroundColor="OrangeRed"
+                    HeightRequest="50"
+                    Margin="0,10,0,20"
+                    IsEnabled="False"
+                    Clicked="ButtonContinuar"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Imagen de Ayuda en la esquina superior derecha (fuera del ScrollView) -->
+        <Image 
+            Source="pregunta.png" 
+            Aspect="AspectFit" 
+            WidthRequest="35" 
+            HeightRequest="35" 
+            HorizontalOptions="End" 
+            VerticalOptions="Start"
+            Margin="0,20,20,0">
+            <Image.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnImageTapped" />
+            </Image.GestureRecognizers>
+        </Image>
     </Grid>
 </ContentPage>

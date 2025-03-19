@@ -104,7 +104,6 @@ namespace AplicacionAuto
             await DisplayAlert("Ayuda", descripcion, "Aceptar");
         }
 
-
         static string GenerarNombreAleatorio()
         {
             Random random = new Random();
@@ -146,12 +145,11 @@ namespace AplicacionAuto
 
         async private void Button_Clicked(object sender, EventArgs e)
         {
+            siguienteBtn.IsEnabled = false;
+
             try
             {
-                // Deshabilitar el botón para evitar múltiples clics
-                siguienteBtn.IsEnabled = false;
-
-                // Mostrar indicador de carga
+                // Usar el indicador de actividad de MAUI en lugar de UserDialogs
                 var loadingPage = new ContentPage
                 {
                     Content = new VerticalStackLayout
@@ -177,68 +175,73 @@ namespace AplicacionAuto
                     }
                 };
 
-                // Mostrar página de carga
                 await Navigation.PushModalAsync(loadingPage);
 
-                await Task.Run(async () =>
+                // Crear una instancia de la clase PDF
+                PDF pdfGenerator = new PDF("contenido del pdf"); // Ajusta esto según tus necesidades
+
+                try
                 {
-                    try
+                    // Aquí llama al método correspondiente de generación de PDF según tus datos
+                    if (!string.IsNullOrEmpty(tipoGolpe1) && imagenesGolpeFuerte1 != null && imagenesGolpeFuerte1.Count > 0)
                     {
-                        // Validar campos
-                        if (ValidarCampos())
-                        {
-                            // Obtener datos de los campos
-                            string nombre = txtNombreCompleto.Text.Trim();
-                            string correo = txtCorreoElectronico.Text.Trim();
-                            string telefono = txtTelefono.Text.Trim();
-                            string estado = txtEstado.Text.Trim();
-                            string municipio = txtMunicipio.Text.Trim();
-
-                            // Crear usuario
-                            UsuarioDTO usuario = new UsuarioDTO()
-                            {
-                                NombreCompleto = nombre,
-                                CorreoElectronico = correo,
-                                Telefono = telefono,
-                                Estado = estado,
-                                Municipio = municipio,
-                                Estatus = true
-                            };
-
-                            // Enviar datos de usuario
-                            await EnviarDatosUsuario(usuario);
-                        }
-                        else
-                        {
-                            await MainThread.InvokeOnMainThreadAsync(async () =>
-                            {
-                                await DisplayAlert("Datos Incorrectos", "Debes llenar todos los campos", "Aceptar");
-                            });
-                        }
+                        // Genera PDF para golpe fuerte con imágenes
+                        ruta = await pdfGenerator.GenerarPDFGFTV(
+                            "Folio", datosAuto1.Marca, datosAuto1.Submarca, datosAuto1.Modelo,
+                            datosAuto1.Tipo, datosAuto1.Version, categoriaColor, datosAuto1.Color,
+                            datosAuto1.Acabado, servicio1, prioridad1, taller1,
+                            fecha1, hora1, txtNombreCompleto.Text, txtCorreoElectronico.Text,
+                            txtTelefono.Text, txtEstado.Text, txtMunicipio.Text,
+                            tipoGolpe1, imagenesGolpeFuerte1, opcionTodo1, paquete1, presupuesto);
                     }
-                    catch (Exception ex)
+                    else if (datosGolpes1 != null && datosGolpes1.Count > 0)
                     {
-                        await MainThread.InvokeOnMainThreadAsync(async () =>
-                        {
-                            await DisplayAlert("Error", $"Ocurrió un problema: {ex.Message}", "Aceptar");
-                        });
+                        // Genera PDF para servicio con datos de golpes
+                        ruta = await pdfGenerator.GenerarPDF(
+                            "Folio", datosAuto1.Marca, datosAuto1.Submarca, datosAuto1.Modelo,
+                            datosAuto1.Tipo, datosAuto1.Version, categoriaColor, datosAuto1.Color,
+                            datosAuto1.Acabado, servicio1, paquete1, prioridad1,
+                            datosAuto1.Tipo, taller1, fecha1, hora1,
+                            txtNombreCompleto.Text, txtCorreoElectronico.Text, txtTelefono.Text,
+                            txtEstado.Text, txtMunicipio.Text, presupuesto,
+                            opcionTodo1, tipoGolpe1, datosGolpes1, partesSeleccionadasPE1);
                     }
-                });
+                    else
+                    {
+                        // Genera PDF básico sin datos específicos
+                        ruta = await pdfGenerator.GenerarPDFSinDatos(
+                            "Folio", taller1, fecha1, hora1,
+                            txtNombreCompleto.Text, txtCorreoElectronico.Text, txtTelefono.Text,
+                            txtEstado.Text, txtMunicipio.Text);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Error al generar PDF", $"Detalles: {ex.Message}", "Aceptar");
+                    Console.WriteLine($"Error detallado: {ex}");
+                }
 
-                // Cerrar página de carga
                 await Navigation.PopModalAsync();
 
-                // Subir archivo y procesar
-                await UploadFileAsync(ruta);
-                CerrarApp("Proceso Completado", "La aplicación se cerrará sola");
+                // Comprobar que ruta no sea nula antes de subir archivo
+                if (!string.IsNullOrEmpty(ruta) && File.Exists(ruta))
+                {
+                    await UploadFileAsync(ruta);
+                    CerrarApp("Proceso Completado", "La aplicación se cerrará sola");
+                }
+                else
+                {
+                    await DisplayAlert("Aviso", "No se generó archivo para subir o no se pudo acceder al archivo", "Aceptar");
+                    Console.WriteLine($"Ruta del archivo: {ruta}, ¿Existe? {(ruta != null ? File.Exists(ruta).ToString() : "La ruta es nula")}");
+                }
             }
             catch (Exception ex)
             {
                 await DisplayAlert("Error", $"Ocurrió un problema: {ex.Message}", "Aceptar");
+                Console.WriteLine($"Error completo: {ex}");
             }
             finally
             {
-                // Volver a habilitar el botón
                 siguienteBtn.IsEnabled = true;
             }
         }
@@ -305,29 +308,48 @@ namespace AplicacionAuto
 
         private async Task UploadFileAsync(string filePath)
         {
-            using (HttpClient client = new HttpClient())
+            try
             {
-                using (var form = new MultipartFormDataContent())
+                if (string.IsNullOrEmpty(filePath))
                 {
-                    var fileContent = new ByteArrayContent(File.ReadAllBytes(filePath));
-                    fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-                    {
-                        Name = "\"Archivo\"",
-                        FileName = "\"" + Path.GetFileName(filePath) + "\""
-                    };
-                    form.Add(fileContent);
+                    await DisplayAlert("Error", "La ruta del archivo es inválida", "OK");
+                    return;
+                }
 
-                    HttpResponseMessage response = await client.PostAsync("https://auto-universe.com.mx/Upload/Subir", form);
+                if (!File.Exists(filePath))
+                {
+                    await DisplayAlert("Error", "El archivo no existe en la ruta especificada", "OK");
+                    return;
+                }
 
-                    if (response.IsSuccessStatusCode)
+                using (HttpClient client = new HttpClient())
+                {
+                    using (var form = new MultipartFormDataContent())
                     {
-                        await DisplayAlert("Operacion Exitosa", "Archivo almacenado en la nube", "OK");
-                    }
-                    else
-                    {
-                        await DisplayAlert("Error fatal: ", response.StatusCode.ToString(), "OK");
+                        var fileContent = new ByteArrayContent(File.ReadAllBytes(filePath));
+                        fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                        {
+                            Name = "\"Archivo\"",
+                            FileName = "\"" + Path.GetFileName(filePath) + "\""
+                        };
+                        form.Add(fileContent);
+
+                        HttpResponseMessage response = await client.PostAsync("https://auto-universe.com.mx/Upload/Subir", form);
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            await DisplayAlert("Operación Exitosa", "Archivo almacenado en la nube", "OK");
+                        }
+                        else
+                        {
+                            await DisplayAlert("Error en el servidor", $"Código: {response.StatusCode}", "OK");
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error al subir archivo", ex.Message, "OK");
             }
         }
     }

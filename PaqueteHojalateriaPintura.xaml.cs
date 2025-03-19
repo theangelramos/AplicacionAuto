@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
 
@@ -11,82 +12,159 @@ namespace AplicacionAuto
 {
     public partial class PaqueteHojalateriaPintura : ContentPage
     {
-        PeticionHTTP peticion = new PeticionHTTP(Urls.UrlServer());
+        // HTTP Request handler
+        private readonly PeticionHTTP peticion;
 
-        DatosAuto datosAuto1;
-        String prioridad1;
-        String servicio1;
-        String tipoGolpe1;
-        List<GolpeMedida> datosGolpes1;
-        String paquete;
-        String opcionTodo1;
-        List<Imagen> imagenesGolpeFuerte = new List<Imagen>();
+        // Data fields
+        private DatosAuto datosAuto;
+        private string prioridad;
+        private string servicio;
+        private string tipoGolpe;
+        private List<GolpeMedida> datosGolpes;
+        private string paquete;
+        private string opcionTodo;
+        private List<Imagen> imagenesGolpeFuerte;
         private List<string> partesSeleccionadasPE;
-        List<Imagen> imagenesTodoElVehiculo;
+        private List<Imagen> imagenesTodoElVehiculo;
 
-        public PaqueteHojalateriaPintura(DatosAuto datosAuto, String prioridad, String servicio, String tipoGolpe, ObservableCollection<GolpeMedida> datosGolpes)
+        public PaqueteHojalateriaPintura(DatosAuto datosAuto, String prioridad, String servicio,
+                                         String tipoGolpe, ObservableCollection<GolpeMedida> datosGolpes)
         {
             InitializeComponent();
 
-            peticion.PedirComunicacion("tiposerviciopaquete/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Get("token", ""));
-            String json = peticion.ObtenerJson();
+            // Inicializar la clase de petición HTTP
+            peticion = new PeticionHTTP(Urls.UrlServer());
 
-            var tipoServicioPaquete = JsonConvertidor.Json_ListaObjeto<TipoServicioPaqueteDTO>(json);
+            // Almacenar los parámetros pasados al constructor
+            this.datosAuto = datosAuto;
+            this.prioridad = prioridad;
+            this.servicio = servicio;
+            this.tipoGolpe = tipoGolpe;
+            this.datosGolpes = new List<GolpeMedida>(datosGolpes);
 
-            var descripciones = tipoServicioPaquete.Where(c => c.TipoServicioID == 1).ToList();
+            // Inicializar listas vacías
+            this.imagenesGolpeFuerte = new List<Imagen>();
+            this.partesSeleccionadasPE = new List<string>();
+            this.imagenesTodoElVehiculo = new List<Imagen>();
 
-            lblEconomico.Text = descripciones[0].Descripcion;
-            lblIntermedio.Text = descripciones[1].Descripcion;
-            lblPro.Text = descripciones[2].Descripcion;
-            lblPlus.Text = descripciones[3].Descripcion;
-            datosAuto1 = datosAuto;
-            prioridad1 = prioridad;
-            servicio1 = servicio;
-            tipoGolpe1 = tipoGolpe;
-            datosGolpes1 = new List<GolpeMedida>(datosGolpes);
+            // Cargar descripciones de paquetes
+            LoadPackageData();
         }
 
+        private void LoadPackageData()
+        {
+            try
+            {
+                // Solicitar datos de tipos de servicio
+                peticion.PedirComunicacion(
+                    "tiposerviciopaquete/Obtener",
+                    MetodoHTTP.GET,
+                    TipoContenido.JSON,
+                    Preferences.Get("token", "")
+                );
+
+                String json = peticion.ObtenerJson();
+
+                // Convertir JSON a lista de objetos
+                var tipoServicioPaquete = JsonConvertidor.Json_ListaObjeto<TipoServicioPaqueteDTO>(json);
+
+                // Filtrar descripciones para el tipo de servicio 1 (Hojalatería y Pintura)
+                var descripciones = tipoServicioPaquete.Where(c => c.TipoServicioID == 1).ToList();
+
+                // Configurar etiquetas con las descripciones
+                if (descripciones.Count >= 4)
+                {
+                    lblEconomico.Text = descripciones[0].Descripcion;
+                    lblIntermedio.Text = descripciones[1].Descripcion;
+                    lblPro.Text = descripciones[2].Descripcion;
+                    lblPlus.Text = descripciones[3].Descripcion;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores básico
+                DisplayAlert("Error", "No se pudieron cargar los datos de paquetes: " + ex.Message, "Aceptar");
+            }
+        }
+
+        // Resetear estados de botones cuando la página aparece
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            // Habilitar todos los botones
             economicoBtn.IsEnabled = true;
             intermedioBtn.IsEnabled = true;
             proBtn.IsEnabled = true;
             plusBtn.IsEnabled = true;
         }
 
+        // Manejadores de eventos para los botones de paquetes
         private async void ButtonEconomico(object sender, EventArgs e)
         {
             economicoBtn.IsEnabled = false;
             paquete = "Económico";
-            await Navigation.PushAsync(new Mapa(datosAuto1, prioridad1, servicio1, opcionTodo1, tipoGolpe1, datosGolpes1, paquete, imagenesGolpeFuerte, partesSeleccionadasPE, imagenesTodoElVehiculo));
+            await NavigateToMap();
         }
 
         private async void ButtonIntermedio(object sender, EventArgs e)
         {
             intermedioBtn.IsEnabled = false;
             paquete = "Intermedio";
-            await Navigation.PushAsync(new Mapa(datosAuto1, prioridad1, servicio1, opcionTodo1, tipoGolpe1, datosGolpes1, paquete, imagenesGolpeFuerte, partesSeleccionadasPE, imagenesTodoElVehiculo));
+            await NavigateToMap();
         }
 
         private async void ButtonPro(object sender, EventArgs e)
         {
             proBtn.IsEnabled = false;
             paquete = "Profesional";
-            await Navigation.PushAsync(new Mapa(datosAuto1, prioridad1, servicio1, opcionTodo1, tipoGolpe1, datosGolpes1, paquete, imagenesGolpeFuerte, partesSeleccionadasPE, imagenesTodoElVehiculo));
+            await NavigateToMap();
         }
 
         private async void ButtonPlus(object sender, EventArgs e)
         {
             plusBtn.IsEnabled = false;
             paquete = "Plus";
-            await Navigation.PushAsync(new Mapa(datosAuto1, prioridad1, servicio1, opcionTodo1, tipoGolpe1, datosGolpes1, paquete, imagenesGolpeFuerte, partesSeleccionadasPE, imagenesTodoElVehiculo));
+            await NavigateToMap();
         }
 
+        // Botón de Siguiente
+        private async void ButtonSiguiente(object sender, EventArgs e)
+        {
+            // Verificar si se ha seleccionado un paquete
+            if (string.IsNullOrEmpty(paquete))
+            {
+                await DisplayAlert("Atención", "Por favor, selecciona un paquete antes de continuar", "Aceptar");
+                return;
+            }
+
+            await NavigateToMap();
+        }
+
+        // Método auxiliar para la navegación
+        private async Task NavigateToMap()
+        {
+            await Navigation.PushAsync(new Mapa(
+                datosAuto,
+                prioridad,
+                servicio,
+                opcionTodo,
+                tipoGolpe,
+                datosGolpes,
+                paquete,
+                imagenesGolpeFuerte,
+                partesSeleccionadasPE,
+                imagenesTodoElVehiculo
+            ));
+        }
+
+        // Manejador para el botón de ayuda
         private async void OnImageTapped(object sender, EventArgs e)
         {
-            string descripcion = "Selecciona un paquete de hojalatería y pintura de acuerdo a tus necesidades. Cada paquete tiene diferentes características y precios. " +
-                "¡Estamos aquí para brindarte el mejor servicio!";
+            string descripcion = "Selecciona un paquete de hojalatería y pintura de acuerdo a tus necesidades. " +
+                                "Cada paquete tiene diferentes características y precios. " +
+                                "¡Estamos aquí para brindarte el mejor servicio!";
+
             await DisplayAlert("Ayuda", descripcion, "Aceptar");
         }
     }

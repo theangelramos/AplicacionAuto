@@ -12,143 +12,182 @@
 
     <!-- Contenido principal -->
     <Grid>
+        <!-- Imagen de fondo -->
         <Image Source="app.png" Aspect="Fill" />
 
+        <!-- Botón de ayuda -->
         <StackLayout HorizontalOptions="End" VerticalOptions="Start">
-            <Image Source="pregunta.png" Aspect="AspectFit" WidthRequest="40" HeightRequest="40" Margin="0,5,60,0">
+            <Image Source="pregunta.png" 
+                   Aspect="AspectFit" 
+                   WidthRequest="40" 
+                   HeightRequest="40" 
+                   Margin="0,5,40,0">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Tapped="OnImageTapped" />
                 </Image.GestureRecognizers>
             </Image>
         </StackLayout>
 
-        <StackLayout Spacing="10"
-                 Padding="30,10,30,0"
-                 VerticalOptions="Center"
-                 HorizontalOptions="Center" 
-                 Margin="0,18,0,0">
+        <!-- Contenido principal con ScrollView -->
+        <ScrollView Margin="10,0" 
+                    VerticalOptions="FillAndExpand" 
+                    VerticalScrollBarVisibility="Default">
 
-            <!-- Marco -->
-            <Border StrokeThickness="0"
-                   BackgroundColor="Transparent"
-                   WidthRequest="365" 
-                   Margin="-25,20,-25,0">
-                <ScrollView>
-                    <StackLayout Spacing="10">
-                        <!-- Etiqueta de título -->
-                        <Label Text="Pintura"
-                               FontAttributes="Bold"
-                               FontSize="27"
+            <VerticalStackLayout Spacing="15" 
+                                 Padding="20,10,20,20" 
+                                 VerticalOptions="Center">
+
+                <!-- Título -->
+                <Label Text="Pintura"
+                       FontAttributes="Bold"
+                       FontSize="25"
+                       HorizontalOptions="Center"
+                       Margin="0,10,0,0"
+                       TextColor="OrangeRed"
+                       FontFamily="CO" />
+
+                <!-- Subtítulo -->
+                <Border BackgroundColor="White" 
+                        Opacity="0.9" 
+                        StrokeShape="RoundRectangle 10"
+                        Padding="15,10">
+                    <Label Text="Ingrese los datos del golpe del vehículo"
+                           FontAttributes="Bold"
+                           FontSize="20"
+                           HorizontalOptions="Center"
+                           TextColor="Black"
+                           FontFamily="CO" 
+                           HorizontalTextAlignment="Center" />
+                </Border>
+
+                <!-- Imagen del vehículo -->
+                <Image Source="vehiculoc.jpg" 
+                       Aspect="AspectFit" 
+                       HorizontalOptions="Center" 
+                       MaximumHeightRequest="200" />
+
+                <!-- Selector de parte del carro -->
+                <Border StrokeThickness="1" 
+                        Stroke="Gold"
+                        StrokeShape="RoundRectangle 35,35,35,35"
+                        Margin="0,10,0,5">
+                    <Picker x:Name="pickerPiezas"                                                   
+                            Title="Seleccionar Parte del carro " 
+                            HorizontalOptions="Fill" 
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black" 
+                            TitleColor="Gray"/>
+                </Border>
+
+                <!-- Botón para seleccionar imagen -->
+                <Button Text="Seleccionar imagen"
+                        TextColor="Gold"
+                        WidthRequest="300"
+                        FontAttributes="Bold"
+                        CornerRadius="20"
+                        BackgroundColor="DarkRed"
+                        Margin="0,20,0,10" 
+                        Clicked="selectedImage_Clicked"/>
+
+                <!-- Imagen seleccionada -->
+                <Frame BorderColor="Gray" 
+                       CornerRadius="10" 
+                       Padding="10"
+                       Margin="0,0,0,10"
+                       BackgroundColor="White"
+                       Opacity="0.9">
+                    <VerticalStackLayout>
+                        <Label Text="Imagen" 
                                HorizontalOptions="Center"
-                               Margin="0,10,0,0"
+                               FontAttributes="Bold" />
+                        <Image x:Name="selectedImage" 
+                               Margin="0,5,0,5" 
+                               HorizontalOptions="Center" 
+                               HeightRequest="150"
+                               Aspect="AspectFit"
+                               BackgroundColor="Transparent" />
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Selector de diámetro horizontal -->
+                <Border StrokeThickness="1"
+                        Stroke="Red"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 5,5,5,5">
+                    <Picker x:Name="pickerMedidaHorizontal"
+                            Title="Selecciona el diámetro horizontal" 
+                            HorizontalOptions="Fill" 
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black" 
+                            TitleColor="Gray"/>
+                </Border>
+
+                <!-- Selector de diámetro vertical -->
+                <Border StrokeThickness="1" 
+                        Stroke="Red"
+                        Margin="0,10,0,10"
+                        BackgroundColor="White"
+                        StrokeShape="RoundRectangle 5,5,5,5">
+                    <Picker x:Name="pickerMedidaVertical"
+                            Title="Selecciona el diámetro vertical" 
+                            HorizontalOptions="Fill" 
+                            HorizontalTextAlignment="Center"
+                            TextColor="Black" 
+                            TitleColor="Gray"/>
+                </Border>
+
+                <!-- Botón para agregar golpe -->
+                <Button Text="Agregar Golpe"
+                        TextColor="Gold"
+                        WidthRequest="300"
+                        FontAttributes="Bold"
+                        CornerRadius="20"
+                        BackgroundColor="DarkRed"
+                        Margin="0,15,0,5"
+                        Clicked="AgregarGolpe_Clicked"/>
+
+                <!-- Botón para guardar -->
+                <Button x:Name="siguienteBtn"
+                        Text="Guardar"
+                        TextColor="DarkRed"
+                        WidthRequest="300"
+                        FontAttributes="Bold"
+                        CornerRadius="20"
+                        BackgroundColor="Gold"
+                        Margin="0,5,0,15"
+                        IsVisible="False" 
+                        Clicked="Button_Guardar"/>
+
+                <!-- Sección para el listado de golpes agregados -->
+                <Border x:Name="listadoBorder"
+                       BackgroundColor="White"
+                       Opacity="0.95"
+                       Padding="10"
+                       StrokeShape="RoundRectangle 10"
+                       IsVisible="False"
+                       Margin="0,5,0,15">
+                    <VerticalStackLayout Spacing="10">
+                        <!-- Label para título de la lista -->
+                        <Label x:Name="listadoLabel"
+                               Text="Listado de golpes agregados:"
+                               FontAttributes="Bold"
                                TextColor="OrangeRed"
-                               FontFamily="CO" />
+                               FontSize="18"
+                               HorizontalOptions="Center"
+                               Margin="0,5,0,10" />
 
-                        <!-- StackLayout para los elementos internos -->
-                        <StackLayout Padding="20"
-                                     VerticalOptions="CenterAndExpand"
-                                     HorizontalOptions="CenterAndExpand"
-                                     Spacing="10">
+                        <!-- Lista de golpes agregados -->
+                        <CollectionView x:Name="collectionView" 
+                                        HeightRequest="300"
+                                        VerticalOptions="Start" />
+                    </VerticalStackLayout>
+                </Border>
 
-                            <Label Text="Ingrese los datos del golpe del vehiculo"
-                                FontAttributes="Bold"
-                                FontSize="20"
-                                HorizontalOptions="Center"
-                                Margin="0,10,0,0"
-                                TextColor="Black"
-                                FontFamily="CO" 
-                                HorizontalTextAlignment="Center" />
+                <!-- Espaciador para asegurar espacio al final -->
+                <BoxView HeightRequest="30" 
+                         BackgroundColor="Transparent" />
 
-                            <Image Source="vehiculoc.jpg" Aspect="AspectFit" Margin="-25,0" />
-
-                            <StackLayout Margin="0,10" Spacing="5">
-                                <!-- Parte "Carroceria" -->
-                                <Border StrokeThickness="1" 
-                                      Stroke="Gold"
-                                      Padding="5">
-                                    <Border.StrokeShape>
-                                        <RoundRectangle CornerRadius="35" />
-                                    </Border.StrokeShape>
-                                    <Picker x:Name="pickerPiezas"
-                                            Title="Seleccionar Parte del carro " 
-                                            HorizontalOptions="CenterAndExpand" 
-                                            HorizontalTextAlignment="Center"
-                                            TextColor="Black" 
-                                            TitleColor="Gray"/>
-                                </Border>
-                            </StackLayout>
-
-                            <Button Text="Seleccionar imagen"
-                                    TextColor="Gold"
-                                    WidthRequest="300"
-                                    FontAttributes="Bold"
-                                    CornerRadius="20"
-                                    BackgroundColor="DarkRed"
-                                    Margin="0,40,0,50" 
-                                    Clicked="selectedImage_Clicked"/>
-
-                            <!-- Imagen seleccionada -->
-                            <Image x:Name="selectedImage"/>
-
-                            <Border StrokeThickness="1"
-                                  Stroke="Red" 
-                                  Padding="5"
-                                  BackgroundColor="White">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="5" />
-                                </Border.StrokeShape>
-                                <Picker x:Name="pickerMedidaHorizontal"
-                                        Title="Selecciona el diámetro horizontal" 
-                                        HorizontalOptions="CenterAndExpand" 
-                                        HorizontalTextAlignment="Center"
-                                        TextColor="Black" 
-                                        TitleColor="Gray"/>
-                            </Border>
-
-                            <Border StrokeThickness="1" 
-                                  Stroke="Red" 
-                                  Padding="5" 
-                                  Margin="0,10"
-                                  BackgroundColor="White">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="5" />
-                                </Border.StrokeShape>
-                                <Picker x:Name="pickerMedidaVertical"
-                                        Title="Selecciona el diámetro vertical" 
-                                        HorizontalOptions="CenterAndExpand" 
-                                        HorizontalTextAlignment="Center"
-                                        TextColor="Black" 
-                                        TitleColor="Gray"/>
-                            </Border>
-
-                            <!-- Botón para agregar -->
-                            <Button Text="Agregar Golpe"
-                                    TextColor="Gold"
-                                    WidthRequest="300"
-                                    FontAttributes="Bold"
-                                    CornerRadius="20"
-                                    BackgroundColor="DarkRed"
-                                    Margin="0,30,0,0"
-                                    Clicked="AgregarGolpe_Clicked"/>
-
-                            <Button x:Name="siguienteBtn"
-                                    Text="Guardar"
-                                    TextColor="DarkRed"
-                                    WidthRequest="300"
-                                    FontAttributes="Bold"
-                                    CornerRadius="20"
-                                    BackgroundColor="Gold"
-                                    Margin="0,20,0,15"
-                                    IsVisible="False" 
-                                    Clicked="Button_Guardar"/>
-
-                            <!-- El CollectionView se configurará programáticamente -->
-                            <CollectionView x:Name="collectionView" Margin="0,20,0,0" />
-
-                        </StackLayout>
-                    </StackLayout>
-                </ScrollView>
-            </Border>
-        </StackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
     </Grid>
 </ContentPage>

@@ -1,39 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-          xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-          xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
-          x:Class="AplicacionAuto.Mapa"
-          Title="Mapa">
-    <Grid>
-        <Image Source="app.png" Aspect="Fill" />
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AplicacionAuto.Mapa"
+             Title="Mapa">
 
+    <Grid>
+        <!-- Imagen de fondo -->
+        <Image Source="app.png" Aspect="AspectFill" />
+
+        <!-- Botón de ayuda -->
         <StackLayout HorizontalOptions="End" VerticalOptions="Start">
             <ImageButton Source="pregunta.png" 
-                     Aspect="AspectFit" 
-                     WidthRequest="30" 
-                     HeightRequest="30" 
-                     Margin="0,10,50,40"
-                     Clicked="OnImageTapped" />
+                       Aspect="AspectFit" 
+                       WidthRequest="30" 
+                       HeightRequest="30" 
+                       Margin="0,10,50,40"
+                       Clicked="OnImageTapped" />
         </StackLayout>
 
+        <!-- Contenido principal -->
         <VerticalStackLayout BackgroundColor="Transparent" 
                          Margin="0,20,0,0" 
                          Spacing="10">
-            <Label />
+
+            <!-- Título y descripción -->
             <Label Text="Selecciona uno de los talleres" 
-               FontFamily="AL" 
-               IsVisible="False" 
-               x:Name="labelseleccionar" 
-               HorizontalTextAlignment="Center" 
-               TextColor="OrangeRed" 
-               FontSize="20" />
+                 FontFamily="AL" 
+                 IsVisible="False" 
+                 x:Name="labelseleccionar" 
+                 HorizontalTextAlignment="Center" 
+                 TextColor="OrangeRed" 
+                 FontSize="20" />
+
             <Label Text="Localiza talleres cercanos en el mapa y elige el más accesible para ti." 
-               HorizontalTextAlignment="Center" 
-               TextColor="OrangeRed" 
-               FontSize="20" />
-            <maps:Map x:Name="map" 
-                  Margin="0,10,0,0" />
+                 HorizontalTextAlignment="Center" 
+                 TextColor="OrangeRed" 
+                 FontSize="20" 
+                 Margin="10,0" />
+
+            <!-- WebView para mostrar el mapa -->
+            <WebView x:Name="mapWebView" 
+                   HeightRequest="400" 
+                   WidthRequest="400"
+                   HorizontalOptions="Fill"
+                   VerticalOptions="Fill" />
+
+            <!-- Panel de ubicación actual -->
+            <Frame BorderColor="#007AFF" 
+                  BackgroundColor="White" 
+                  CornerRadius="10" 
+                  Margin="20,10"
+                  Padding="15">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Tu ubicación actual" 
+                         FontAttributes="Bold" 
+                         TextColor="#007AFF" 
+                         FontSize="18" />
+                    <Label x:Name="locationLabel" 
+                         Text="Obteniendo ubicación..." 
+                         TextColor="Black" />
+                    <Button x:Name="refreshLocationButton" 
+                          Text="Actualizar Mapa" 
+                          BackgroundColor="#007AFF" 
+                          TextColor="White"
+                          CornerRadius="20"
+                          Margin="0,5,0,0"
+                          Clicked="RefreshMapClicked" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Lista de talleres (alternativa para cuando el WebView falla) -->
+            <VerticalStackLayout x:Name="talleresContainer" Spacing="15" IsVisible="false" />
+
         </VerticalStackLayout>
 
+        <!-- Indicador de actividad mientras se cargan los datos -->
+        <ActivityIndicator IsRunning="{Binding IsBusy}" 
+                          IsVisible="{Binding IsBusy}"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"
+                          Color="OrangeRed"
+                          Scale="2" />
     </Grid>
 </ContentPage>

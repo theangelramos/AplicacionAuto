@@ -2,12 +2,39 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AplicacionAuto.DatosUsuario"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False"
              Title="Datos Usuario">
-
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Entry">
-                <Setter Property="PlaceholderColor" Value="Black" />
+                <Setter Property="PlaceholderColor" Value="Gray" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+
+            <Style x:Key="IconBorderStyle" TargetType="Border">
+                <Setter Property="Stroke" Value="OrangeRed" />
+                <Setter Property="HeightRequest" Value="24" />
+                <Setter Property="WidthRequest" Value="24" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 28" />
+                <Setter Property="Padding" Value="2" />
+            </Style>
+
+            <Style x:Key="EntryBorderStyle" TargetType="Border">
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="Margin" Value="-5,0,0,0" />
+                <Setter Property="Stroke" Value="Orange" />
+                <Setter Property="StrokeThickness" Value="1.5" />
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 15" />
+            </Style>
+
+            <Style x:Key="FieldContainerStyle" TargetType="HorizontalStackLayout">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="Margin" Value="0,12,0,0" />
+                <Setter Property="Spacing" Value="10" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -19,197 +46,140 @@
                HorizontalOptions="Fill" 
                VerticalOptions="Fill"/>
 
+        <!-- ScrollView para garantizar visualización en pantallas pequeñas -->
+        <ScrollView VerticalOptions="Center">
+            <VerticalStackLayout 
+                Spacing="15"
+                Padding="20,15"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+
+                <!-- Título -->
+                <Label Text="Datos del Cliente"
+                       TextColor="OrangeRed"
+                       FontSize="32"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       Margin="0,0,0,15"
+                       FontFamily="CO"/>
+
+                <!-- Marco principal -->
+                <Border 
+                    Stroke="Black" 
+                    StrokeThickness="1"
+                    WidthRequest="330"
+                    BackgroundColor="White"
+                    Opacity="0.95"
+                    StrokeShape="RoundRectangle 15"
+                    Padding="15,20">
+
+                    <!-- Contenido interno -->
+                    <VerticalStackLayout 
+                        Spacing="15" 
+                        Padding="5" 
+                        BackgroundColor="Transparent">
+
+                        <!-- Campo de correo electrónico -->
+                        <HorizontalStackLayout Style="{StaticResource FieldContainerStyle}">
+                            <Border Style="{StaticResource IconBorderStyle}">
+                                <Image Source="correo.png"
+                                       Aspect="AspectFit"/>
+                            </Border>
+                            <Border Style="{StaticResource EntryBorderStyle}">
+                                <Entry x:Name="txtCorreoElectronico"
+                                       Placeholder="Correo electrónico"
+                                       Keyboard="Email"
+                                       Margin="15,0,0,0"/>
+                            </Border>
+                        </HorizontalStackLayout>
+
+                        <!-- Campo de nombre completo -->
+                        <HorizontalStackLayout Style="{StaticResource FieldContainerStyle}">
+                            <Border Style="{StaticResource IconBorderStyle}">
+                                <Image Source="nombre.png"
+                                       Aspect="AspectFit"/>
+                            </Border>
+                            <Border Style="{StaticResource EntryBorderStyle}">
+                                <Entry x:Name="txtNombreCompleto"
+                                       Placeholder="Nombre completo"
+                                       Keyboard="Text"
+                                       Margin="15,0,0,0"/>
+                            </Border>
+                        </HorizontalStackLayout>
+
+                        <!-- Campo de teléfono -->
+                        <HorizontalStackLayout Style="{StaticResource FieldContainerStyle}">
+                            <Border Style="{StaticResource IconBorderStyle}">
+                                <Image Source="telefono.png"
+                                       Aspect="AspectFit"/>
+                            </Border>
+                            <Border Style="{StaticResource EntryBorderStyle}">
+                                <Entry x:Name="txtTelefono"
+                                       Placeholder="Teléfono"
+                                       Keyboard="Telephone"
+                                       Margin="15,0,0,0"/>
+                            </Border>
+                        </HorizontalStackLayout>
+
+                        <!-- Campo de estado -->
+                        <HorizontalStackLayout Style="{StaticResource FieldContainerStyle}">
+                            <Border Style="{StaticResource IconBorderStyle}">
+                                <Image Source="estados.png"
+                                       Aspect="AspectFit"/>
+                            </Border>
+                            <Border Style="{StaticResource EntryBorderStyle}">
+                                <Entry x:Name="txtEstado"
+                                       Placeholder="Estado"
+                                       Keyboard="Text"
+                                       Margin="15,0,0,0"/>
+                            </Border>
+                        </HorizontalStackLayout>
+
+                        <!-- Campo de municipio -->
+                        <HorizontalStackLayout Style="{StaticResource FieldContainerStyle}">
+                            <Border Style="{StaticResource IconBorderStyle}">
+                                <Image Source="municipio.png"
+                                       Aspect="AspectFit"/>
+                            </Border>
+                            <Border Style="{StaticResource EntryBorderStyle}">
+                                <Entry x:Name="txtMunicipio"
+                                       Placeholder="Municipio"
+                                       Keyboard="Text"
+                                       Margin="15,0,0,0"/>
+                            </Border>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Botón Siguiente -->
+                <Button x:Name="siguienteBtn"
+                        Text="SIGUIENTE"
+                        TextColor="White"
+                        WidthRequest="250"
+                        FontAttributes="Bold"
+                        FontSize="18"
+                        CornerRadius="25"
+                        HorizontalOptions="Center"
+                        BackgroundColor="OrangeRed"
+                        BorderColor="Red"
+                        BorderWidth="1"
+                        Margin="0,20,0,10"
+                        HeightRequest="50"
+                        Clicked="Button_Clicked"/>
+            </VerticalStackLayout>
+        </ScrollView>
+
         <!-- Imagen de ayuda -->
         <Image Source="pregunta.png" 
                Aspect="AspectFit" 
-               WidthRequest="30" 
-               HeightRequest="30"
+               WidthRequest="35" 
+               HeightRequest="35"
                HorizontalOptions="End" 
                VerticalOptions="Start"
-               Margin="0,20,30,0">
+               Margin="0,20,20,0">
             <Image.GestureRecognizers>
                 <TapGestureRecognizer Tapped="OnImageTapped"/>
             </Image.GestureRecognizers>
         </Image>
-
-        <!-- StackLayout principal -->
-        <VerticalStackLayout 
-            Spacing="10"
-            Padding="30,10,30,0"
-            VerticalOptions="Center"
-            HorizontalOptions="Center">
-
-            <!-- Marco -->
-            <Border 
-                Stroke="Black" 
-                StrokeThickness="1"
-                WidthRequest="300">
-
-                <!-- Contenido interno -->
-                <VerticalStackLayout 
-                    Spacing="1" 
-                    Padding="1" 
-                    BackgroundColor="Transparent">
-
-                    <!-- Etiqueta -->
-                    <Label Text="Datos del Cliente"
-                           TextColor="OrangeRed"
-                           FontSize="30"
-                           FontAttributes="Bold"
-                           HorizontalOptions="Center"
-                           Margin="0,0,0,40"
-                           FontFamily="CO"/>
-
-                    <!-- Campo de correo electrónico -->
-                    <HorizontalStackLayout 
-                        HorizontalOptions="FillAndExpand">
-                        <Border 
-                            Stroke="OrangeRed"
-                            HeightRequest="20"
-                            WidthRequest="20"
-                            StrokeShape="RoundRectangle 28">
-                            <Image Source="correo.png"
-                                   HeightRequest="20"
-                                   WidthRequest="20"/>
-                        </Border>
-                        <Border 
-                            HeightRequest="60"
-                            Margin="-5,0,0,0"
-                            Stroke="Orange"
-                            BackgroundColor="Transparent"
-                            HorizontalOptions="FillAndExpand"
-                            StrokeShape="RoundRectangle 15">
-                            <Entry x:Name="txtCorreoElectronico"
-                                   Placeholder="Correo electrónico"
-                                   Keyboard="Email"
-                                   Margin="20,0,0,0"
-                                   TextColor="Black"/>
-                        </Border>
-                    </HorizontalStackLayout>
-
-                    <!-- Campo de nombre completo -->
-                    <HorizontalStackLayout 
-                        HorizontalOptions="FillAndExpand"
-                        Margin="0,20,0,0">
-                        <Border 
-                            Stroke="OrangeRed"
-                            HeightRequest="20"
-                            WidthRequest="20"
-                            StrokeShape="RoundRectangle 28">
-                            <Image Source="nombre.png"
-                                   HeightRequest="20"
-                                   WidthRequest="20"/>
-                        </Border>
-                        <Border 
-                            HeightRequest="60"
-                            Margin="-5,0,0,0"
-                            Stroke="Orange"
-                            HorizontalOptions="FillAndExpand"
-                            StrokeShape="RoundRectangle 15">
-                            <Entry x:Name="txtNombreCompleto"
-                                   Placeholder="Nombre completo"
-                                   Keyboard="Text"
-                                   Margin="20,0,0,0"
-                                   TextColor="Black"/>
-                        </Border>
-                    </HorizontalStackLayout>
-
-                    <!-- Campo de teléfono -->
-                    <HorizontalStackLayout 
-                        HorizontalOptions="FillAndExpand"
-                        Margin="0,20,0,0">
-                        <Border 
-                            Stroke="OrangeRed"
-                            HeightRequest="20"
-                            WidthRequest="20"
-                            StrokeShape="RoundRectangle 28">
-                            <Image Source="telefono.png"
-                                   HeightRequest="20"
-                                   WidthRequest="20"/>
-                        </Border>
-                        <Border 
-                            HeightRequest="60"
-                            Margin="-5,0,0,0"
-                            Stroke="Orange"
-                            HorizontalOptions="FillAndExpand"
-                            StrokeShape="RoundRectangle 15">
-                            <Entry x:Name="txtTelefono"
-                                   Placeholder="Teléfono"
-                                   Keyboard="Telephone"
-                                   Margin="20,0,0,0"
-                                   TextColor="Black"/>
-                        </Border>
-                    </HorizontalStackLayout>
-
-                    <!-- Campo de estado -->
-                    <HorizontalStackLayout 
-                        HorizontalOptions="FillAndExpand"
-                        Margin="0,20,0,0">
-                        <Border 
-                            Stroke="OrangeRed"
-                            HeightRequest="20"
-                            WidthRequest="20"
-                            StrokeShape="RoundRectangle 28">
-                            <Image Source="estados.png"
-                                   HeightRequest="20"
-                                   WidthRequest="20"/>
-                        </Border>
-                        <Border 
-                            HeightRequest="60"
-                            Margin="-5,0,0,0"
-                            Stroke="Orange"
-                            HorizontalOptions="FillAndExpand"
-                            StrokeShape="RoundRectangle 15">
-                            <Entry x:Name="txtEstado"
-                                   Placeholder="Estado"
-                                   Keyboard="Text"
-                                   Margin="20,0,0,0"
-                                   TextColor="Black"/>
-                        </Border>
-                    </HorizontalStackLayout>
-
-                    <!-- Campo de municipio -->
-                    <HorizontalStackLayout 
-                        HorizontalOptions="FillAndExpand"
-                        Margin="0,20,0,0">
-                        <Border 
-                            Stroke="OrangeRed"
-                            HeightRequest="20"
-                            WidthRequest="20"
-                            StrokeShape="RoundRectangle 28">
-                            <Image Source="municipio.png"
-                                   HeightRequest="20"
-                                   WidthRequest="20"/>
-                        </Border>
-                        <Border 
-                            HeightRequest="60"
-                            Margin="-5,0,0,0"
-                            Stroke="Orange"
-                            HorizontalOptions="FillAndExpand"
-                            StrokeShape="RoundRectangle 15">
-                            <Entry x:Name="txtMunicipio"
-                                   Placeholder="Municipio"
-                                   Keyboard="Text"
-                                   Margin="20,0,0,0"
-                                   TextColor="Black"/>
-                        </Border>
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
-            </Border>
-
-            <!-- Botón Siguiente -->
-            <Button x:Name="siguienteBtn"
-                    Text="Siguiente"
-                    TextColor="Gold"
-                    WidthRequest="300"
-                    FontAttributes="Bold"
-                    CornerRadius="20"
-                    HorizontalOptions="Center"
-                    BackgroundColor="DarkRed"
-                    BorderColor="Red"
-                    BorderWidth="2"
-                    Margin="0,18,0,0"
-                    Clicked="Button_Clicked"/>
-        </VerticalStackLayout>
     </Grid>
 </ContentPage>

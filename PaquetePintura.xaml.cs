@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
 
@@ -11,89 +12,168 @@ namespace AplicacionAuto
 {
     public partial class PaquetePintura : ContentPage
     {
-        PeticionHTTP peticion = new PeticionHTTP(Urls.UrlServer());
-        DatosAuto datosAuto1;
-        String prioridad1;
-        String servicio1;
-        String tipoGolpe1;
-        List<GolpeMedida> datosGolpes1;
-        String paquete;
-        String opcionTodo1;
-        List<Imagen> imagenesGolpeFuerte1;
-        private List<string> partesSeleccionadasPE1;
-        List<Imagen> imagenesTodoElVehiculo1;
+        // HTTP Request handler
+        private readonly PeticionHTTP peticion;
 
-        public PaquetePintura(DatosAuto datosAuto, String prioridad, String servicio, ObservableCollection<GolpeMedida> datosGolpes, String opcionTodo, List<Imagen> imagenesTodoElVehiculo)
+        // Data fields
+        private DatosAuto datosAuto;
+        private string prioridad;
+        private string servicio;
+        private string tipoGolpe;
+        private List<GolpeMedida> datosGolpes;
+        private string paquete;
+        private string opcionTodo;
+        private List<Imagen> imagenesGolpeFuerte;
+        private List<string> partesSeleccionadasPE;
+        private List<Imagen> imagenesTodoElVehiculo;
+
+        public PaquetePintura(DatosAuto datosAuto, String prioridad, String servicio,
+                           ObservableCollection<GolpeMedida> datosGolpes, String opcionTodo,
+                           List<Imagen> imagenesTodoElVehiculo)
         {
             InitializeComponent();
 
             // Ocultar barra de navegación
             NavigationPage.SetHasNavigationBar(this, false);
 
-            peticion.PedirComunicacion("tiposerviciopaquete/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Get("token", ""));
-            String json = peticion.ObtenerJson();
+            // Inicializar la clase de petición HTTP
+            peticion = new PeticionHTTP(Urls.UrlServer());
 
-            var tipoServicioPaquete = JsonConvertidor.Json_ListaObjeto<TipoServicioPaqueteDTO>(json);
+            // Almacenar los parámetros pasados al constructor
+            this.datosAuto = datosAuto;
+            this.prioridad = prioridad;
+            this.servicio = servicio;
+            this.opcionTodo = opcionTodo;
 
-            var descripciones = tipoServicioPaquete.Where(c => c.TipoServicioID == 1).ToList();
-
-            lblEconomico.Text = descripciones[0].Descripcion;
-            lblIntermedio.Text = descripciones[1].Descripcion;
-            lblPro.Text = descripciones[2].Descripcion;
-            lblPlus.Text = descripciones[3].Descripcion;
-
-            datosAuto1 = datosAuto;
-            prioridad1 = prioridad;
-            servicio1 = servicio;
-            opcionTodo1 = opcionTodo;
             if (datosGolpes != null)
             {
-                datosGolpes1 = new List<GolpeMedida>(datosGolpes);
+                this.datosGolpes = new List<GolpeMedida>(datosGolpes);
             }
-            imagenesTodoElVehiculo1 = imagenesTodoElVehiculo;
+
+            this.imagenesTodoElVehiculo = imagenesTodoElVehiculo;
+
+            // Inicializar listas vacías
+            this.imagenesGolpeFuerte = new List<Imagen>();
+            this.partesSeleccionadasPE = new List<string>();
+
+            // Cargar descripciones de paquetes
+            LoadPackageData();
         }
 
+        private void LoadPackageData()
+        {
+            try
+            {
+                // Solicitar datos de tipos de servicio
+                peticion.PedirComunicacion(
+                    "tiposerviciopaquete/Obtener",
+                    MetodoHTTP.GET,
+                    TipoContenido.JSON,
+                    Preferences.Get("token", "")
+                );
+
+                String json = peticion.ObtenerJson();
+
+                // Convertir JSON a lista de objetos
+                var tipoServicioPaquete = JsonConvertidor.Json_ListaObjeto<TipoServicioPaqueteDTO>(json);
+
+                // Filtrar descripciones para el tipo de servicio 1 (Pintura)
+                var descripciones = tipoServicioPaquete.Where(c => c.TipoServicioID == 1).ToList();
+
+                // Configurar etiquetas con las descripciones
+                if (descripciones.Count >= 4)
+                {
+                    lblEconomico.Text = descripciones[0].Descripcion;
+                    lblIntermedio.Text = descripciones[1].Descripcion;
+                    lblPro.Text = descripciones[2].Descripcion;
+                    lblPlus.Text = descripciones[3].Descripcion;
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de errores básico
+                DisplayAlert("Error", "No se pudieron cargar los datos de paquetes: " + ex.Message, "Aceptar");
+            }
+        }
+
+        // Resetear estados de botones cuando la página aparece
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            // Habilitar todos los botones
             economicoBtn.IsEnabled = true;
             intermedioBtn.IsEnabled = true;
             proBtn.IsEnabled = true;
             plusBtn.IsEnabled = true;
         }
 
+        // Manejadores de eventos para los botones de paquetes
         private async void ButtonPinEconomico(object sender, EventArgs e)
         {
             economicoBtn.IsEnabled = false;
             paquete = "Económico";
-            await Navigation.PushAsync(new Mapa(datosAuto1, prioridad1, servicio1, opcionTodo1, tipoGolpe1, datosGolpes1, paquete, imagenesGolpeFuerte1, partesSeleccionadasPE1, imagenesTodoElVehiculo1));
+            await NavigateToMap();
         }
 
         private async void ButtonPinIntermedio(object sender, EventArgs e)
         {
             intermedioBtn.IsEnabled = false;
             paquete = "Intermedio";
-            await Navigation.PushAsync(new Mapa(datosAuto1, prioridad1, servicio1, opcionTodo1, tipoGolpe1, datosGolpes1, paquete, imagenesGolpeFuerte1, partesSeleccionadasPE1, imagenesTodoElVehiculo1));
+            await NavigateToMap();
         }
 
         private async void ButtonPinPro(object sender, EventArgs e)
         {
             proBtn.IsEnabled = false;
             paquete = "Profesional";
-            await Navigation.PushAsync(new Mapa(datosAuto1, prioridad1, servicio1, opcionTodo1, tipoGolpe1, datosGolpes1, paquete, imagenesGolpeFuerte1, partesSeleccionadasPE1, imagenesTodoElVehiculo1));
+            await NavigateToMap();
         }
 
         private async void ButtonPinPlus(object sender, EventArgs e)
         {
             plusBtn.IsEnabled = false;
             paquete = "Plus";
-            await Navigation.PushAsync(new Mapa(datosAuto1, prioridad1, servicio1, opcionTodo1, tipoGolpe1, datosGolpes1, paquete, imagenesGolpeFuerte1, partesSeleccionadasPE1, imagenesTodoElVehiculo1));
+            await NavigateToMap();
         }
 
+        // Botón de Siguiente
+        private async void ButtonSiguiente(object sender, EventArgs e)
+        {
+            // Verificar si se ha seleccionado un paquete
+            if (string.IsNullOrEmpty(paquete))
+            {
+                await DisplayAlert("Atención", "Por favor, selecciona un paquete antes de continuar", "Aceptar");
+                return;
+            }
+
+            await NavigateToMap();
+        }
+
+        // Método auxiliar para la navegación
+        private async Task NavigateToMap()
+        {
+            await Navigation.PushAsync(new Mapa(
+                datosAuto,
+                prioridad,
+                servicio,
+                opcionTodo,
+                tipoGolpe,
+                datosGolpes,
+                paquete,
+                imagenesGolpeFuerte,
+                partesSeleccionadasPE,
+                imagenesTodoElVehiculo
+            ));
+        }
+
+        // Manejador para el botón de ayuda
         private async void OnImageTapped(object sender, EventArgs e)
         {
-            string descripcion = "Selecciona un paquete de pintura de acuerdo a tus necesidades. Cada paquete tiene diferentes características y precios. " +
-                "¡Estamos aquí para brindarte el mejor servicio!";
+            string descripcion = "Selecciona un paquete de pintura de acuerdo a tus necesidades. " +
+                                "Cada paquete tiene diferentes características y precios. " +
+                                "¡Estamos aquí para brindarte el mejor servicio!";
+
             await DisplayAlert("Ayuda", descripcion, "Aceptar");
         }
     }
