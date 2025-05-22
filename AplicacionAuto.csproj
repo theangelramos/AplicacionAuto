@@ -184,7 +184,7 @@
 
   <ItemGroup>
     <Reference Include="HTTPupt">
-      <HintPath>~/Desktop/AplicacionAuto/Libs/HTTPupt.dll</HintPath>
+      <HintPath>Libs/HTTPupt.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>
