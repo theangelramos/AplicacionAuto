@@ -1,11 +1,65 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AplicacionAuto.PaquetePulidoEncerado">
+             x:Class="AplicacionAuto.PaquetePulidoEncerado"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
+    <!-- Recursos para la página -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Estilo para los botones de paquetes -->
+            <Style x:Key="BotonPaquete" TargetType="Button">
+                <Setter Property="TextColor" Value="#8b0000" />
+                <Setter Property="BackgroundColor" Value="#ffd700" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="BorderColor" Value="Maroon" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="WidthRequest" Value="100" />
+                <Setter Property="HeightRequest" Value="35" />
+                <Setter Property="Margin" Value="0,5,0,10" />
+            </Style>
+
+            <!-- Estilo para los bordes de paquetes -->
+            <Style x:Key="BordePaquete" TargetType="Border">
+                <Setter Property="StrokeShape" Value="RoundRectangle 10" />
+                <Setter Property="Stroke" Value="Red" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="WidthRequest" Value="150" />
+                <Setter Property="HeightRequest" Value="180" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="BackgroundColor" Value="White" />
+            </Style>
+
+            <!-- Estilo para títulos de paquetes -->
+            <Style x:Key="TituloPaquete" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="Margin" Value="0,5,0,0" />
+            </Style>
+
+            <!-- Estilo para descripciones de paquetes -->
+            <Style x:Key="DescripcionPaquete" TargetType="Label">
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="Margin" Value="3,0,3,5" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+                <Setter Property="MaxLines" Value="5" />
+                <Setter Property="VerticalOptions" Value="FillAndExpand" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <Grid>
         <!-- Imagen de fondo -->
         <Image Source="app.png" Aspect="Fill" />
 
+        <!-- Botón de ayuda -->
         <StackLayout HorizontalOptions="End" VerticalOptions="Start">
             <Image Source="pregunta.png" Aspect="AspectFit" WidthRequest="30" HeightRequest="30" Margin="0,20,30,0">
                 <Image.GestureRecognizers>
@@ -14,176 +68,91 @@
             </Image>
         </StackLayout>
 
+        <!-- Contenido principal -->
+        <ScrollView>
+            <VerticalStackLayout
+                Spacing="0"
+                Padding="10,30,10,30"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
 
-        <VerticalStackLayout
-            Spacing="10"
-            Padding="30,10,30,0"
-            VerticalOptions="Center"
-            HorizontalOptions="Center">
+                <!-- Título principal -->
+                <Label Text="Seleccione un paquete de Pulido y Encerado" 
+                       TextColor="OrangeRed" 
+                       FontSize="22" 
+                       FontAttributes="Bold" 
+                       HorizontalOptions="Center" 
+                       Margin="0,0,0,20" 
+                       FontFamily="CO" 
+                       HorizontalTextAlignment="Center" />
 
-            <!-- Marco principal -->
-            <Border Stroke="Black" StrokeThickness="1" WidthRequest="300">
+                <!-- Marco principal -->
+                <Frame BorderColor="Black" 
+                       BackgroundColor="White" 
+                       Opacity="0.95"
+                       CornerRadius="10" 
+                       Padding="10" 
+                       Margin="0,0,0,20">
 
-                <VerticalStackLayout Spacing="1" Padding="1" BackgroundColor="Transparent">
+                    <!-- Contenedor de paquetes -->
+                    <VerticalStackLayout Spacing="15">
 
-                    <!-- Título -->
-                    <Label Text=" Seleccione un paquete de Pulido y Encerado" TextColor="OrangeRed" FontSize="23" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,0,0,40" FontFamily="CO" HorizontalTextAlignment="Center" />
+                        <!-- Primera fila de paquetes -->
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+                            <!-- Paquete Económico -->
+                            <Border Style="{StaticResource BordePaquete}">
+                                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="5">
+                                    <Label Text="Económico" Style="{StaticResource TituloPaquete}" />
+                                    <Label x:Name="lblEconomico" Style="{StaticResource DescripcionPaquete}" />
+                                    <Button x:Name="economicoBtn"
+                                            Text="Agregar" 
+                                            Style="{StaticResource BotonPaquete}"
+                                            Clicked="ButtonPulEconomico"/>
+                                </VerticalStackLayout>
+                            </Border>
 
-                    <!-- Fila 1 -->
-                    <HorizontalStackLayout HorizontalOptions="Center">
-                        <!-- Cuadro 1 -->
-                        <Border StrokeShape="Rectangle"
-                               Stroke="Red"
-                               StrokeThickness="1"
-                               WidthRequest="220"
-                               HeightRequest="200"
-                               Margin="0,0,0,15">
-                            <VerticalStackLayout VerticalOptions="Center"
-                                         HorizontalOptions="Center">
-                                <!-- Etiqueta del cuadro -->
-                                <Label
-                                    Text="Economico"
-                                    FontSize="20" 
-                                    FontAttributes="Bold" 
-                                    HorizontalTextAlignment="Center" 
-                                    TextColor="Black"></Label>
-                                <Label
-                                    x:Name="lblEconomico"
-                                    FontSize="14"  
-                                    HorizontalTextAlignment="Center" 
-                                    TextColor="Black"></Label>
+                            <!-- Paquete Intermedio -->
+                            <Border Style="{StaticResource BordePaquete}">
+                                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="5">
+                                    <Label Text="Intermedio" Style="{StaticResource TituloPaquete}" />
+                                    <Label x:Name="lblIntermedio" Style="{StaticResource DescripcionPaquete}" />
+                                    <Button x:Name="intermedioBtn"
+                                            Text="Agregar" 
+                                            Style="{StaticResource BotonPaquete}"
+                                            Clicked="ButtonPulIntermedio"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </HorizontalStackLayout>
 
-                                <!-- Botón del cuadro -->
+                        <!-- Segunda fila de paquetes -->
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="15">
+                            <!-- Paquete Pro -->
+                            <Border Style="{StaticResource BordePaquete}">
+                                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="5">
+                                    <Label Text="Pro" Style="{StaticResource TituloPaquete}" />
+                                    <Label x:Name="lblPro" Style="{StaticResource DescripcionPaquete}" />
+                                    <Button x:Name="proBtn"
+                                            Text="Agregar" 
+                                            Style="{StaticResource BotonPaquete}"
+                                            Clicked="ButtonPulPro"/>
+                                </VerticalStackLayout>
+                            </Border>
 
-                                <Button x:Name="economicoBtn"
-                                        Text="Agregar" 
-                                        TextColor="#8b0000"
-                                        BackgroundColor="#ffd700"
-                                        FontAttributes="Bold"
-                                        CornerRadius="15"
-                                        BorderColor="Maroon"
-                                        BorderWidth="1" 
-                                        FontSize="13"
-                                        Clicked="ButtonPulEconomico"/>
-                            </VerticalStackLayout>
-                        </Border>
-
-                        <!-- Cuadro 2 -->
-                        <Border StrokeShape="Rectangle"
-                               Stroke="Red"
-                               StrokeThickness="1"
-                               WidthRequest="220"
-                               HeightRequest="200"
-                               Margin="0,0,0,15">
-                            <VerticalStackLayout VerticalOptions="Center"
-                                         HorizontalOptions="Center">
-                                <!-- Etiqueta del cuadro -->
-                                <Label
-                                 Text="Intermedio" 
-                                 FontSize="20" 
-                                 FontAttributes="Bold" 
-                                 HorizontalTextAlignment="Center" 
-                                 TextColor="Black"></Label>
-                                <Label
-                                 x:Name="lblIntermedio"
-                                 FontSize="14" 
-                                 HorizontalTextAlignment="Center"    
-                                 TextColor="Black"></Label>
-                                <!-- Botón del cuadro -->
-                                <Button x:Name="intermedioBtn"
-                                         Text="Agregar" 
-                                         TextColor="#8b0000"
-                                         BackgroundColor="#ffd700"
-                                         FontAttributes="Bold"
-                                         CornerRadius="15"
-                                         BorderColor="Maroon"
-                                         BorderWidth="1" 
-                                         FontSize="13"
-                                        Clicked="ButtonPulIntermedio"/>
-                            </VerticalStackLayout>
-                        </Border>
-                    </HorizontalStackLayout>
-
-                    <!-- Fila 2 -->
-                    <HorizontalStackLayout HorizontalOptions="Center">
-                        <!-- Cuadro 3 -->
-                        <Border StrokeShape="Rectangle"
-                               Stroke="Red"
-                               StrokeThickness="1"
-                               WidthRequest="220"
-                               HeightRequest="200"
-                               Margin="0,0,0,15">
-                            <VerticalStackLayout VerticalOptions="Center"
-                                         HorizontalOptions="Center">
-                                <!-- Etiqueta del cuadro -->
-                                <Label
-                                    Text="Pro" 
-                                    FontSize="20" 
-                                    FontAttributes="Bold" 
-                                    HorizontalTextAlignment="Center" 
-                                    TextColor="Black">
-
-                                </Label>
-                                <Label
-                                    x:Name="lblPro"
-                                    FontSize="14" 
-                                    HorizontalTextAlignment="Center" 
-                                    TextColor="Black">
-
-                                </Label>
-                                <!-- Botón del cuadro -->
-                                <Button x:Name="proBtn"
-                                        Text="Agregar" 
-                                          TextColor="#8b0000"
-                                         BackgroundColor="#ffd700"
-                                         FontAttributes="Bold"
-                                         CornerRadius="15"
-                                         BorderColor="Maroon"
-                                         BorderWidth="1"
-                                         FontSize="13"
-                                        Clicked="ButtonPulPro"/>
-                            </VerticalStackLayout>
-                        </Border>
-
-                        <!-- Cuadro 4 -->
-                        <Border StrokeShape="Rectangle"
-                               Stroke="Red"
-                               StrokeThickness="1"
-                               WidthRequest="220"
-                               HeightRequest="200"
-                               Margin="0,0,0,15">
-                            <VerticalStackLayout VerticalOptions="Center"
-                                         HorizontalOptions="Center">
-                                <!-- Etiqueta del cuadro -->
-                                <Label
-                                     Text="Plus" 
-                                     FontSize="20" 
-                                     FontAttributes="Bold" 
-                                     HorizontalTextAlignment="Center" 
-                                     TextColor="Black"></Label>
-                                <Label
-                                     x:Name="lblPlus"
-                                     FontSize="14" 
-                                     HorizontalTextAlignment="Center" 
-                                     TextColor="Black"/>
-                                <!-- Botón del cuadro -->
-                                <Button x:Name="plusBtn"
-                                        Text="Agregar" 
-                                           TextColor="#8b0000"
-                                         BackgroundColor="#ffd700"
-                                         FontAttributes="Bold"
-                                         CornerRadius="15"
-                                         BorderColor="Maroon"
-                                         BorderWidth="1"
-                                         FontSize="13"
-                                        Clicked="ButtonPulPlus"/>
-                            </VerticalStackLayout>
-                        </Border>
-                    </HorizontalStackLayout>
-
-                </VerticalStackLayout>
-            </Border>
-
-        </VerticalStackLayout>
+                            <!-- Paquete Plus -->
+                            <Border Style="{StaticResource BordePaquete}">
+                                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="5">
+                                    <Label Text="Plus" Style="{StaticResource TituloPaquete}" />
+                                    <Label x:Name="lblPlus" Style="{StaticResource DescripcionPaquete}" />
+                                    <Button x:Name="plusBtn"
+                                            Text="Agregar" 
+                                            Style="{StaticResource BotonPaquete}"
+                                            Clicked="ButtonPulPlus"/>
+                                </VerticalStackLayout>
+                            </Border>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
     </Grid>
 </ContentPage>

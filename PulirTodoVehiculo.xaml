@@ -1,67 +1,145 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AplicacionAuto.PulirTodoVehiculo">
+             x:Class="AplicacionAuto.PulirTodoVehiculo"
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
+
+    <!-- Recursos para la página -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Estilo para botones -->
+            <Style x:Key="BotonPrincipal" TargetType="Button">
+                <Setter Property="TextColor" Value="Gold" />
+                <Setter Property="BackgroundColor" Value="DarkRed" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="BorderColor" Value="Red" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="Margin" Value="10,15" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="WidthRequest" Value="250" />
+            </Style>
+
+            <!-- Estilo para imágenes -->
+            <Style x:Key="ImagenSeleccionada" TargetType="Image">
+                <Setter Property="WidthRequest" Value="200" />
+                <Setter Property="HeightRequest" Value="200" />
+                <Setter Property="Aspect" Value="AspectFit" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,5" />
+            </Style>
+
+            <!-- Estilo para el marco principal -->
+            <Style x:Key="MarcoContenido" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="Opacity" Value="0.95" />
+                <Setter Property="BorderColor" Value="Black" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Padding" Value="15" />
+                <Setter Property="Margin" Value="15" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <!-- Layout principal -->
     <Grid>
         <!-- Imagen de fondo -->
         <Image Source="app.png" Aspect="Fill" />
-        <!-- Contenido centrado -->
-        <VerticalStackLayout Spacing="10"
-                            Padding="30,10,30,0"
-                            VerticalOptions="Center"
-                            HorizontalOptions="Center">
-            <!-- Contenedor principal -->
-            <Border StrokeThickness="0"
-                    BackgroundColor="Transparent"
-                    WidthRequest="300">
-                <ScrollView>
+
+        <!-- ScrollView principal para garantizar el desplazamiento -->
+        <ScrollView VerticalOptions="FillAndExpand">
+            <VerticalStackLayout 
+                Spacing="0"
+                Padding="15,20"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
+
+                <!-- Marco principal -->
+                <Frame Style="{StaticResource MarcoContenido}">
                     <VerticalStackLayout Spacing="10">
                         <!-- Título -->
-                        <Label Text="Adjunte Fotografias del vehiculo (Maximo 3 Fotografias)"
-                               TextColor="Black"
-                               FontSize="27"
+                        <Label Text="Adjunte Fotografías del vehículo"
+                               TextColor="OrangeRed"
+                               FontSize="22"
+                               FontAttributes="Bold"
                                HorizontalTextAlignment="Center"
-                               Margin="0,50,0,0"
+                               Margin="0,5,0,0"
                                FontFamily="AL" />
+
+                        <Label Text="(Máximo 3 Fotografías)"
+                               TextColor="Black"
+                               FontSize="16"
+                               HorizontalTextAlignment="Center"
+                               Margin="0,0,0,10"
+                               FontFamily="AL" />
+
                         <!-- Botón para seleccionar fotografías -->
-                        <Button Text="Seleccionar Fotografias"
-                                TextColor="Gold"
-                                WidthRequest="300"
-                                FontAttributes="Bold"
-                                CornerRadius="20"
-                                BackgroundColor="DarkRed"
-                                Margin="0,40,0,50"
+                        <Button Text="Seleccionar Fotografías"
+                                Style="{StaticResource BotonPrincipal}"
                                 Clicked="selectedImage_Clicked" />
-                        <!-- Imagen 1 -->
-                        <Image x:Name="selectedImage1"
-                               WidthRequest="200"
-                               HeightRequest="200"
-                               Aspect="AspectFit" />
-                        <!-- Imagen 2 -->
-                        <Image x:Name="selectedImage2"
-                               WidthRequest="200"
-                               HeightRequest="200"
-                               Aspect="AspectFit" />
-                        <!-- Imagen 3 -->
-                        <Image x:Name="selectedImage3"
-                               WidthRequest="200"
-                               HeightRequest="200"
-                               Aspect="AspectFit" />
+
+                        <!-- Contenedor de imágenes -->
+                        <Frame BorderColor="LightGray" 
+                               BackgroundColor="#F8F8F8" 
+                               CornerRadius="8" 
+                               Padding="10" 
+                               Margin="0,10,0,10">
+                            <VerticalStackLayout Spacing="15">
+                                <!-- Imagen 1 con indicador -->
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Fotografía 1" 
+                                           HorizontalOptions="Center" 
+                                           FontSize="14" 
+                                           TextColor="Gray" />
+                                    <Image x:Name="selectedImage1"
+                                           Style="{StaticResource ImagenSeleccionada}" />
+                                    <BoxView HeightRequest="1" 
+                                             BackgroundColor="LightGray" 
+                                             HorizontalOptions="Fill" 
+                                             Margin="20,5" />
+                                </VerticalStackLayout>
+
+                                <!-- Imagen 2 con indicador -->
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Fotografía 2" 
+                                           HorizontalOptions="Center" 
+                                           FontSize="14" 
+                                           TextColor="Gray" />
+                                    <Image x:Name="selectedImage2"
+                                           Style="{StaticResource ImagenSeleccionada}" />
+                                    <BoxView HeightRequest="1" 
+                                             BackgroundColor="LightGray" 
+                                             HorizontalOptions="Fill" 
+                                             Margin="20,5" />
+                                </VerticalStackLayout>
+
+                                <!-- Imagen 3 con indicador -->
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="Fotografía 3" 
+                                           HorizontalOptions="Center" 
+                                           FontSize="14" 
+                                           TextColor="Gray" />
+                                    <Image x:Name="selectedImage3"
+                                           Style="{StaticResource ImagenSeleccionada}" />
+                                </VerticalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+
                         <!-- Botón Continuar -->
                         <Button x:Name="continueButton"
                                 Text="Continuar"
-                                TextColor="Gold"
-                                WidthRequest="300"
-                                FontAttributes="Bold"
-                                CornerRadius="20"
-                                BackgroundColor="DarkRed"
-                                Margin="50,30,50,110"
+                                Style="{StaticResource BotonPrincipal}"
                                 IsEnabled="False"
                                 Clicked="ButtonPulirContinuar" />
                     </VerticalStackLayout>
-                </ScrollView>
-            </Border>
-        </VerticalStackLayout>
+                </Frame>
+
+                <!-- Espacio inferior para evitar que el botón quede cortado en dispositivos pequeños -->
+                <BoxView HeightRequest="20" />
+            </VerticalStackLayout>
+        </ScrollView>
     </Grid>
 </ContentPage>

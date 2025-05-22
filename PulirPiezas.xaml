@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AplicacionAuto.PulirPiezas"
-             Title="Pulir y Encerar">
+             Shell.NavBarIsVisible="False"
+             NavigationPage.HasNavigationBar="False">
 
     <!-- Recursos para la página -->
     <ContentPage.Resources>
@@ -15,7 +16,8 @@
                 <Setter Property="BorderWidth" Value="2" />
                 <Setter Property="CornerRadius" Value="20" />
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="WidthRequest" Value="280" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="HeightRequest" Value="50" />
                 <Setter Property="HorizontalOptions" Value="Center" />
                 <Setter Property="Margin" Value="0,10,0,10" />
             </Style>
@@ -23,19 +25,56 @@
             <!-- Estilo para los títulos -->
             <Style x:Key="TituloPrincipal" TargetType="Label">
                 <Setter Property="HorizontalOptions" Value="Center" />
-                <Setter Property="FontSize" Value="25" />
+                <Setter Property="FontSize" Value="22" />
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="HorizontalTextAlignment" Value="Center" />
                 <Setter Property="FontFamily" Value="AL" />
-                <Setter Property="Margin" Value="0,10,0,10" />
+                <Setter Property="Margin" Value="0,5,0,10" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+                <Setter Property="MaxLines" Value="3" />
             </Style>
 
             <!-- Estilo para subtítulos -->
             <Style x:Key="Subtitulo" TargetType="Label">
                 <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="FontSize" Value="20" />
+                <Setter Property="FontSize" Value="18" />
                 <Setter Property="TextColor" Value="OrangeRed" />
                 <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,5,0,0" />
+            </Style>
+
+            <!-- Estilo para elementos de la lista -->
+            <Style x:Key="ElementoLista" TargetType="HorizontalStackLayout">
+                <Setter Property="Spacing" Value="10" />
+                <Setter Property="Margin" Value="5,5,5,5" />
+                <Setter Property="Padding" Value="5" />
+            </Style>
+
+            <!-- Estilo para etiquetas de piezas -->
+            <Style x:Key="EtiquetaPieza" TargetType="Label">
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="LineBreakMode" Value="WordWrap" />
+                <Setter Property="MaxLines" Value="2" />
+            </Style>
+
+            <!-- Estilo para el frame principal -->
+            <Style x:Key="FramePrincipal" TargetType="Frame">
+                <Setter Property="BorderColor" Value="Black" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="Padding" Value="15" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Opacity" Value="0.95" />
+            </Style>
+
+            <!-- Estilo para la sección de partes seleccionadas -->
+            <Style x:Key="FrameSeleccionado" TargetType="Frame">
+                <Setter Property="BorderColor" Value="Gray" />
+                <Setter Property="BackgroundColor" Value="WhiteSmoke" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="CornerRadius" Value="5" />
+                <Setter Property="Margin" Value="5" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -45,92 +84,93 @@
         <!-- Imagen de fondo -->
         <Image Source="app.png" Aspect="Fill" />
 
-        <!-- Contenido centrado -->
-        <VerticalStackLayout 
-            Spacing="10"
-            Padding="30,10,30,0"
-            VerticalOptions="Center"
-            HorizontalOptions="Center">
+        <!-- ScrollView principal para garantizar la responsividad -->
+        <ScrollView>
+            <VerticalStackLayout 
+                Spacing="10"
+                Padding="20,10,20,20"
+                VerticalOptions="Center"
+                HorizontalOptions="Center">
 
-            <!-- Contenedor principal -->
-            <Frame 
-                BorderColor="Black"
-                BackgroundColor="White"
-                Padding="15"
-                CornerRadius="10"
-                HasShadow="True"
-                WidthRequest="370">
+                <!-- Contenedor principal adaptable -->
+                <Frame Style="{StaticResource FramePrincipal}"
+                       WidthRequest="{OnPlatform iOS=350, Android=350, Default=370}"
+                       Margin="{OnPlatform iOS='10,20', Android='10,20', Default='10,10'}">
 
-                <ScrollView VerticalScrollBarVisibility="Always">
                     <VerticalStackLayout Spacing="15">
-
                         <!-- Etiqueta de instrucción -->
-                        <Label 
-                            Text="Seleccione las partes del carro para pulir y encerar:" 
-                            Style="{StaticResource TituloPrincipal}" />
+                        <Label Text="Seleccione las partes del carro para pulir y encerar:" 
+                               Style="{StaticResource TituloPrincipal}" />
 
                         <!-- Etiqueta para las partes de la carrocería -->
-                        <Label 
-                            Text="Partes del Vehículo:" 
-                            Style="{StaticResource Subtitulo}" />
+                        <Label Text="Partes del Vehículo:" 
+                               Style="{StaticResource Subtitulo}" />
 
-                        <!-- Contenedor para las piezas del vehículo -->
-                        <VerticalStackLayout 
-                            x:Name="piezasContainer" 
-                            Spacing="10" 
-                            Margin="10">
-                            <!-- Generamos elementos manualmente como en el código original -->
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate>
-                                    <HorizontalStackLayout Spacing="10" Margin="0,5">
-                                        <Label Text="{Binding Nombre}" VerticalOptions="Center" WidthRequest="200" />
-                                        <CheckBox CheckedChanged="CheckBox_CheckedChanged" />
-                                    </HorizontalStackLayout>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </VerticalStackLayout>
+                        <!-- Contenedor adaptable para las piezas del vehículo -->
+                        <Frame BorderColor="LightGray" 
+                               BackgroundColor="#FAFAFA" 
+                               CornerRadius="8" 
+                               HasShadow="False" 
+                               Padding="10,5" 
+                               Margin="0,0,0,10">
+                            <ScrollView HeightRequest="{OnPlatform iOS=210, Android=200, Default=230}">
+                                <VerticalStackLayout x:Name="piezasContainer" 
+                                                    Spacing="5" 
+                                                    Padding="5">
+                                    <!-- Los elementos se generan dinámicamente en el código -->
+                                </VerticalStackLayout>
+                            </ScrollView>
+                        </Frame>
 
                         <!-- Botón para guardar -->
-                        <Button 
-                            Text="Guardar" 
-                            Clicked="ButtonGuardar_Clicked" 
-                            Style="{StaticResource BotonPrincipal}" />
+                        <Button Text="Guardar Selección" 
+                                Clicked="ButtonGuardar_Clicked" 
+                                Style="{StaticResource BotonPrincipal}" 
+                                WidthRequest="{OnPlatform iOS=220, Android=220, Default=250}" />
 
-                        <!-- Sección para mostrar elementos seleccionados -->
-                        <BoxView 
-                            Color="LightGray" 
-                            HeightRequest="1" 
-                            HorizontalOptions="Fill" 
-                            Margin="0,10" />
+                        <!-- Separador -->
+                        <BoxView Color="LightGray" 
+                                 HeightRequest="1" 
+                                 HorizontalOptions="Fill" 
+                                 Margin="0,5" />
 
                         <!-- Etiqueta para las partes seleccionadas -->
-                        <Label 
-                            Text="Partes seleccionadas para pulir y encerar:" 
-                            HorizontalOptions="Center" 
-                            TextColor="Black" 
-                            FontAttributes="Bold" />
+                        <Label Text="Partes seleccionadas para pulir y encerar:" 
+                               HorizontalOptions="Center" 
+                               TextColor="Black" 
+                               FontAttributes="Bold" 
+                               FontSize="16" />
 
-                        <!-- ListView para mostrar las partes seleccionadas -->
-                        <Frame 
-                            BorderColor="Gray" 
-                            BackgroundColor="WhiteSmoke" 
-                            Padding="10" 
-                            CornerRadius="5">
-                            <ListView 
-                                x:Name="lstPartesSeleccionadasListView"
-                                HeightRequest="150" />
+                        <!-- Marco para las partes seleccionadas -->
+                        <Frame Style="{StaticResource FrameSeleccionado}">
+                            <Grid RowDefinitions="Auto">
+                                <ListView x:Name="lstPartesSeleccionadasListView"
+                                         HeightRequest="{OnPlatform iOS=120, Android=120, Default=150}"
+                                         BackgroundColor="Transparent"
+                                         SeparatorColor="LightGray"
+                                         SeparatorVisibility="Default"
+                                         SelectionMode="None" />
+
+                                <!-- Mensaje de no selección -->
+                                <Label x:Name="lblNoSeleccion"
+                                       Text="No ha seleccionado ninguna parte"
+                                       TextColor="Gray"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       IsVisible="True" />
+                            </Grid>
                         </Frame>
 
                         <!-- Botón "Siguiente" -->
-                        <Button 
-                            x:Name="btnSiguiente" 
-                            Text="Siguiente" 
-                            Clicked="ButtonSiguiente_Clicked" 
-                            IsVisible="False" 
-                            Style="{StaticResource BotonPrincipal}" />
+                        <Button x:Name="btnSiguiente" 
+                                Text="Siguiente" 
+                                Clicked="ButtonSiguiente_Clicked" 
+                                IsVisible="False" 
+                                Style="{StaticResource BotonPrincipal}" 
+                                WidthRequest="{OnPlatform iOS=220, Android=220, Default=250}" />
                     </VerticalStackLayout>
-                </ScrollView>
-            </Frame>
-        </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
     </Grid>
 </ContentPage>

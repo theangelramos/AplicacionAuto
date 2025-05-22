@@ -11,6 +11,9 @@
                 <Setter Property="PlaceholderColor" Value="Gray" />
                 <Setter Property="TextColor" Value="Black" />
                 <Setter Property="FontSize" Value="16" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="40" />
             </Style>
 
             <Style x:Key="IconBorderStyle" TargetType="Border">
@@ -19,10 +22,12 @@
                 <Setter Property="WidthRequest" Value="24" />
                 <Setter Property="StrokeShape" Value="RoundRectangle 28" />
                 <Setter Property="Padding" Value="2" />
+                <Setter Property="VerticalOptions" Value="Center" />
             </Style>
 
             <Style x:Key="EntryBorderStyle" TargetType="Border">
                 <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="WidthRequest" Value="280" />
                 <Setter Property="Margin" Value="-5,0,0,0" />
                 <Setter Property="Stroke" Value="Orange" />
                 <Setter Property="StrokeThickness" Value="1.5" />
@@ -35,6 +40,13 @@
                 <Setter Property="HorizontalOptions" Value="FillAndExpand" />
                 <Setter Property="Margin" Value="0,12,0,0" />
                 <Setter Property="Spacing" Value="10" />
+            </Style>
+
+            <Style x:Key="ErrorLabelStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="Red" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="Margin" Value="35,0,0,0" />
+                <Setter Property="IsVisible" Value="False" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -49,7 +61,7 @@
         <!-- ScrollView para garantizar visualización en pantallas pequeñas -->
         <ScrollView VerticalOptions="Center">
             <VerticalStackLayout 
-                Spacing="15"
+                Spacing="8"
                 Padding="20,15"
                 VerticalOptions="Center"
                 HorizontalOptions="Center">
@@ -75,7 +87,7 @@
 
                     <!-- Contenido interno -->
                     <VerticalStackLayout 
-                        Spacing="15" 
+                        Spacing="5" 
                         Padding="5" 
                         BackgroundColor="Transparent">
 
@@ -89,9 +101,13 @@
                                 <Entry x:Name="txtCorreoElectronico"
                                        Placeholder="Correo electrónico"
                                        Keyboard="Email"
+                                       TextChanged="OnTextChanged"
                                        Margin="15,0,0,0"/>
                             </Border>
                         </HorizontalStackLayout>
+                        <Label x:Name="lblErrorCorreo" 
+                               Text="Formato de correo inválido" 
+                               Style="{StaticResource ErrorLabelStyle}"/>
 
                         <!-- Campo de nombre completo -->
                         <HorizontalStackLayout Style="{StaticResource FieldContainerStyle}">
@@ -103,9 +119,13 @@
                                 <Entry x:Name="txtNombreCompleto"
                                        Placeholder="Nombre completo"
                                        Keyboard="Text"
+                                       TextChanged="OnTextChanged"
                                        Margin="15,0,0,0"/>
                             </Border>
                         </HorizontalStackLayout>
+                        <Label x:Name="lblErrorNombre" 
+                               Text="El nombre es obligatorio" 
+                               Style="{StaticResource ErrorLabelStyle}"/>
 
                         <!-- Campo de teléfono -->
                         <HorizontalStackLayout Style="{StaticResource FieldContainerStyle}">
@@ -115,11 +135,16 @@
                             </Border>
                             <Border Style="{StaticResource EntryBorderStyle}">
                                 <Entry x:Name="txtTelefono"
-                                       Placeholder="Teléfono"
+                                       Placeholder="Teléfono (10 dígitos)"
                                        Keyboard="Telephone"
+                                       MaxLength="10"
+                                       TextChanged="OnTextChanged"
                                        Margin="15,0,0,0"/>
                             </Border>
                         </HorizontalStackLayout>
+                        <Label x:Name="lblErrorTelefono" 
+                               Text="El teléfono debe tener 10 dígitos" 
+                               Style="{StaticResource ErrorLabelStyle}"/>
 
                         <!-- Campo de estado -->
                         <HorizontalStackLayout Style="{StaticResource FieldContainerStyle}">
@@ -131,9 +156,13 @@
                                 <Entry x:Name="txtEstado"
                                        Placeholder="Estado"
                                        Keyboard="Text"
+                                       TextChanged="OnTextChanged"
                                        Margin="15,0,0,0"/>
                             </Border>
                         </HorizontalStackLayout>
+                        <Label x:Name="lblErrorEstado" 
+                               Text="El estado es obligatorio" 
+                               Style="{StaticResource ErrorLabelStyle}"/>
 
                         <!-- Campo de municipio -->
                         <HorizontalStackLayout Style="{StaticResource FieldContainerStyle}">
@@ -145,9 +174,13 @@
                                 <Entry x:Name="txtMunicipio"
                                        Placeholder="Municipio"
                                        Keyboard="Text"
+                                       TextChanged="OnTextChanged"
                                        Margin="15,0,0,0"/>
                             </Border>
                         </HorizontalStackLayout>
+                        <Label x:Name="lblErrorMunicipio" 
+                               Text="El municipio es obligatorio" 
+                               Style="{StaticResource ErrorLabelStyle}"/>
                     </VerticalStackLayout>
                 </Border>
 
@@ -165,6 +198,7 @@
                         BorderWidth="1"
                         Margin="0,20,0,10"
                         HeightRequest="50"
+                        IsEnabled="False"
                         Clicked="Button_Clicked"/>
             </VerticalStackLayout>
         </ScrollView>

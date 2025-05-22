@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices;
 using Microsoft.Maui.Storage;
+using System.Text.RegularExpressions;
 
 namespace AplicacionAuto
 {
@@ -93,10 +94,17 @@ namespace AplicacionAuto
 
             // Reemplazar Thread.Sleep con una alternativa más moderna
             Task.Delay(1000).Wait();
+
+            // Configurar validación inicial del botón
+            ValidarFormulario();
+
+            // Asignar evento TextChanged a cada Entry
+            txtCorreoElectronico.TextChanged += OnTextChanged;
+            txtNombreCompleto.TextChanged += OnTextChanged;
+            txtTelefono.TextChanged += OnTextChanged;
+            txtEstado.TextChanged += OnTextChanged;
+            txtMunicipio.TextChanged += OnTextChanged;
         }
-
-
-
 
         private async void OnImageTapped(object sender, EventArgs e)
         {
@@ -138,13 +146,81 @@ namespace AplicacionAuto
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            siguienteBtn.IsEnabled = true;
+            ValidarFormulario();
         }
 
         public byte[] DatoImagen { get; set; }
 
+        // Método para validar el correo electrónico
+        private bool EsCorreoValido(string correo)
+        {
+            if (string.IsNullOrWhiteSpace(correo))
+                return false;
+
+            try
+            {
+                // Expresión regular para validar formato de correo
+                var regex = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+                return regex.IsMatch(correo);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // Método para validar número de teléfono
+        private bool EsTelefonoValido(string telefono)
+        {
+            if (string.IsNullOrWhiteSpace(telefono))
+                return false;
+
+            // Verificar que tenga 10 dígitos y solo sean números
+            return telefono.Length == 10 && telefono.All(char.IsDigit);
+        }
+
+        // Evento cuando cambia el texto de cualquier entrada
+        public void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            ValidarFormulario();
+        }
+
+        // Método para validar todos los campos del formulario
+        private void ValidarFormulario()
+        {
+            // Validar correo
+            bool correoValido = EsCorreoValido(txtCorreoElectronico.Text);
+            lblErrorCorreo.IsVisible = !string.IsNullOrEmpty(txtCorreoElectronico.Text) && !correoValido;
+
+            // Validar nombre
+            bool nombreValido = !string.IsNullOrWhiteSpace(txtNombreCompleto.Text);
+            lblErrorNombre.IsVisible = !string.IsNullOrEmpty(txtNombreCompleto.Text) && !nombreValido;
+
+            // Validar teléfono
+            bool telefonoValido = EsTelefonoValido(txtTelefono.Text);
+            lblErrorTelefono.IsVisible = !string.IsNullOrEmpty(txtTelefono.Text) && !telefonoValido;
+
+            // Validar estado
+            bool estadoValido = !string.IsNullOrWhiteSpace(txtEstado.Text);
+            lblErrorEstado.IsVisible = !string.IsNullOrEmpty(txtEstado.Text) && !estadoValido;
+
+            // Validar municipio
+            bool municipioValido = !string.IsNullOrWhiteSpace(txtMunicipio.Text);
+            lblErrorMunicipio.IsVisible = !string.IsNullOrEmpty(txtMunicipio.Text) && !municipioValido;
+
+            // Habilitar o deshabilitar botón según validaciones
+            siguienteBtn.IsEnabled = correoValido && nombreValido && telefonoValido && estadoValido && municipioValido;
+        }
+
         async private void Button_Clicked(object sender, EventArgs e)
         {
+            // Validar nuevamente antes de procesar
+            if (!ValidarCampos())
+            {
+                await DisplayAlert("Campos incompletos", "Todos los campos son obligatorios y deben estar correctamente completados.", "Aceptar");
+                return;
+            }
+
             siguienteBtn.IsEnabled = false;
 
             try
@@ -227,7 +303,7 @@ namespace AplicacionAuto
                 if (!string.IsNullOrEmpty(ruta) && File.Exists(ruta))
                 {
                     await UploadFileAsync(ruta);
-                    CerrarApp("Proceso Completado", "La aplicación se cerrará sola");
+                    CerrarApp("Proceso Completado", "La aplicación se cerrará automáticamente");
                 }
                 else
                 {
@@ -248,9 +324,10 @@ namespace AplicacionAuto
 
         private bool ValidarCampos()
         {
+            // Validación más completa que verifica formato
             return !string.IsNullOrWhiteSpace(txtNombreCompleto.Text) &&
-                   !string.IsNullOrWhiteSpace(txtCorreoElectronico.Text) &&
-                   !string.IsNullOrWhiteSpace(txtTelefono.Text) &&
+                   EsCorreoValido(txtCorreoElectronico.Text) &&
+                   EsTelefonoValido(txtTelefono.Text) &&
                    !string.IsNullOrWhiteSpace(txtEstado.Text) &&
                    !string.IsNullOrWhiteSpace(txtMunicipio.Text);
         }
@@ -283,8 +360,6 @@ namespace AplicacionAuto
 
                 // Continuar con el procesamiento de datos...
                 // (El resto de tu lógica de procesamiento iría aquí)
-                // Nota: Este método necesitaría ser completado con toda la lógica 
-                // de tu método original
             }
             catch (Exception ex)
             {
@@ -300,9 +375,17 @@ namespace AplicacionAuto
         {
             await DisplayAlert(titulo, mensaje, "Aceptar");
 
+            // Asegurar que la aplicación se cierre después de mostrar el mensaje
             if (DeviceInfo.Platform == DevicePlatform.Android)
             {
+                // En Android
                 System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+            else
+            {
+                // Para otras plataformas
+                Application.Current.Quit();
             }
         }
 

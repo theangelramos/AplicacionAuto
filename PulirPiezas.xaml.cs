@@ -23,6 +23,9 @@ namespace AplicacionAuto
         private String _opcionTodo;
         private List<Imagen> _imagenesTodoElVehiculo;
 
+        // Indicador de carga
+        private ActivityIndicator _activityIndicator;
+
         public PulirPiezas(DatosAuto datosAuto, String prioridad, String servicio)
         {
             InitializeComponent();
@@ -33,7 +36,49 @@ namespace AplicacionAuto
             _servicio = servicio;
             _partesSeleccionadasPE = new List<string>();
 
-            CargarPiezas();
+            // Inicializar el ListView con mensaje vacío y agregar evento para actualizar la visibilidad
+            ActualizarListView();
+
+            // Cargar piezas con un pequeño retraso para permitir que la UI se renderice
+            MainThread.BeginInvokeOnMainThread(async () => {
+                MostrarCargando(true);
+                await Task.Delay(300); // Breve retraso para UI
+                CargarPiezas();
+                MostrarCargando(false);
+            });
+        }
+
+        private void MostrarCargando(bool mostrar)
+        {
+            if (mostrar)
+            {
+                // Crear indicador de carga si no existe
+                if (_activityIndicator == null)
+                {
+                    _activityIndicator = new ActivityIndicator
+                    {
+                        IsRunning = true,
+                        Color = Colors.Red,
+                        HorizontalOptions = LayoutOptions.Center,
+                        VerticalOptions = LayoutOptions.Center,
+                        HeightRequest = 40,
+                        WidthRequest = 40
+                    };
+
+                    // Agregar al layout
+                    piezasContainer.Children.Add(_activityIndicator);
+                }
+                else
+                {
+                    _activityIndicator.IsRunning = true;
+                    _activityIndicator.IsVisible = true;
+                }
+            }
+            else if (_activityIndicator != null)
+            {
+                _activityIndicator.IsRunning = false;
+                _activityIndicator.IsVisible = false;
+            }
         }
 
         private void CargarPiezas()
@@ -74,32 +119,55 @@ namespace AplicacionAuto
 
                 // Generar controles dinámicamente para cada pieza
                 piezasContainer.Children.Clear();
+
+                // Organizar las piezas alfabéticamente para mejor experiencia
+                piezas = piezas.OrderBy(p => p.Nombre).ToList();
+
                 foreach (var pieza in piezas)
                 {
+                    var frame = new Frame
+                    {
+                        BorderColor = Colors.Transparent,
+                        BackgroundColor = Colors.Transparent,
+                        Padding = new Thickness(3),
+                        Margin = new Thickness(0, 2)
+                    };
+
                     var horizontalStackLayout = new HorizontalStackLayout
                     {
                         Spacing = 10,
-                        Margin = new Thickness(0, 5)
+                        Margin = new Thickness(0, 2)
                     };
 
                     var label = new Label
                     {
                         Text = pieza.Nombre,
                         VerticalOptions = LayoutOptions.Center,
-                        WidthRequest = 200
+                        FontSize = 16,
+                        MaxLines = 2,
+                        LineBreakMode = LineBreakMode.WordWrap,
+                        WidthRequest = 230
                     };
 
                     var checkBox = new CheckBox();
                     checkBox.CheckedChanged += CheckBox_CheckedChanged;
 
+                    // Para diferenciación visual
+                    if (piezas.IndexOf(pieza) % 2 == 0)
+                    {
+                        frame.BackgroundColor = new Color(0.98f, 0.98f, 0.98f);
+                    }
+
                     horizontalStackLayout.Children.Add(label);
                     horizontalStackLayout.Children.Add(checkBox);
 
-                    piezasContainer.Children.Add(horizontalStackLayout);
+                    frame.Content = horizontalStackLayout;
+                    piezasContainer.Children.Add(frame);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                System.Diagnostics.Debug.WriteLine($"Error al cargar piezas: {ex.Message}");
                 CerrarApp(
                     "Error en la petición al servidor",
                     "\n\nAsegúrate de tener una conexión estable a internet."
@@ -141,46 +209,109 @@ namespace AplicacionAuto
 
         private string GetCheckBoxText(CheckBox checkBox)
         {
-            // Obtener el HorizontalStackLayout padre
-            if (checkBox.Parent is not HorizontalStackLayout horizontalStackLayout)
-                return string.Empty;
+            try
+            {
+                // Obtener el Frame padre (si existe)
+                var parent = checkBox.Parent;
+                while (parent != null && !(parent is Frame))
+                {
+                    if (parent is HorizontalStackLayout horizontalStackLayout)
+                    {
+                        // El Label es el primer elemento del HorizontalStackLayout
+                        if (horizontalStackLayout.Children[0] is Label label)
+                        {
+                            return label.Text;
+                        }
+                    }
+                    parent = parent.Parent;
+                }
 
-            // El Label es el primer elemento del HorizontalStackLayout
-            if (horizontalStackLayout.Children[0] is not Label label)
-                return string.Empty;
+                // Si no tiene Frame padre, obtener el HorizontalStackLayout directamente
+                if (checkBox.Parent is HorizontalStackLayout stackLayout)
+                {
+                    if (stackLayout.Children[0] is Label labelDirecto)
+                    {
+                        return labelDirecto.Text;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error al obtener texto del checkbox: {ex.Message}");
+            }
 
-            return label.Text;
+            return string.Empty;
+        }
+
+        private void ActualizarListView()
+        {
+            try
+            {
+                // Actualizar la fuente de datos del ListView
+                lstPartesSeleccionadasListView.ItemsSource = null;
+                lstPartesSeleccionadasListView.ItemsSource = _partesSeleccionadasPE;
+
+                // Actualizar visibilidad del mensaje de "no selección"
+                lblNoSeleccion.IsVisible = _partesSeleccionadasPE == null || _partesSeleccionadasPE.Count == 0;
+
+                // Mostrar botón siguiente si hay elementos seleccionados
+                btnSiguiente.IsVisible = _partesSeleccionadasPE.Count > 0;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error al actualizar ListView: {ex.Message}");
+            }
         }
 
         private void ButtonGuardar_Clicked(object sender, EventArgs e)
         {
-            // Actualizar la fuente de datos del ListView
-            lstPartesSeleccionadasListView.ItemsSource = null;
-            lstPartesSeleccionadasListView.ItemsSource = _partesSeleccionadasPE;
+            ActualizarListView();
 
-            // Mostrar botón siguiente si hay elementos seleccionados
-            btnSiguiente.IsVisible = _partesSeleccionadasPE.Count > 0;
+            // Mostrar confirmación al usuario
+            if (_partesSeleccionadasPE.Count > 0)
+            {
+                MainThread.BeginInvokeOnMainThread(async () => {
+                    await DisplayAlert("Selección guardada", $"Se han seleccionado {_partesSeleccionadasPE.Count} partes para pulir y encerar.", "Aceptar");
+                });
+            }
+            else
+            {
+                MainThread.BeginInvokeOnMainThread(async () => {
+                    await DisplayAlert("Sin selección", "No ha seleccionado ninguna parte para pulir y encerar.", "Aceptar");
+                });
+            }
         }
 
         private async void ButtonSiguiente_Clicked(object sender, EventArgs e)
         {
             btnSiguiente.IsEnabled = false;
 
-            await Navigation.PushAsync(new PaquetePulidoEncerado(
-                _datosAuto,
-                _prioridad,
-                _servicio,
-                _tipoGolpe,
-                _partesSeleccionadasPE,
-                _opcionTodo,
-                _imagenesTodoElVehiculo
-            ));
+            try
+            {
+                await Navigation.PushAsync(new PaquetePulidoEncerado(
+                    _datosAuto,
+                    _prioridad,
+                    _servicio,
+                    _tipoGolpe,
+                    _partesSeleccionadasPE,
+                    _opcionTodo,
+                    _imagenesTodoElVehiculo
+                ));
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Error", $"Ocurrió un problema al navegar: {ex.Message}", "Aceptar");
+                btnSiguiente.IsEnabled = true;
+            }
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
             btnSiguiente.IsEnabled = true;
+
+            // Actualizar lista cada vez que la página aparezca
+            ActualizarListView();
         }
     }
 }
