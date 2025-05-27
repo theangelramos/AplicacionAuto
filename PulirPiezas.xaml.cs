@@ -43,7 +43,7 @@ namespace AplicacionAuto
             MainThread.BeginInvokeOnMainThread(async () => {
                 MostrarCargando(true);
                 await Task.Delay(300); // Breve retraso para UI
-                CargarPiezas();
+                await CargarPiezas();
                 MostrarCargando(false);
             });
         }
@@ -81,7 +81,7 @@ namespace AplicacionAuto
             }
         }
 
-        private void CargarPiezas()
+        private async Task CargarPiezas()
         {
             // Verificar conexión a internet
             bool tieneConexionInternet = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
@@ -102,7 +102,7 @@ namespace AplicacionAuto
                     Preferences.Default.Get("token", "")
                 );
 
-                string jsonRecibir = _peticion.ObtenerJson();
+                string jsonRecibir = await _peticion.ObtenerJson();
                 List<PiezaDTO> piezas = JsonConvertidor.Json_ListaObjeto<PiezaDTO>(jsonRecibir);
 
                 // Filtrar piezas para "Pulido y encerado"

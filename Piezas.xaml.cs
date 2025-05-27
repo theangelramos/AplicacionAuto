@@ -48,7 +48,7 @@ namespace AplicacionAuto
             }
             else
             {
-                CargarDatosPiezas();
+                _ = CargarDatosPiezas();
             }
 
             // Inicializar la lista de medidas
@@ -83,13 +83,13 @@ namespace AplicacionAuto
         }
 
         // Cargar las listas de piezas y medidas desde el servidor
-        private void CargarDatosPiezas()
+        private async Task CargarDatosPiezas()
         {
             try
             {
                 // Cargar piezas
                 peticion.PedirComunicacion("Pieza/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Get("token", ""));
-                string jsonRecibir = peticion.ObtenerJson();
+                string jsonRecibir = await peticion.ObtenerJson();
                 List<PiezaDTO> piezas = JsonConvertidor.Json_ListaObjeto<PiezaDTO>(jsonRecibir);
 
                 var piezasFiltradas = piezas.FindAll(x => x.TipoPiezaNombre.ToLower() == "Pintura".ToLower());
@@ -101,10 +101,10 @@ namespace AplicacionAuto
                 }
 
                 // Cargar medidas horizontales
-                CargarMedidas("Diámetro horizontal pintura", pickerMedidaHorizontal);
+                await CargarMedidas("Diámetro horizontal pintura", pickerMedidaHorizontal);
 
                 // Cargar medidas verticales
-                CargarMedidas("Diámetro vertical pintura", pickerMedidaVertical);
+                await CargarMedidas("Diámetro vertical pintura", pickerMedidaVertical);
             }
             catch (Exception ex)
             {
@@ -114,12 +114,12 @@ namespace AplicacionAuto
         }
 
         // Método para cargar medidas desde el servidor
-        private void CargarMedidas(string tipoMedidaNombre, Picker picker)
+        private async Task CargarMedidas(string tipoMedidaNombre, Picker picker)
         {
             try
             {
                 peticion.PedirComunicacion("Medida/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Get("token", ""));
-                string jsonRecibir = peticion.ObtenerJson();
+                string jsonRecibir = await peticion.ObtenerJson();
                 List<MedidaDTO> medidas = JsonConvertidor.Json_ListaObjeto<MedidaDTO>(jsonRecibir);
 
                 var medidasFiltradas = medidas.FindAll(x => x.TipoMedidaNombre.ToLower() == tipoMedidaNombre.ToLower());

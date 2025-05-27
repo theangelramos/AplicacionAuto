@@ -51,7 +51,6 @@ namespace AplicacionAuto
         String ruta;
         public DatosUsuario(DatosAuto datosAuto, String prioridad, String servicio, String tipoGolpe, List<GolpeMedida> datosGolpes, String paquete, TallerDTO taller, String fecha, String hora, List<string> partesSeleccionadasPE, String precioCotizacion, String opcionTodo, List<Imagen> imagenesGolpeFuerte, List<Imagen> imagenesTodoElVehiculo)
         {
-            // Agrega esta línea
             InitializeComponent();
             datosAuto1 = datosAuto;
             prioridad1 = prioridad;
@@ -73,10 +72,29 @@ namespace AplicacionAuto
                 servicio1 = "Hojalatería y pintura";
             }
 
+            // Llamar método asíncrono para cargar colores
+            _ = CargarColoresAsync();
+
+            // Reemplazar Thread.Sleep con una alternativa más moderna
+            Task.Delay(1000).Wait();
+
+            // Configurar validación inicial del botón
+            ValidarFormulario();
+
+            // Asignar evento TextChanged a cada Entry
+            txtCorreoElectronico.TextChanged += OnTextChanged;
+            txtNombreCompleto.TextChanged += OnTextChanged;
+            txtTelefono.TextChanged += OnTextChanged;
+            txtEstado.TextChanged += OnTextChanged;
+            txtMunicipio.TextChanged += OnTextChanged;
+        }
+
+        private async Task CargarColoresAsync()
+        {
             try
             {
                 peticion.PedirComunicacion("Color/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                String jsonRecibir = peticion.ObtenerJson();
+                String jsonRecibir = await peticion.ObtenerJson();
                 colors = JsonConvertidor.Json_ListaObjeto<ColorDTO>(jsonRecibir);
 
                 if (colors != null)
@@ -91,19 +109,6 @@ namespace AplicacionAuto
                 // Manejo de error mejorado
                 System.Diagnostics.Debug.WriteLine($"Error al obtener colores: {ex.Message}");
             }
-
-            // Reemplazar Thread.Sleep con una alternativa más moderna
-            Task.Delay(1000).Wait();
-
-            // Configurar validación inicial del botón
-            ValidarFormulario();
-
-            // Asignar evento TextChanged a cada Entry
-            txtCorreoElectronico.TextChanged += OnTextChanged;
-            txtNombreCompleto.TextChanged += OnTextChanged;
-            txtTelefono.TextChanged += OnTextChanged;
-            txtEstado.TextChanged += OnTextChanged;
-            txtMunicipio.TextChanged += OnTextChanged;
         }
 
         private async void OnImageTapped(object sender, EventArgs e)
@@ -341,12 +346,12 @@ namespace AplicacionAuto
 
                 // Enviar solicitud para agregar usuario
                 peticion.PedirComunicacion("Usuario/Agregar", MetodoHTTP.POST, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                peticion.enviarDatos(jsonEnviar);
-                string jsonRecibirUsuario = peticion.ObtenerJson();
+                await peticion.enviarDatosAsync(jsonEnviar);
+                string jsonRecibirUsuario = await peticion.ObtenerJson();
 
                 // Obtener lista de usuarios
                 peticion.PedirComunicacion("Usuario/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                string jsonRecibir = peticion.ObtenerJson();
+                string jsonRecibir = await peticion.ObtenerJson();
                 usuarios = JsonConvertidor.Json_ListaObjeto<UsuarioDTO>(jsonRecibir);
 
                 // Buscar usuario recién creado

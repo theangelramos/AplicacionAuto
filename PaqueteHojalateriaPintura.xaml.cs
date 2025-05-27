@@ -48,10 +48,10 @@ namespace AplicacionAuto
             this.imagenesTodoElVehiculo = new List<Imagen>();
 
             // Cargar descripciones de paquetes
-            LoadPackageData();
+            _ = LoadPackageData();
         }
 
-        private void LoadPackageData()
+        private async Task LoadPackageData()
         {
             try
             {
@@ -63,7 +63,7 @@ namespace AplicacionAuto
                     Preferences.Get("token", "")
                 );
 
-                String json = peticion.ObtenerJson();
+                String json = await peticion.ObtenerJson();
 
                 // Convertir JSON a lista de objetos
                 var tipoServicioPaquete = JsonConvertidor.Json_ListaObjeto<TipoServicioPaqueteDTO>(json);
@@ -83,7 +83,7 @@ namespace AplicacionAuto
             catch (Exception ex)
             {
                 // Manejo de errores básico
-                DisplayAlert("Error", "No se pudieron cargar los datos de paquetes: " + ex.Message, "Aceptar");
+                await DisplayAlert("Error", "No se pudieron cargar los datos de paquetes: " + ex.Message, "Aceptar");
             }
         }
 

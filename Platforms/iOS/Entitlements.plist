@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Identificador del equipo de desarrollo -->
+	<key>com.apple.developer.team-identifier</key>
+	<string>3D9J73M5VN</string>
+	
+	<!-- Identificador de la aplicación -->
+	<key>application-identifier</key>
+	<string>3D9J73M5VN.com.autouniverse.aplicacionauto</string>
+	
+	<!-- Grupo de aplicaciones (si necesitas compartir datos entre apps) -->
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.autouniverse.aplicacionauto</string>
+	</array>
+	
+	<!-- Keychain Access Groups -->
+	<key>keychain-access-groups</key>
+	<array>
+		<string>3D9J73M5VN.com.companyname.aplicacionauto</string>
+	</array>
+	
+	<!-- Permisos de red -->
+	<key>com.apple.security.network.client</key>
+	<true/>
+	
+	<!-- Permisos para conexiones salientes -->
+	<key>com.apple.security.network.server</key>
+	<true/>
+	
+	<!-- Permite conexiones HTTP (no solo HTTPS) -->
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	
+	<!-- Para aplicaciones de producción -->
+	<key>get-task-allow</key>
+	<false/>
+	
+	<!-- Associated Domains (si usas Universal Links) -->
+	<!--
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:tudominio.com</string>
+	</array>
+	-->
+	
+	<!-- Push Notifications (si las usas) -->
+	<!--
+	<key>aps-environment</key>
+	<string>production</string>
+	-->
+	
+	<!-- Sign in with Apple (si lo usas) -->
+	<!--
+	<key>com.apple.developer.applesignin</key>
+	<array>
+		<string>Default</string>
+	</array>
+	-->
+	
+	<!-- HealthKit (si lo usas) -->
+	<!--
+	<key>com.apple.developer.healthkit</key>
+	<true/>
+	<key>com.apple.developer.healthkit.access</key>
+	<array>
+		<string>health-records</string>
+	</array>
+	-->
+	
+	<!-- HomeKit (si lo usas) -->
+	<!--
+	<key>com.apple.developer.homekit</key>
+	<true/>
+	-->
+	
+	<!-- iCloud (si lo usas) -->
+	<!--
+	<key>com.apple.developer.icloud-container-identifiers</key>
+	<array>
+		<string>iCloud.com.companyname.aplicacionauto</string>
+	</array>
+	<key>com.apple.developer.icloud-services</key>
+	<array>
+		<string>CloudDocuments</string>
+		<string>CloudKit</string>
+	</array>
+	-->
+	
+	<!-- In-App Purchase -->
+	<!--
+	<key>com.apple.developer.in-app-payments</key>
+	<array>
+		<string>merchant.com.companyname.aplicacionauto</string>
+	</array>
+	-->
+	
+	<!-- Siri (si lo usas) -->
+	<!--
+	<key>com.apple.developer.siri</key>
+	<true/>
+	-->
+	
+	<!-- NFC (si lo usas) -->
+	<!--
+	<key>com.apple.developer.nfc.readersession.formats</key>
+	<array>
+		<string>NDEF</string>
+		<string>TAG</string>
+	</array>
+	-->
+</dict>
+</plist>

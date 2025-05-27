@@ -24,7 +24,7 @@
 		<ApplicationTitle>AplicacionAuto</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.aplicacionauto</ApplicationId>
+		<ApplicationId>com.autouniverse.aplicacionauto</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -36,11 +36,18 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		
+		<!-- Configuración adicional para mejorar el rendimiento -->
+		<EnableDefaultCssItems>false</EnableDefaultCssItems>
+		<MauiVersion>8.0.100</MauiVersion>
+		
+		<!-- iOS Runtime Identifiers - CORREGIDO: Incluye múltiples identificadores -->
+		<RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">ios-arm64;iossimulator-x64;iossimulator-arm64</RuntimeIdentifiers>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\iconologo.png" Color="#512BD4" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
@@ -57,134 +64,160 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\logo.png" />
-	  <MauiImage Remove="Resources\Images\logoTicket1.png" />
+		<MauiImage Remove="Resources\Images\logo.png" />
+		<MauiImage Remove="Resources\Images\logoTicket1.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Fonts\Abril.ttf" />
-	  <None Remove="Resources\Fonts\Almarai.ttf" />
-	  <None Remove="Resources\Fonts\Bricolage.ttf" />
-	  <None Remove="Resources\Fonts\CantoraOne.ttf" />
-	  <None Remove="Resources\Fonts\OpenSans.ttf" />
-	  <None Remove="Resources\Fonts\Roboto.ttf" />
-	  <None Remove="Resources\Images\app.png" />
-	  <None Remove="Resources\Images\carroceria.png" />
-	  <None Remove="Resources\Images\completos.png" />
-	  <None Remove="Resources\Images\correo.png" />
-	  <None Remove="Resources\Images\estados.png" />
-	  <None Remove="Resources\Images\express.png" />
-	  <None Remove="Resources\Images\fondol.png" />
-	  <None Remove="Resources\Images\fuerte.png" />
-	  <None Remove="Resources\Images\hypi.png" />
-	  <None Remove="Resources\Images\leve.png" />
-	  <None Remove="Resources\Images\logo.png" />
-	  <None Remove="Resources\Images\logoTicket1.png" />
-	  <None Remove="Resources\Images\medio.png" />
-	  <None Remove="Resources\Images\municipio.png" />
-	  <None Remove="Resources\Images\nombre.png" />
-	  <None Remove="Resources\Images\normal.png" />
-	  <None Remove="Resources\Images\pieza.png" />
-	  <None Remove="Resources\Images\pinpin.png" />
-	  <None Remove="Resources\Images\pregunta.png" />
-	  <None Remove="Resources\Images\pulido.png" />
-	  <None Remove="Resources\Images\pulircompleto.png" />
-	  <None Remove="Resources\Images\pulirpartes.png" />
-	  <None Remove="Resources\Images\tallera.png" />
-	  <None Remove="Resources\Images\telefono.png" />
-	  <None Remove="Resources\Images\vehiculoc.jpg" />
-	  <None Remove="Resources\Images\xamarin.png" />
+		<None Remove="Resources\Fonts\Abril.ttf" />
+		<None Remove="Resources\Fonts\Almarai.ttf" />
+		<None Remove="Resources\Fonts\Bricolage.ttf" />
+		<None Remove="Resources\Fonts\CantoraOne.ttf" />
+		<None Remove="Resources\Fonts\OpenSans.ttf" />
+		<None Remove="Resources\Fonts\Roboto.ttf" />
+		<None Remove="Resources\Images\app.png" />
+		<None Remove="Resources\Images\carroceria.png" />
+		<None Remove="Resources\Images\completos.png" />
+		<None Remove="Resources\Images\correo.png" />
+		<None Remove="Resources\Images\estados.png" />
+		<None Remove="Resources\Images\express.png" />
+		<None Remove="Resources\Images\fondol.png" />
+		<None Remove="Resources\Images\fuerte.png" />
+		<None Remove="Resources\Images\hypi.png" />
+		<None Remove="Resources\Images\leve.png" />
+		<None Remove="Resources\Images\logo.png" />
+		<None Remove="Resources\Images\logoTicket1.png" />
+		<None Remove="Resources\Images\medio.png" />
+		<None Remove="Resources\Images\municipio.png" />
+		<None Remove="Resources\Images\nombre.png" />
+		<None Remove="Resources\Images\normal.png" />
+		<None Remove="Resources\Images\pieza.png" />
+		<None Remove="Resources\Images\pinpin.png" />
+		<None Remove="Resources\Images\pregunta.png" />
+		<None Remove="Resources\Images\pulido.png" />
+		<None Remove="Resources\Images\pulircompleto.png" />
+		<None Remove="Resources\Images\pulirpartes.png" />
+		<None Remove="Resources\Images\tallera.png" />
+		<None Remove="Resources\Images\telefono.png" />
+		<None Remove="Resources\Images\vehiculoc.jpg" />
+		<None Remove="Resources\Images\xamarin.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="Resources\Images\logo.png" />
-	  <EmbeddedResource Include="Resources\Images\logoTicket1.png" />
+		<EmbeddedResource Include="Resources\Images\logo.png" />
+		<EmbeddedResource Include="Resources\Images\logoTicket1.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Acr.UserDialogs" Version="9.1.0" />
-		<PackageReference Include="Acr.UserDialogs.Maui" Version="9.1.0" />
+		<!-- Paquetes NuGet actualizados y optimizados -->
 		<PackageReference Include="Controls.UserDialogs.Maui" Version="1.7.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.100" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="8.0.100" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="SkiaSharp" Version="3.116.1" />
 		<PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.116.1" />
-		<PackageReference Include="System.Core" Version="3.5.21022.801" />
 		<PackageReference Include="System.Runtime" Version="4.3.1" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="AjenaCarroceria.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="DatosCoche.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="DatosUsuario.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="GolpeFuerte.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="GolpeLeveMedio.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="InfoDetalles.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Mapa.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="NotificacionCarroceria.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="PaqueteHojalateriaPintura.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="PaquetePintura.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="PaquetePulidoEncerado.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="PiezaoCompleto.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Piezas.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="PulirParteCompleto.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="PulirPiezas.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="PulirTodoVehiculo.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Taller.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="TipoGolpe.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="TipoPrioridad.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="TipoServicio.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="TodoVehiculo.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="AjenaCarroceria.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="DatosCoche.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="DatosUsuario.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="GolpeFuerte.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="GolpeLeveMedio.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="InfoDetalles.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Mapa.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="NotificacionCarroceria.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="PaqueteHojalateriaPintura.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="PaquetePintura.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="PaquetePulidoEncerado.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="PiezaoCompleto.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Piezas.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="PulirParteCompleto.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="PulirPiezas.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="PulirTodoVehiculo.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Taller.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="TipoGolpe.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="TipoPrioridad.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="TipoServicio.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="TodoVehiculo.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="HTTPupt">
-      <HintPath>Libs/HTTPupt.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Reference Include="HTTPupt">
+			<HintPath>Libs\HTTPupt.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	
+	<!-- Configuración de construcción para optimización -->
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+		<EnableLLVM>true</EnableLLVM>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+	</PropertyGroup>
+
+	<!-- Configuración específica para iOS - CORREGIDO: Removido PlatformTarget y RuntimeIdentifiers -->
+	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
+		<MtouchLink>SdkOnly</MtouchLink>
+		<UseInterpreter>false</UseInterpreter>
+	</PropertyGroup>
+
+	<!-- Configuración específica para iOS Release -->
+	<PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios' AND '$(Configuration)' == 'Release'">
+		<CodesignKey>Apple Distribution: AXEL MONZALVO HERNANDEZ (3D9J73M5VN)</CodesignKey>
+		<CodesignProvision>AutoUniverse</CodesignProvision>
+		<CodesignEntitlements>Platforms\iOS\Entitlements.plist</CodesignEntitlements>
+		<ArchiveOnBuild>true</ArchiveOnBuild>
+		<MtouchUseLlvm>true</MtouchUseLlvm>
+		<MtouchFloat32>true</MtouchFloat32>
+		<MtouchEnableSGenConc>true</MtouchEnableSGenConc>
+		<MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+		<MtouchTlsProvider>Default</MtouchTlsProvider>
+	</PropertyGroup>
+
 </Project>

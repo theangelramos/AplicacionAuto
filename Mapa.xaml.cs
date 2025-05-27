@@ -172,7 +172,7 @@ namespace AplicacionAuto
 
                 // Obtener datos de talleres del servidor
                 peticion.PedirComunicacion("Taller/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                var jsonRecibir = peticion.ObtenerJson();
+                var jsonRecibir = await peticion.ObtenerJson();
                 talleres = JsonConvertidor.Json_ListaObjeto<TallerDTO>(jsonRecibir);
 
                 // Mostrar talleres en la interfaz

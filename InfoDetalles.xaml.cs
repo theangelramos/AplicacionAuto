@@ -155,20 +155,20 @@ namespace AplicacionAuto
             }
 
 
-            obtenerDatos();
+            _ = obtenerDatos();
             obtenerPresuspuesto();
 
 
         }
 
 
-        private void obtenerDatos()
+        private async Task obtenerDatos()
         {
             String jsonRecibir;
             try
             {
                 peticion.PedirComunicacion("Marca/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -176,14 +176,14 @@ namespace AplicacionAuto
                 }
 
                 peticion.PedirComunicacion("Submarca/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
                     submarcas = JsonConvertidor.Json_ListaObjeto<SubmarcaDTO>(jsonRecibir);
                 }
                 peticion.PedirComunicacion("Modelo/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -193,7 +193,7 @@ namespace AplicacionAuto
 
 
                 peticion.PedirComunicacion("Tipo/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -201,7 +201,7 @@ namespace AplicacionAuto
                 }
 
                 peticion.PedirComunicacion("Color/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -210,7 +210,7 @@ namespace AplicacionAuto
                 }
 
                 peticion.PedirComunicacion("Acabado/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -219,7 +219,7 @@ namespace AplicacionAuto
 
 
                 peticion.PedirComunicacion("Prioridad/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -227,7 +227,7 @@ namespace AplicacionAuto
                 }
 
                 peticion.PedirComunicacion("TipoServicio/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -235,7 +235,7 @@ namespace AplicacionAuto
                 }
 
                 peticion.PedirComunicacion("TipoGolpe/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -243,7 +243,7 @@ namespace AplicacionAuto
                 }
 
                 peticion.PedirComunicacion("Pieza/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -251,7 +251,7 @@ namespace AplicacionAuto
                 }
 
                 peticion.PedirComunicacion("Factor/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -259,7 +259,7 @@ namespace AplicacionAuto
                 }
 
                 peticion.PedirComunicacion("TipoServicioPaquete/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {
@@ -267,7 +267,7 @@ namespace AplicacionAuto
                 }
 
                 peticion.PedirComunicacion("Medida/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                jsonRecibir = peticion.ObtenerJson();
+                jsonRecibir = await peticion.ObtenerJson();
 
                 if (jsonRecibir != null)
                 {

@@ -31,18 +31,6 @@ namespace AplicacionAuto
             // Ocultar barra de navegación
             NavigationPage.SetHasNavigationBar(this, false);
 
-            peticion.PedirComunicacion("tiposerviciopaquete/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Get("token", ""));
-            String json = peticion.ObtenerJson();
-
-            var tipoServicioPaquete = JsonConvertidor.Json_ListaObjeto<TipoServicioPaqueteDTO>(json);
-
-            var descripciones = tipoServicioPaquete.Where(c => c.TipoServicioID == 1).ToList();
-
-            lblEconomico.Text = descripciones[0].Descripcion;
-            lblIntermedio.Text = descripciones[1].Descripcion;
-            lblPro.Text = descripciones[2].Descripcion;
-            lblPlus.Text = descripciones[3].Descripcion;
-
             datosAuto1 = datosAuto;
             prioridad1 = prioridad;
             servicio1 = servicio;
@@ -50,6 +38,25 @@ namespace AplicacionAuto
             opcionTodo1 = opcionTodo;
             partesSeleccionadasPE1 = partesSeleccionadasPE;
             imagenesTodoElVehiculo1 = imagenesTodoElVehiculo;
+        }
+
+        public static async Task<PaquetePulidoEncerado> CreateAsync(DatosAuto datosAuto, String prioridad, String servicio, String tipoGolpe, List<string> partesSeleccionadasPE, String opcionTodo, List<Imagen> imagenesTodoElVehiculo)
+        {
+            var page = new PaquetePulidoEncerado(datosAuto, prioridad, servicio, tipoGolpe, partesSeleccionadasPE, opcionTodo, imagenesTodoElVehiculo);
+
+            page.peticion.PedirComunicacion("tiposerviciopaquete/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Get("token", ""));
+            String json = await page.peticion.ObtenerJson();
+
+            var tipoServicioPaquete = JsonConvertidor.Json_ListaObjeto<TipoServicioPaqueteDTO>(json);
+
+            var descripciones = tipoServicioPaquete.Where(c => c.TipoServicioID == 1).ToList();
+
+            page.lblEconomico.Text = descripciones[0].Descripcion;
+            page.lblIntermedio.Text = descripciones[1].Descripcion;
+            page.lblPro.Text = descripciones[2].Descripcion;
+            page.lblPlus.Text = descripciones[3].Descripcion;
+
+            return page;
         }
 
         protected override void OnAppearing()

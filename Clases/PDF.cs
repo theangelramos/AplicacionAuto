@@ -2767,7 +2767,7 @@ namespace AplicacionAuto.Clases
         List<DatosPiezaDTO> datosPiezas;
         int? datosPiezaID;
         List<SolicitudDatosPiezaDTO> solicitudDatosPiezas;
-        public int crearSolicitud(List<UsuarioDTO> listaUsuarioDTO, List<CocheDTO> listaCocheDTO, List<Acabado> listaAcabado, List<ColorDTO> listaColorDTO, List<TipoServicioPaqueteDTO> listaTipoServicioPaqueteDTO, int? tallerID, List<PrioridadDTO> listaPrioridadDTO, List<TipoGolpeDTO> listaTipoGolpeDTO, String fechaCita, String horaCita, Double presupuesto, List<MedidadDTO> listaMedidadDTO)
+        public async Task<int> crearSolicitud(List<UsuarioDTO> listaUsuarioDTO, List<CocheDTO> listaCocheDTO, List<Acabado> listaAcabado, List<ColorDTO> listaColorDTO, List<TipoServicioPaqueteDTO> listaTipoServicioPaqueteDTO, int? tallerID, List<PrioridadDTO> listaPrioridadDTO, List<TipoGolpeDTO> listaTipoGolpeDTO, String fechaCita, String horaCita, Double presupuesto, List<MedidadDTO> listaMedidadDTO)
         {
 
             foreach (var usuario in listaUsuarioDTO)
@@ -2868,11 +2868,11 @@ namespace AplicacionAuto.Clases
             String jsonRecibir = null;
             String jsonEnviar = JsonConvertidor.Objeto_Json(solicitud);
             peticion.PedirComunicacion("Solicitud/Agregar", MetodoHTTP.POST, TipoContenido.JSON, Preferences.Get("token", ""));
-            peticion.enviarDatos(jsonEnviar);
-            jsonRecibir = peticion.ObtenerJson();
+            peticion.enviarDatosAsync(jsonEnviar);
+            jsonRecibir = await peticion.ObtenerJson();
 
             peticion.PedirComunicacion("Solicitud/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Get("token", ""));
-            String jsonRecibir3 = peticion.ObtenerJson();
+            String jsonRecibir3 = await peticion.ObtenerJson();
             solicituds = JsonConvertidor.Json_ListaObjeto<SolicitudDTO>(jsonRecibir3);
             if (tipoServicioPaqueteID != null && horaCita != null)
             {
@@ -2919,11 +2919,11 @@ namespace AplicacionAuto.Clases
                 String jsonRecibir2 = null;
                 String jsonEnviar2 = JsonConvertidor.Objeto_Json(datosPiezaDTO);
                 peticion.PedirComunicacion("DatosPieza/Agregar", MetodoHTTP.POST, TipoContenido.JSON, Preferences.Get("token", ""));
-                peticion.enviarDatos(jsonEnviar2);
-                jsonRecibir2 = peticion.ObtenerJson();
+                await peticion.enviarDatosAsync(jsonEnviar2);
+                jsonRecibir2 = await peticion.ObtenerJson();
 
                 peticion.PedirComunicacion("DatosPieza/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Get("token", ""));
-                String jsonRecibir31 = peticion.ObtenerJson();
+                String jsonRecibir31 = await peticion.ObtenerJson();
                 datosPiezas = JsonConvertidor.Json_ListaObjeto<DatosPiezaDTO>(jsonRecibir31);
 
                 var objetoObtenidoDatoPieza = datosPiezas.FindAll(x => x.PiezaID == datosPieza.PiezaID && x.ImagenID == datosPieza.ImagenID && x.DiametroH == datosPieza.MedidaH && x.DiametroV == datosPieza.MedidaV && x.Profundidad == datosPieza.profundidad);
@@ -2952,12 +2952,12 @@ namespace AplicacionAuto.Clases
                 String jsonRecibir4 = null;
                 String jsonEnviar3 = JsonConvertidor.Objeto_Json(solicitudDatosPieza);
                 peticion.PedirComunicacion("SolicitudDatosPieza/Agregar", MetodoHTTP.POST, TipoContenido.JSON, Preferences.Get("token", ""));
-                peticion.enviarDatos(jsonEnviar3);
-                jsonRecibir4 = peticion.ObtenerJson();
+                peticion.enviarDatosAsync(jsonEnviar3);
+                jsonRecibir4 = await peticion.ObtenerJson();
 
 
                 peticion.PedirComunicacion("SolicitudDatosPieza/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Get("token", ""));
-                String jsonRecibir5 = peticion.ObtenerJson();
+                String jsonRecibir5 = await peticion.ObtenerJson();
                 solicitudDatosPiezas = JsonConvertidor.Json_ListaObjeto<SolicitudDatosPiezaDTO>(jsonRecibir5);
 
                 var objetoObtenidoSolicitudDatoPieza = solicitudDatosPiezas.FindAll(x => x.DatosPiezaID == datosPiezaID && x.SolicitudID == int.Parse(solicitudID));

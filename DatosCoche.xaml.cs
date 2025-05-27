@@ -43,8 +43,11 @@ namespace AplicacionAuto
         public DatosCoche()
         {
             InitializeComponent();
+            _ = InitializeAsync();
+        }
 
-
+        private async Task InitializeAsync()
+        {
             LoginInicio login = new LoginInicio
             {
                 CorreoElectronico = "appMovil@gmail.com",
@@ -65,8 +68,8 @@ namespace AplicacionAuto
                 {
                     String json = JsonConvertidor.Objeto_Json(login);
                     peticion.PedirComunicacion("Authorization/PedirToken", MetodoHTTP.POST, TipoContenido.JSON);
-                    peticion.enviarDatos(json);
-                    json = peticion.ObtenerJson();
+                    peticion.enviarDatosAsync(json);
+                    json = await peticion.ObtenerJson();
 
                     if (json != null)
                     {
@@ -76,7 +79,7 @@ namespace AplicacionAuto
 
                     // CAMBIO 3: Actualizar uso de Preferences en todas las peticiones
                     peticion.PedirComunicacion("marca/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                    jsonRecibir = peticion.ObtenerJson();
+                    jsonRecibir = await peticion.ObtenerJson();
                     marcas = JsonConvertidor.Json_ListaObjeto<MarcaDTO>(jsonRecibir);
 
                     foreach (var marca in marcas)
@@ -85,19 +88,19 @@ namespace AplicacionAuto
                     }
 
                     peticion.PedirComunicacion("Submarca/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                    jsonRecibir = peticion.ObtenerJson();
+                    jsonRecibir = await peticion.ObtenerJson();
                     submarcas = JsonConvertidor.Json_ListaObjeto<SubmarcaDTO>(jsonRecibir);
 
                     peticion.PedirComunicacion("Coche/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                    jsonRecibir = peticion.ObtenerJson();
+                    jsonRecibir = await peticion.ObtenerJson();
                     coches = JsonConvertidor.Json_ListaObjeto<CocheDTO>(jsonRecibir);
 
                     peticion.PedirComunicacion("Color/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                    jsonRecibir = peticion.ObtenerJson();
+                    jsonRecibir = await peticion.ObtenerJson();
                     colores = JsonConvertidor.Json_ListaObjeto<ColorDTO>(jsonRecibir);
 
                     peticion.PedirComunicacion("Acabado/Obtener", MetodoHTTP.GET, TipoContenido.JSON, Preferences.Default.Get("token", ""));
-                    jsonRecibir = peticion.ObtenerJson();
+                    jsonRecibir = await peticion.ObtenerJson();
                     acabados = JsonConvertidor.Json_ListaObjeto<AcabadoDTO>(jsonRecibir);
                 }
                 catch (Exception)
